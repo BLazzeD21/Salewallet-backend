@@ -26,5 +26,14 @@ const connectDB = async () => {
   }
 };
 
-export { connectDB, sequelize };
+const disconnectDB = async (): Promise<void> => {
+  try {
+    await sequelize.close();
+    console.log("PostgreSQL disconnected");
+  } catch (error) {
+    console.error("Error disconnecting PostgreSQL:", error);
+  }
+};
+
+export { connectDB, disconnectDB, sequelize };
 

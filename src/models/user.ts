@@ -5,6 +5,7 @@ export interface UserAttributes {
   user_id: string;
   username: string;
   mail: string;
+  password: string;
   created_at?: Date;
 }
 
@@ -13,6 +14,7 @@ export default (sequelize: Sequelize) => {
     declare user_id: string;
     declare username: string;
     declare mail: string;
+    declare password: string;
     declare created_at: Date;
   }
 
@@ -32,6 +34,10 @@ export default (sequelize: Sequelize) => {
       type: DataTypes.STRING(255),
       allowNull: false,
       unique: true
+    },
+    password: {
+      type: DataTypes.STRING(255),
+      allowNull: false
     },
     created_at: {
       type: DataTypes.DATE,

@@ -1,20 +1,40 @@
 import dotenv from "dotenv";
 import express from "express";
-import { connectDB, sequelize } from "./config/db.js";
+import { connectDB, disconnectDB } from "./config/db.js";
+
+import userRoutes from './routes/userRoutes.js';
+
 
 const main = async () => {
-  dotenv.config();
+  try {
+    dotenv.config();
 
-  await connectDB();
+    await connectDB();
 
-  await sequelize.sync({ alter: true });
-  console.log('All tables created/updated successfully');
+    const app = express();
+    app.use(express.json());
 
-  const app = express();
-  app.use(express.json());
+    app.get('/', (req, res) => res.send('Server is running'));
+    app.use('/api/v1', userRoutes);
 
-  const PORT = process.env.PORT || 5000;
-  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+    const PORT = process.env.PORT || 5000;
+    const server = app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+    const gracefulShutdown = async () => {
+      console.log('\nShutting down server');
+      server.close(async () => {
+        await disconnectDB();
+        process.exit(0);
+      });
+    };
+
+    process.on('SIGINT', gracefulShutdown);
+    process.on('SIGTERM', gracefulShutdown);
+
+  } catch (error) {
+    console.error("Server failed to start:", error);
+    process.exit(1);
+  }
 };
 
 main();
