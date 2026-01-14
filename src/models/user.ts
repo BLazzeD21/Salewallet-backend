@@ -1,5 +1,5 @@
-import { DataTypes, Model, Sequelize } from 'sequelize';
-import { v4 as uuidv4 } from 'uuid';
+import { DataTypes, Model, Sequelize } from "sequelize";
+import { v4 as uuidv4 } from "uuid";
 
 export interface UserAttributes {
   user_id: string;
@@ -18,36 +18,39 @@ export default (sequelize: Sequelize) => {
     declare created_at: Date;
   }
 
-  User.init({
-    user_id: {
-      type: DataTypes.UUID,
-      defaultValue: () => uuidv4(),
-      primaryKey: true,
-      allowNull: false,
-      unique: true
+  User.init(
+    {
+      user_id: {
+        type: DataTypes.UUID,
+        defaultValue: () => uuidv4(),
+        primaryKey: true,
+        allowNull: false,
+        unique: true,
+      },
+      username: {
+        type: DataTypes.STRING(50),
+        allowNull: false,
+      },
+      mail: {
+        type: DataTypes.STRING(255),
+        allowNull: false,
+        unique: true,
+      },
+      password: {
+        type: DataTypes.STRING(255),
+        allowNull: false,
+      },
+      created_at: {
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
+      },
     },
-    username: {
-      type: DataTypes.STRING(50),
-      allowNull: false
+    {
+      sequelize,
+      modelName: "user",
+      timestamps: false,
     },
-    mail: {
-      type: DataTypes.STRING(255),
-      allowNull: false,
-      unique: true
-    },
-    password: {
-      type: DataTypes.STRING(255),
-      allowNull: false
-    },
-    created_at: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW
-    }
-  }, {
-    sequelize,
-    modelName: 'user',
-    timestamps: false
-  });
+  );
 
   return User;
 };

@@ -1,6 +1,6 @@
 import { Sequelize } from "sequelize";
 
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 
 dotenv.config();
 
@@ -12,8 +12,8 @@ const sequelize = new Sequelize(
     host: process.env.DB_HOST,
     port: Number(process.env.DB_PORT),
     dialect: "postgres",
-    logging: false
-  }
+    logging: false,
+  },
 );
 
 const connectDB = async () => {
@@ -36,4 +36,3 @@ const disconnectDB = async (): Promise<void> => {
 };
 
 export { connectDB, disconnectDB, sequelize };
-
