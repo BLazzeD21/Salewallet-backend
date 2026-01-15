@@ -39,7 +39,7 @@ const main = async () => {
     app.use("/api/v1/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
     const server = app.listen(PORT, () =>
-      console.log(`Server running on port ${PORT}`)
+      console.log(`Server running on port ${PORT}`),
     );
 
     const gracefulShutdown = async () => {

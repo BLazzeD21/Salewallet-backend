@@ -4,7 +4,6 @@ import { v4 as uuidv4 } from "uuid";
 import models from "../models/index.js";
 import { ErrorResponse } from "../types/types.js";
 
-
 const SALT_ROUNDS = 10;
 
 export const registerUser = async (req: Request, res: Response) => {

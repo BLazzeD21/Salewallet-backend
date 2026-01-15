@@ -14,20 +14,20 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserInput'
+              $ref: "#/components/schemas/UserInput"
       responses:
-        '201':
+        "201":
           description: User successfully created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RegistrationResponse'
-        '400':
+                $ref: "#/components/schemas/RegistrationResponse"
+        "400":
           description: Validation error or user exists
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: "#/components/schemas/ErrorResponse"
 tags:
   - name: Users
     description: Operations related to user
