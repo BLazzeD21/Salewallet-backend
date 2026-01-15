@@ -1,13 +1,15 @@
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
+import YAML from "yamljs";
 
 import { connectDB, disconnectDB } from "./config/db.js";
 
 import userRoutes from "./routes/userRoutes.js";
 
 import swaggerUi from "swagger-ui-express";
-import { swaggerSpec } from "./swagger.js";
+
+const swaggerDocument = YAML.load("./swagger.yaml");
 
 dotenv.config();
 
@@ -34,7 +36,7 @@ const main = async () => {
     app.get("/", (req, res) => res.send("Server is running"));
     app.use("/api/v1", userRoutes);
 
-    app.use("/api/v1/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+    app.use("/api/v1/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
     const server = app.listen(PORT, () =>
       console.log(`Server running on port ${PORT}`)

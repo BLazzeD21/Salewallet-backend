@@ -5,7 +5,7 @@ const swaggerDefinition = {
   info: {
     title: "Salewallet API",
     version: "0.0.1",
-    description: "Документация API для Salewallet ",
+    description: "Документация API для Salewallet",
   },
   servers: [
     {

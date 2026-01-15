@@ -1,0 +1,70 @@
+openapi: 3.1.0
+info:
+  title: SaleWallet API
+  version: 0.0.1
+  description: "Документация API для Salewallet"
+paths:
+  /register:
+    post:
+      summary: Register a new user
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserInput'
+      responses:
+        '201':
+          description: User successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegistrationResponse'
+        '400':
+          description: Validation error or user exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+tags:
+  - name: Users
+    description: Operations related to user
+components:
+  schemas:
+    UserInput:
+      type: object
+      required:
+        - username
+        - mail
+        - password
+      properties:
+        username:
+          type: string
+        mail:
+          type: string
+        password:
+          type: string
+    RegistrationResponse:
+      type: object
+      properties:
+        user:
+          type: object
+          properties:
+            user_id:
+              type: string
+            username:
+              type: string
+            mail:
+              type: string
+            created_at:
+              type: string
+              format: date-time
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
