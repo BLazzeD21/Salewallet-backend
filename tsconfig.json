@@ -12,6 +12,6 @@
     "allowJs": true,
     "checkJs": false,
     "alwaysStrict": false,
-    "removeComments": true
+    "removeComments": false
   }
 }

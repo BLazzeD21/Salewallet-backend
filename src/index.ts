@@ -6,6 +6,9 @@ import { connectDB, disconnectDB } from "./config/db.js";
 
 import userRoutes from "./routes/userRoutes.js";
 
+import swaggerUi from "swagger-ui-express";
+import { swaggerSpec } from "./swagger.js";
+
 dotenv.config();
 
 const PORT = process.env.PORT || 5000;
@@ -30,6 +33,8 @@ const main = async () => {
 
     app.get("/", (req, res) => res.send("Server is running"));
     app.use("/api/v1", userRoutes);
+
+    app.use("/api/v1/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
     const server = app.listen(PORT, () =>
       console.log(`Server running on port ${PORT}`)
