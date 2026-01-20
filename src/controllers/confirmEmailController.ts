@@ -1,10 +1,13 @@
 import { Request, Response } from "express";
 import models from "../models/index.js";
 
+import { confirmMailHTML } from "../html/confirmMailHTML.js";
 import { isValidUUID } from "../utils/isValidUUID.js";
 
 export const confirmEmail = async (req: Request, res: Response) => {
   try {
+    res.header('Access-Control-Allow-Origin', '*');
+
     const { userId, token } = req.query as {
       userId?: string;
       token?: string;
@@ -84,45 +87,7 @@ export const confirmEmail = async (req: Request, res: Response) => {
         res.json({ message: "Email successfully confirmed" });
       },
       "text/html": () => {
-        res.send(`
-          <!DOCTYPE html>
-          <html lang="en">
-            <head>
-              <meta charset="UTF-8" />
-              <title>Email confirmed</title>
-              <style>
-                body {
-                  display: flex;
-                  align-items: center;
-                  justify-content: center;
-                  height: 100vh;
-                  font-family: Arial, sans-serif;
-                  background-color: #f5f7fa;
-                }
-                .card {
-                  padding: 32px;
-                  border-radius: 12px;
-                  background: #ffffff;
-                  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-                  text-align: center;
-                }
-                h1 {
-                  color: #2ecc71;
-                }
-                p {
-                  margin-top: 12px;
-                  color: #555;
-                }
-              </style>
-            </head>
-            <body>
-              <div class="card">
-                <h1>Email confirmed</h1>
-                <p>Your email has been successfully verified.</p>
-              </div>
-            </body>
-          </html>
-        `);
+        res.send(confirmMailHTML);
       },
       default: () => {
         res.status(406).send("Not Acceptable");
