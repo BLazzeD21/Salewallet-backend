@@ -5,7 +5,8 @@ import YAML from "yamljs";
 
 import { connectDB, disconnectDB } from "./config/db.js";
 
-import userRoutes from "./routes/userRoutes.js";
+import AuthRoutes from "./routes/authRoutes.js";
+import UserRoutes from "./routes/userRoutes.js";
 
 import swaggerUi from "swagger-ui-express";
 
@@ -34,7 +35,8 @@ const main = async () => {
     app.use(cors(corsOptions));
 
     app.get("/", (req, res) => res.send("Server is running"));
-    app.use("/api/v1", userRoutes);
+    app.use("/api/v1", UserRoutes);
+    app.use("/api/v1", AuthRoutes);
 
     app.use("/api/v1/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 

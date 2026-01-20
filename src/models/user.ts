@@ -6,6 +6,7 @@ export interface UserAttributes {
   username: string;
   mail: string;
   password: string;
+  confirmed: boolean;
   created_at?: Date;
 }
 
@@ -16,6 +17,7 @@ export default (sequelize: Sequelize) => {
     declare mail: string;
     declare password: string;
     declare created_at: Date;
+    declare confirmed: boolean;
   }
 
   User.init(
@@ -39,6 +41,11 @@ export default (sequelize: Sequelize) => {
       password: {
         type: DataTypes.STRING(255),
         allowNull: false,
+      },
+      confirmed: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
       },
       created_at: {
         type: DataTypes.DATE,
