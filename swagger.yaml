@@ -28,6 +28,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+
   /confirm-email:
     get:
       summary: Confirm user email
@@ -118,9 +119,144 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+  /users/{userId}/create-card:
+    post:
+      summary: Add a card for a user
+      tags:
+        - Cards
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: ID of the user to whom the card will be added
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CardInput"
+            example:
+              card_number: "1234567890123456"
+              name: "My Loyalty Card"
+              description: "Supermarket loyalty card"
+              color: "#FF5733"
+              barcode: "987654321012"
+              barcode_type: "EAN13"
+              qr_data: "https://example.com/qr/123"
+      responses:
+        "201":
+          description: Card successfully created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CardResponse"
+              example:
+                card:
+                  card_id: "f47ac10b-58cc-4372-a567-0e02b2c3d479"
+                  user_id: "f47ac10b-58cc-4372-a567-0e02b2c3d478"
+                  card_number: "1234567890123456"
+                  name: "My Loyalty Card"
+                  description: "Supermarket loyalty card"
+                  color: "#FF5733"
+                  barcode: "987654321012"
+                  barcode_type: "EAN13"
+                  qr_data: "https://example.com/qr/123"
+                  added_at: "2026-01-20T12:00:00Z"
+        "400":
+          description: Validation error or duplicate card_number/barcode/qr_data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                duplicateCardNumber:
+                  value:
+                    code: "DUPLICATE_ENTRY"
+                    message: "card_number already exists"
+                duplicateBarcode:
+                  value:
+                    code: "DUPLICATE_ENTRY"
+                    message: "barcode already exists"
+                duplicateQRData:
+                  value:
+                    code: "DUPLICATE_ENTRY"
+                    message: "qr_data already exists"
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                code: "USER_NOT_FOUND"
+                message: "User not found"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                code: "INTERNAL_SERVER_ERROR"
+                message: "An internal server error occurred"
+  /users/{userId}/delete-card/{cardId}:
+    delete:
+      summary: Delete a user's card
+      tags:
+        - Cards
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: ID of the user
+        - name: cardId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: ID of the card to delete
+      responses:
+        "200":
+          description: Card successfully deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Card successfully deleted
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: User or card not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
 tags:
   - name: Users
     description: Operations related to user
+  - name: Cards
+    description: Operations related to user cards
+
 components:
   schemas:
     UserInput:
@@ -181,6 +317,59 @@ components:
               type: string
             mail:
               type: string
+
+    CardInput:
+      type: object
+      required:
+        - card_number
+        - name
+        - barcode
+        - barcode_type
+        - qr_data
+      properties:
+        card_number:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        color:
+          type: string
+        barcode:
+          type: string
+        barcode_type:
+          type: string
+        qr_data:
+          type: string
+
+    CardResponse:
+      type: object
+      properties:
+        card:
+          type: object
+          properties:
+            card_id:
+              type: string
+            user_id:
+              type: string
+            card_number:
+              type: string
+            name:
+              type: string
+            description:
+              type: string
+            color:
+              type: string
+            barcode:
+              type: string
+            barcode_type:
+              type: string
+            qr_data:
+              type: string
+            added_at:
+              type: string
+              format: date-time
+
     ErrorResponse:
       type: object
       properties:

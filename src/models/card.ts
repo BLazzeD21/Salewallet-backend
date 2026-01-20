@@ -55,6 +55,7 @@ export default (sequelize: Sequelize) => {
       barcode: {
         type: DataTypes.STRING(255),
         allowNull: false,
+        unique: true,
       },
       barcode_type: {
         type: DataTypes.STRING(20),
@@ -63,6 +64,7 @@ export default (sequelize: Sequelize) => {
       qr_data: {
         type: DataTypes.TEXT,
         allowNull: false,
+        unique: true,
       },
       added_at: {
         type: DataTypes.DATE,
