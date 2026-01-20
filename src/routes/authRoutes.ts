@@ -3,6 +3,6 @@ import { confirmEmail } from "../controllers/confirmEmail.js";
 
 const router = Router();
 
-router.get("/email/confirm", confirmEmail);
+router.get("/confirm-email", confirmEmail);
 
 export default router;

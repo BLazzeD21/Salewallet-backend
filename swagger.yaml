@@ -28,6 +28,54 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+    /confirm-email:
+    get:
+      summary: Confirm user email
+      tags:
+        - Users
+      parameters:
+        - name: userId
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: User ID
+        - name: token
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Email verification token
+      responses:
+        "200":
+          description: Email successfully confirmed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Email successfully confirmed
+        "400":
+          description: Invalid input or token expired
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: User or token not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
 tags:
   - name: Users
     description: Operations related to user
