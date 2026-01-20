@@ -72,7 +72,7 @@ export const createCard = async (req: Request, res: Response) => {
     return res.status(201).json({
       card,
     });
-  } catch (error: any) {
+  } catch (error) {
     if (error.name === "SequelizeUniqueConstraintError") {
       const field = error.errors[0].path;
       return res.status(400).json({

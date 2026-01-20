@@ -19,6 +19,7 @@ export const registerUser = async (req: Request, res: Response) => {
     }
 
     const usernameTaken = await models.user.findOne({ where: { username } });
+
     if (usernameTaken) {
       return res.status(400).json({
         code: "USERNAME_TAKEN",
@@ -27,6 +28,7 @@ export const registerUser = async (req: Request, res: Response) => {
     }
 
     const mailTaken = await models.user.findOne({ where: { mail } });
+
     if (mailTaken) {
       return res.status(400).json({
         code: "MAIL_TAKEN",
@@ -59,7 +61,7 @@ export const registerUser = async (req: Request, res: Response) => {
         created_at: user.created_at,
       },
     });
-  } catch (error: any) {
+  } catch (error) {
     if (error.name === "SequelizeUniqueConstraintError") {
       return res.status(400).json({
         code: "DUPLICATE_ENTRY",
