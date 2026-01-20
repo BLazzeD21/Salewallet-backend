@@ -32,6 +32,7 @@ export default (sequelize: Sequelize) => {
       username: {
         type: DataTypes.STRING(50),
         allowNull: false,
+        unique: true,
       },
       mail: {
         type: DataTypes.STRING(255),
