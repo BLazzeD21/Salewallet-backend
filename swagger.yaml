@@ -95,6 +95,31 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/LoginResponse"
+              example:
+                message: "Login successful"
+                user:
+                  user_id: "f47ac10b-58cc-4372-a567-0e02b2c3d478"
+                  username: "johndoe"
+                  mail: "johndoe@example.com"
+                  cards:
+                    - card_id: "f47ac10b-58cc-4372-a567-0e02b2c3d479"
+                      card_number: "1234567890123456"
+                      name: "My Loyalty Card"
+                      description: "Supermarket loyalty card"
+                      color: "#FF5733"
+                      barcode: "987654321012"
+                      barcode_type: "EAN13"
+                      qr_data: "https://example.com/qr/123"
+                      added_at: "2026-01-20T12:00:00Z"
+                    - card_id: "a3f4c550-6f55-4c8d-b567-0a2b3c4d5e6f"
+                      card_number: "9876543210987654"
+                      name: "Coffee Shop Card"
+                      description: "Coffee loyalty card"
+                      color: "#00FF00"
+                      barcode: "123456789012"
+                      barcode_type: "EAN13"
+                      qr_data: "https://example.com/qr/456"
+                      added_at: "2026-01-21T09:30:00Z"
         "400":
           description: Missing username or password
           content:
@@ -307,7 +332,7 @@ components:
       properties:
         message:
           type: string
-          example: Login successful
+          example: "Login successful"
         user:
           type: object
           properties:
@@ -317,6 +342,10 @@ components:
               type: string
             mail:
               type: string
+            cards:
+              type: array
+              items:
+                $ref: "#/components/schemas/CardSummary"
 
     CardInput:
       type: object
@@ -377,3 +406,26 @@ components:
           type: string
         message:
           type: string
+
+    CardSummary:
+      type: object
+      properties:
+        card_id:
+          type: string
+        card_number:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        color:
+          type: string
+        barcode:
+          type: string
+        barcode_type:
+          type: string
+        qr_data:
+          type: string
+        added_at:
+          type: string
+          format: date-time

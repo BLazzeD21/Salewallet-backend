@@ -19,8 +19,25 @@ export const login = async (req: Request, res: Response) => {
 
     const user = await models.user.findOne({
       where: {
-        [Op.or]: [{ username: username }, { mail: username }],
+        [Op.or]: [{ username }, { mail: username }],
       },
+      include: [
+        {
+          model: models.card,
+          as: "cards",
+          attributes: [
+            "card_id",
+            "card_number",
+            "name",
+            "description",
+            "color",
+            "barcode",
+            "barcode_type",
+            "qr_data",
+            "added_at",
+          ],
+        },
+      ],
     });
 
     if (!user) {
@@ -52,9 +69,11 @@ export const login = async (req: Request, res: Response) => {
         user_id: user.user_id,
         username: user.username,
         mail: user.mail,
+        cards: user.cards || [],
       },
     });
-  } catch {
+  } catch (error) {
+    console.error(error);
     return res.status(500).json({
       code: "INTERNAL_SERVER_ERROR",
       message: "An internal server error occurred",
