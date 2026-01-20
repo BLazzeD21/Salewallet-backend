@@ -36,6 +36,7 @@ export const login = async (req: Request, res: Response) => {
             "qr_data",
             "added_at",
           ],
+          order: [["added_at", "DESC"]],
         },
       ],
     });
@@ -64,7 +65,6 @@ export const login = async (req: Request, res: Response) => {
     }
 
     return res.status(200).json({
-      message: "Login successful",
       user: {
         user_id: user.user_id,
         username: user.username,

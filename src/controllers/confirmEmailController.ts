@@ -6,7 +6,7 @@ import { isValidUUID } from "../utils/isValidUUID.js";
 
 export const confirmEmail = async (req: Request, res: Response) => {
   try {
-    res.header('Access-Control-Allow-Origin', '*');
+    res.header("Access-Control-Allow-Origin", "*");
 
     const { userId, token } = req.query as {
       userId?: string;
