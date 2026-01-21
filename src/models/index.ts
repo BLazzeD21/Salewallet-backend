@@ -29,5 +29,5 @@ sequelize
   .catch((error) => console.error("Error syncing models:", error));
 
 models.sequelize = sequelize;
-  
+
 export default models;

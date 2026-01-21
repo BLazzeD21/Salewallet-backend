@@ -1,4 +1,8 @@
-export const confirmHTML = (token: string, userId: string, username: string) => {
+export const confirmHTML = (
+  token: string,
+  userId: string,
+  username: string,
+) => {
   const date = new Date().toLocaleString("ru");
   const link = `http://localhost:5500/api/v1/confirm-email?userId=${userId}&token=${token}`;
 

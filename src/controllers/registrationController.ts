@@ -2,7 +2,10 @@ import bcrypt from "bcrypt";
 import { Request, Response } from "express";
 import nodemailer from "nodemailer";
 import { v4 as uuidv4 } from "uuid";
+
 import { confirmHTML } from "../html/ConfirmHTML.js";
+import { isValidEmail } from "../utils/isValidEmail.js";
+
 import models from "../models/index.js";
 
 const SALT_ROUNDS = 10;
@@ -43,7 +46,7 @@ async function getTransporter(): Promise<nodemailer.Transporter> {
 
 export const registerUser = async (req: Request, res: Response) => {
   const transaction = await models.sequelize.transaction();
-  
+
   try {
     const { username, mail, password } = req.body;
 
@@ -51,6 +54,13 @@ export const registerUser = async (req: Request, res: Response) => {
       return res.status(400).json({
         code: "INVALID_INPUT",
         message: "Username, mail, and password are required",
+      });
+    }
+
+    if (!isValidEmail(mail)) {
+      return res.status(400).json({
+        code: "INVALID_EMAIL",
+        message: "Invalid email format",
       });
     }
 
