@@ -1,4 +1,3 @@
-import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import YAML from "yamljs";
@@ -14,17 +13,7 @@ const swaggerDocument = YAML.load("./swagger.yaml");
 
 dotenv.config();
 
-const PORT = process.env.PORT || 5000;
-const DOMAIN = process.env.DOMAIN;
-
-const allowedOrigin =
-  process.env.NODE_ENV === "production" ? DOMAIN : `http://localhost:${PORT}`;
-
-const corsOptions = {
-  origin: allowedOrigin,
-  optionsSuccessStatus: 200,
-  credentials: true,
-};
+const PORT = process.env.PORT || 5500;
 
 const main = async () => {
   try {
@@ -32,7 +21,6 @@ const main = async () => {
 
     const app = express();
     app.use(express.json());
-    app.use(cors(corsOptions));
 
     app.get("/", (req, res) => res.send("Server is running"));
     app.use("/api/v1", UserRoutes);
