@@ -1,9 +1,9 @@
 export const confirmMailHTML = `
     <!DOCTYPE html>
-    <html lang="en">
+    <html lang="ru">
       <head>
         <meta charset="UTF-8" />
-        <title>Email confirmed</title>
+        <title>Аккаунт подтвержден</title>
         <style>
           body {
             display: flex;
@@ -21,7 +21,7 @@ export const confirmMailHTML = `
             text-align: center;
           }
           h1 {
-            color: #2ecc71;
+            color: #97689B;
           }
           p {
             margin-top: 12px;
@@ -31,8 +31,8 @@ export const confirmMailHTML = `
       </head>
       <body>
         <div class="card">
-          <h1>Email confirmed</h1>
-          <p>Your email has been successfully verified.</p>
+          <h1>Аккаунт подтвержден</h1>
+          <p>Ваш адрес электронной почты успешно подтвержден</p>
         </div>
       </body>
     </html>

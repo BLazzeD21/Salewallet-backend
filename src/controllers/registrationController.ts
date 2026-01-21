@@ -1,11 +1,49 @@
 import bcrypt from "bcrypt";
 import { Request, Response } from "express";
+import nodemailer from "nodemailer";
 import { v4 as uuidv4 } from "uuid";
+import { confirmHTML } from "../html/ConfirmHTML.js";
 import models from "../models/index.js";
 
 const SALT_ROUNDS = 10;
 
+let transporter: nodemailer.Transporter;
+
+async function getTransporter(): Promise<nodemailer.Transporter> {
+  if (transporter && (await transporter.verify())) {
+    return transporter;
+  }
+
+  if (
+    !process.env.SMTP_HOST ||
+    !process.env.SMTP_PORT ||
+    !process.env.SMTP_USERNAME ||
+    !process.env.SMTP_PASSWORD
+  ) {
+    throw new Error("SMTP credentials are not configured");
+  }
+
+  transporter = nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port: Number(process.env.SMTP_PORT),
+    requireTLS: true,
+    secure: false,
+    logger: true,
+    auth: {
+      user: process.env.SMTP_USERNAME,
+      pass: process.env.SMTP_PASSWORD,
+    },
+    connectionTimeout: 10000,
+    socketTimeout: 10000,
+    greetingTimeout: 5000,
+  });
+
+  return transporter;
+}
+
 export const registerUser = async (req: Request, res: Response) => {
+  const transaction = await models.sequelize.transaction();
+  
   try {
     const { username, mail, password } = req.body;
 
@@ -16,8 +54,15 @@ export const registerUser = async (req: Request, res: Response) => {
       });
     }
 
-    const userByUsername = await models.user.findOne({ where: { username } });
-    const userByMail = await models.user.findOne({ where: { mail } });
+    const userByUsername = await models.user.findOne({
+      where: { username },
+      transaction,
+    });
+
+    const userByMail = await models.user.findOne({
+      where: { mail },
+      transaction,
+    });
 
     if (
       userByUsername &&
@@ -44,34 +89,58 @@ export const registerUser = async (req: Request, res: Response) => {
     let user;
 
     if (existingUser) {
-      await existingUser.update({
-        username,
-        mail,
-        password: hashedPassword,
-        created_at: new Date(),
-      });
+      await existingUser.update(
+        {
+          username,
+          mail,
+          password: hashedPassword,
+          created_at: new Date(),
+        },
+        { transaction },
+      );
 
       await models.email_verification.destroy({
         where: { user_id: existingUser.user_id },
+        transaction,
       });
 
       user = existingUser;
     } else {
-      user = await models.user.create({
-        username,
-        mail,
-        password: hashedPassword,
-      });
+      user = await models.user.create(
+        {
+          username,
+          mail,
+          password: hashedPassword,
+        },
+        { transaction },
+      );
     }
 
     const token = uuidv4();
     const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000);
 
-    await models.email_verification.create({
-      user_id: user.user_id,
-      token,
-      expires_at: expiresAt,
-    });
+    await models.email_verification.create(
+      {
+        user_id: user.user_id,
+        token,
+        expires_at: expiresAt,
+      },
+      { transaction },
+    );
+
+    const transporter = await getTransporter();
+
+    const mailOptions = {
+      from: `"SaleWallet" <${process.env.FROM_EMAIL_USERNAME}>`,
+      to: mail,
+      subject: `Подтверждение почты для SaleWallet`,
+      html: confirmHTML(token, user.user_id, username),
+      date: new Date(),
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    await transaction.commit();
 
     return res.status(201).json({
       user: {
@@ -82,9 +151,11 @@ export const registerUser = async (req: Request, res: Response) => {
       },
     });
   } catch (error) {
+    await transaction.rollback();
     return res.status(500).json({
       code: "INTERNAL_SERVER_ERROR",
       message: "Something went wrong",
+      error: error.message,
     });
   }
 };

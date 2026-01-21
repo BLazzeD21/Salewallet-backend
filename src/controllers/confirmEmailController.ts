@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import models from "../models/index.js";
 
-import { confirmMailHTML } from "../html/confirmMailHTML.js";
+import { confirmMailHTML } from "../html/confirmedHTML.js";
 import { isValidUUID } from "../utils/isValidUUID.js";
 
 export const confirmEmail = async (req: Request, res: Response) => {

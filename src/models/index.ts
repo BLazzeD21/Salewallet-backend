@@ -28,4 +28,6 @@ sequelize
   .then(() => console.log("All models were synchronized"))
   .catch((error) => console.error("Error syncing models:", error));
 
+models.sequelize = sequelize;
+  
 export default models;
