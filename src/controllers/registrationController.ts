@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import nodemailer from "nodemailer";
 import { v4 as uuidv4 } from "uuid";
 
-import { confirmHTML } from "../html/ConfirmHTML.js";
+import { confirmHTML } from "../html/confirmHTML.js";
 import { isValidEmail } from "../utils/isValidEmail.js";
 
 import models from "../models/index.js";

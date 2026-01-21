@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import models from "../models/index.js";
 
-import { confirmMailHTML } from "../html/confirmedHTML.js";
+import { confirmedHTML } from "../html/confirmedHTML.js";
 import { isValidUUID } from "../utils/isValidUUID.js";
 
 export const confirmEmail = async (req: Request, res: Response) => {
@@ -87,7 +87,7 @@ export const confirmEmail = async (req: Request, res: Response) => {
         res.json({ message: "Email successfully confirmed" });
       },
       "text/html": () => {
-        res.send(confirmMailHTML);
+        res.send(confirmedHTML);
       },
       default: () => {
         res.status(406).send("Not Acceptable");

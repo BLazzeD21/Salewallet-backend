@@ -1,4 +1,4 @@
-export const confirmMailHTML = `
+export const confirmedHTML = `
     <!DOCTYPE html>
     <html lang="ru">
       <head>
