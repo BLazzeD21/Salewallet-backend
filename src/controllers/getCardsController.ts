@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import type { Request, Response } from "express";
 import models from "../models/index.js";
 import { isValidUUID } from "../utils/isValidUUID.js";
 
@@ -44,7 +44,7 @@ export const getUserCards = async (req: Request, res: Response) => {
       user_id: userId,
       cards,
     });
-  } catch (error) {
+  } catch {
     return res.status(500).json({
       code: "INTERNAL_SERVER_ERROR",
       message: "An internal server error occurred",

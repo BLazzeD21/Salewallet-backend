@@ -1,12 +1,11 @@
 import bcrypt from "bcrypt";
-import { Request, Response } from "express";
+import type { Request, Response } from "express";
 import nodemailer from "nodemailer";
 import { v4 as uuidv4 } from "uuid";
-
 import { confirmHTML } from "../html/confirmHTML.js";
-import { isValidEmail } from "../utils/isValidEmail.js";
-
 import models from "../models/index.js";
+import type { User } from "../types/types.js";
+import { isValidEmail } from "../utils/isValidEmail.js";
 
 const SALT_ROUNDS = 10;
 
@@ -17,12 +16,7 @@ async function getTransporter(): Promise<nodemailer.Transporter> {
     return transporter;
   }
 
-  if (
-    !process.env.SMTP_HOST ||
-    !process.env.SMTP_PORT ||
-    !process.env.SMTP_USERNAME ||
-    !process.env.SMTP_PASSWORD
-  ) {
+  if (!process.env.SMTP_HOST || !process.env.SMTP_PORT || !process.env.SMTP_USERNAME || !process.env.SMTP_PASSWORD) {
     throw new Error("SMTP credentials are not configured");
   }
 
@@ -74,11 +68,7 @@ export const registerUser = async (req: Request, res: Response) => {
       transaction,
     });
 
-    if (
-      userByUsername &&
-      userByMail &&
-      userByUsername.user_id !== userByMail.user_id
-    ) {
+    if (userByUsername && userByMail && userByUsername.user_id !== userByMail.user_id) {
       return res.status(400).json({
         code: "CREDENTIALS_CONFLICT",
         message: "Username and mail belong to different users",
@@ -87,7 +77,7 @@ export const registerUser = async (req: Request, res: Response) => {
 
     const existingUser = userByUsername || userByMail;
 
-    if (existingUser && existingUser.confirmed) {
+    if (existingUser.confirmed) {
       return res.status(400).json({
         code: "USER_ALREADY_CONFIRMED",
         message: "User already exists and is confirmed",
@@ -96,7 +86,7 @@ export const registerUser = async (req: Request, res: Response) => {
 
     const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
 
-    let user;
+    let user: User;
 
     if (existingUser) {
       await existingUser.update(
@@ -110,7 +100,9 @@ export const registerUser = async (req: Request, res: Response) => {
       );
 
       await models.email_verification.destroy({
-        where: { user_id: existingUser.user_id },
+        where: {
+          user_id: existingUser.user_id,
+        },
         transaction,
       });
 

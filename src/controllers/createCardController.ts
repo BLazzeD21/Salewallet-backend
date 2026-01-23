@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import type { Request, Response } from "express";
 import { Op } from "sequelize";
 import models from "../models/index.js";
 import { isValidUUID } from "../utils/isValidUUID.js";
@@ -6,15 +6,7 @@ import { isValidUUID } from "../utils/isValidUUID.js";
 export const createCard = async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
-    const {
-      card_number,
-      name,
-      description,
-      color,
-      barcode,
-      barcode_type,
-      qr_data,
-    } = req.body;
+    const { card_number, name, description, color, barcode, barcode_type, qr_data } = req.body;
 
     if (!userId || !isValidUUID(userId)) {
       return res.status(400).json({
@@ -26,8 +18,7 @@ export const createCard = async (req: Request, res: Response) => {
     if (!card_number || !name || !barcode || !barcode_type || !qr_data) {
       return res.status(400).json({
         code: "INVALID_INPUT",
-        message:
-          "card_number, name, barcode, barcode_type, and qr_data are required",
+        message: "card_number, name, barcode, barcode_type, and qr_data are required",
       });
     }
 

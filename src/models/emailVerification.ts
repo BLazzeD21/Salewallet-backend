@@ -1,28 +1,8 @@
-import { DataTypes, Model, Sequelize } from "sequelize";
+import { DataTypes, type Sequelize } from "sequelize";
 import { v4 as uuidv4 } from "uuid";
-
-export interface EmailVerificationAttributes {
-  verification_id: string;
-  user_id: string;
-  token: string;
-  expires_at: Date;
-  confirmed?: boolean;
-  created_at?: Date;
-}
+import { EmailVerification } from "../types/types.js";
 
 export default (sequelize: Sequelize) => {
-  class EmailVerification
-    extends Model<EmailVerificationAttributes>
-    implements EmailVerificationAttributes
-  {
-    declare verification_id: string;
-    declare user_id: string;
-    declare token: string;
-    declare expires_at: Date;
-    declare confirmed: boolean;
-    declare created_at: Date;
-  }
-
   EmailVerification.init(
     {
       verification_id: {

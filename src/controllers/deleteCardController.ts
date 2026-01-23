@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import type { Request, Response } from "express";
 import models from "../models/index.js";
 import { isValidUUID } from "../utils/isValidUUID.js";
 
@@ -20,7 +20,9 @@ export const deleteCard = async (req: Request, res: Response) => {
       });
     }
 
-    const user = await models.user.findOne({ where: { user_id: userId } });
+    const user = await models.user.findOne({
+      where: { user_id: userId },
+    });
     if (!user) {
       return res.status(404).json({
         code: "USER_NOT_FOUND",
@@ -29,7 +31,10 @@ export const deleteCard = async (req: Request, res: Response) => {
     }
 
     const card = await models.card.findOne({
-      where: { card_id: cardId, user_id: userId },
+      where: {
+        card_id: cardId,
+        user_id: userId,
+      },
     });
 
     if (!card) {

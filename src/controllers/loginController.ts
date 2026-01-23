@@ -1,7 +1,8 @@
 import bcrypt from "bcrypt";
-import { Request, Response } from "express";
+import type { Request, Response } from "express";
 import { Op } from "sequelize";
 import models from "../models/index.js";
+import type { UserWithCards } from "../types/types.js";
 
 export const login = async (req: Request, res: Response) => {
   try {
@@ -17,7 +18,7 @@ export const login = async (req: Request, res: Response) => {
       });
     }
 
-    const user = await models.user.findOne({
+    const user = (await models.user.findOne({
       where: {
         [Op.or]: [{ username }, { mail: username }],
       },
@@ -39,7 +40,7 @@ export const login = async (req: Request, res: Response) => {
           order: [["added_at", "DESC"]],
         },
       ],
-    });
+    })) as UserWithCards;
 
     if (!user) {
       return res.status(401).json({

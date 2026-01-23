@@ -1,8 +1,4 @@
-export const confirmHTML = (
-  token: string,
-  userId: string,
-  username: string,
-) => {
+export const confirmHTML = (token: string, userId: string, username: string) => {
   const PORT = process.env.PORT || 5000;
   const DOMAIN = process.env.DOMAIN;
 

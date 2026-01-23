@@ -1,25 +1,8 @@
-import { DataTypes, Model, Sequelize } from "sequelize";
+import { DataTypes, type Sequelize } from "sequelize";
 import { v4 as uuidv4 } from "uuid";
-
-export interface UserAttributes {
-  user_id: string;
-  username: string;
-  mail: string;
-  password: string;
-  confirmed: boolean;
-  created_at?: Date;
-}
+import { User } from "../types/types.js";
 
 export default (sequelize: Sequelize) => {
-  class User extends Model<UserAttributes> implements UserAttributes {
-    declare user_id: string;
-    declare username: string;
-    declare mail: string;
-    declare password: string;
-    declare created_at: Date;
-    declare confirmed: boolean;
-  }
-
   User.init(
     {
       user_id: {

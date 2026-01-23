@@ -1,13 +1,10 @@
 import dotenv from "dotenv";
 import express from "express";
+import swaggerUi from "swagger-ui-express";
 import YAML from "yamljs";
-
 import { connectDB, disconnectDB } from "./config/db.js";
-
 import AuthRoutes from "./routes/authRoutes.js";
 import UserRoutes from "./routes/userRoutes.js";
-
-import swaggerUi from "swagger-ui-express";
 
 const swaggerDocument = YAML.load("./swagger.yaml");
 
@@ -22,15 +19,13 @@ const main = async () => {
     const app = express();
     app.use(express.json());
 
-    app.get("/", (req, res) => res.send("Server is running"));
+    app.get("/", (_req, res) => res.send("Server is running"));
     app.use("/api/v1", UserRoutes);
     app.use("/api/v1", AuthRoutes);
 
     app.use("/api/v1/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-    const server = app.listen(PORT, () =>
-      console.log(`Server running on port ${PORT}`),
-    );
+    const server = app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
     const gracefulShutdown = async () => {
       console.log("\nShutting down server");
