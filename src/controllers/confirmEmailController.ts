@@ -10,22 +10,23 @@ export const confirmEmail = async (req: Request, res: Response) => {
   try {
     res.header("Access-Control-Allow-Origin", "*");
 
-    const { userId, token } = req.query as {
-      userId?: string;
+    const { userId } = req.params;
+
+    const { token } = req.query as {
       token?: string;
     };
 
-    if (!userId || !token) {
+    if (!userId || !isValidUUID(userId)) {
       return res.status(400).json({
-        code: "INVALID_INPUT",
-        message: "userId and token are required",
+        code: "INVALID_USER_ID",
+        message: "Invalid or missing userId (UUID expected)",
       });
     }
 
-    if (!isValidUUID(userId)) {
+    if (!token) {
       return res.status(400).json({
-        code: "INVALID_UUID_FORMAT",
-        message: "Invalid user ID format. Expected UUID format",
+        code: "INVALID_INPUT",
+        message: "Token is required",
       });
     }
 

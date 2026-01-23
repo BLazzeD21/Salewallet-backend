@@ -1,14 +1,14 @@
 openapi: 3.1.0
 info:
   title: SaleWallet API
-  version: 0.0.1
-  description: "Документация API для SaleWallet"
+  version: 1.0.0
+  description: "API documentation for SaleWallet"
 paths:
-  /register:
+  /user/register:
     post:
       summary: Register a new user
       tags:
-        - Users
+        - User
       requestBody:
         required: true
         content:
@@ -29,11 +29,11 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
 
-  /confirm-email:
+  /user/{userId}/confirm-email:
     get:
       summary: Confirm user email
       tags:
-        - Users
+        - User
       parameters:
         - name: userId
           in: query
@@ -78,11 +78,11 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
 
-  /login:
+  /user/login:
     get:
       summary: User login
       tags:
-        - Users
+        - User
       requestBody:
         required: true
         content:
@@ -345,7 +345,7 @@ paths:
     post:
       summary: Change user password
       tags:
-        - Users
+        - User
       parameters:
         - name: userId
           in: path
@@ -424,7 +424,7 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse"
 
 tags:
-  - name: Users
+  - name: User
     description: Operations related to user
   - name: Cards
     description: Operations related to user cards

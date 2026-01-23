@@ -6,7 +6,7 @@ export const confirmHTML = (token: string, userId: string, username: string) => 
 
   const link = `${
     process.env.NODE_ENV === "production" ? DOMAIN : `http://localhost:${PORT}`
-  }/api/v1/confirm-email?userId=${userId}&token=${token}`;
+  }/api/v1/user/${userId}/confirm-email?token=${token}`;
 
   return `
     <!DOCTYPE html>
