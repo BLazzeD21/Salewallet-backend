@@ -6,7 +6,8 @@ import { isValidUUID } from "@/utils";
 
 export const deleteCard = async (req: Request, res: Response) => {
   try {
-    const { userId, cardId } = req.params;
+    const { userId } = req.params;
+    const { cardId } = req.body;
 
     if (!userId || !cardId) {
       return res.status(400).json({

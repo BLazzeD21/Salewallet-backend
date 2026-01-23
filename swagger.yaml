@@ -2,7 +2,7 @@ openapi: 3.1.0
 info:
   title: SaleWallet API
   version: 1.0.0
-  description: "API documentation for SaleWallet"
+  description: API documentation for SaleWallet
 paths:
   /user/register:
     post:
@@ -28,15 +28,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
-
-  /user/{userId}/confirm-email:
+  "/user/{userId}/confirm-email":
     get:
       summary: Confirm user email
       tags:
         - User
       parameters:
         - name: userId
-          in: query
+          in: path
           required: true
           schema:
             type: string
@@ -77,7 +76,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
-
   /user/login:
     get:
       summary: User login
@@ -98,28 +96,28 @@ paths:
                 $ref: "#/components/schemas/LoginResponse"
               example:
                 user:
-                  user_id: "f47ac10b-58cc-4372-a567-0e02b2c3d478"
-                  username: "johndoe"
-                  mail: "johndoe@example.com"
+                  user_id: f47ac10b-58cc-4372-a567-0e02b2c3d478
+                  username: johndoe
+                  mail: johndoe@example.com
                   cards:
-                    - card_id: "f47ac10b-58cc-4372-a567-0e02b2c3d479"
+                    - card_id: f47ac10b-58cc-4372-a567-0e02b2c3d479
                       card_number: "1234567890123456"
-                      name: "My Loyalty Card"
-                      description: "Supermarket loyalty card"
+                      name: My Loyalty Card
+                      description: Supermarket loyalty card
                       color: "#FF5733"
                       barcode: "987654321012"
-                      barcode_type: "EAN13"
-                      qr_data: "https://example.com/qr/123"
-                      added_at: "2026-01-20T12:00:00Z"
-                    - card_id: "a3f4c550-6f55-4c8d-b567-0a2b3c4d5e6f"
+                      barcode_type: EAN13
+                      qr_data: https://example.com/qr/123
+                      added_at: 2026-01-20T12:00:00Z
+                    - card_id: a3f4c550-6f55-4c8d-b567-0a2b3c4d5e6f
                       card_number: "9876543210987654"
-                      name: "Coffee Shop Card"
-                      description: "Coffee loyalty card"
+                      name: Coffee Shop Card
+                      description: Coffee loyalty card
                       color: "#00FF00"
                       barcode: "123456789012"
-                      barcode_type: "EAN13"
-                      qr_data: "https://example.com/qr/456"
-                      added_at: "2026-01-21T09:30:00Z"
+                      barcode_type: EAN13
+                      qr_data: https://example.com/qr/456
+                      added_at: 2026-01-21T09:30:00Z
         "400":
           description: Missing username or password
           content:
@@ -144,34 +142,52 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
-
-  /users/{userId}/create-card:
+  /card:
     post:
       summary: Add a card for a user
       tags:
-        - Cards
-      parameters:
-        - name: userId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-          description: ID of the user to whom the card will be added
+        - Card
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CardInput"
-            example:
-              card_number: "1234567890123456"
-              name: "My Loyalty Card"
-              description: "Supermarket loyalty card"
-              color: "#FF5733"
-              barcode: "987654321012"
-              barcode_type: "EAN13"
-              qr_data: "https://example.com/qr/123"
+              type: object
+              required:
+                - userId
+                - card_number
+                - name
+                - barcode
+                - barcode_type
+                - qr_data
+              properties:
+                userId:
+                  type: string
+                  format: uuid
+                  description: User ID
+                card_number:
+                  type: string
+                name:
+                  type: string
+                description:
+                  type: string
+                color:
+                  type: string
+                barcode:
+                  type: string
+                barcode_type:
+                  type: string
+                qr_data:
+                  type: string
+              example:
+                userId: f47ac10b-58cc-4372-a567-0e02b2c3d478
+                card_number: "1234567890123456"
+                name: My Loyalty Card
+                description: Supermarket loyalty card
+                color: "#FF5733"
+                barcode: "987654321012"
+                barcode_type: EAN13
+                qr_data: https://example.com/qr/123
       responses:
         "201":
           description: Card successfully created
@@ -179,73 +195,103 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CardResponse"
-              example:
-                card:
-                  card_id: "f47ac10b-58cc-4372-a567-0e02b2c3d479"
-                  user_id: "f47ac10b-58cc-4372-a567-0e02b2c3d478"
-                  card_number: "1234567890123456"
-                  name: "My Loyalty Card"
-                  description: "Supermarket loyalty card"
-                  color: "#FF5733"
-                  barcode: "987654321012"
-                  barcode_type: "EAN13"
-                  qr_data: "https://example.com/qr/123"
-                  added_at: "2026-01-20T12:00:00Z"
         "400":
-          description: Validation error or duplicate card_number/barcode/qr_data
+          description: Validation error or duplicate card data
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
-              examples:
-                duplicateCardNumber:
-                  value:
-                    code: "DUPLICATE_ENTRY"
-                    message: "card_number already exists"
-                duplicateBarcode:
-                  value:
-                    code: "DUPLICATE_ENTRY"
-                    message: "barcode already exists"
-                duplicateQRData:
-                  value:
-                    code: "DUPLICATE_ENTRY"
-                    message: "qr_data already exists"
         "404":
           description: User not found
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
-              example:
-                code: "USER_NOT_FOUND"
-                message: "User not found"
         "500":
           description: Internal server error
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
-
-  /users/{userId}/delete-card/{cardId}:
+    get:
+      summary: Get all cards of a user
+      tags:
+        - Card
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - userId
+              properties:
+                userId:
+                  type: string
+                  format: uuid
+              example:
+                userId: f47ac10b-58cc-4372-a567-0e02b2c3d478
+      responses:
+        "200":
+          description: User cards successfully retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user_id:
+                    type: string
+                    format: uuid
+                  cards:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/CardResponse"
+        "400":
+          description: Invalid userId
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /card/{cardId}:
     delete:
       summary: Delete a user's card
       tags:
-        - Cards
+        - Card
       parameters:
-        - name: userId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-          description: ID of the user
         - name: cardId
           in: path
           required: true
           schema:
             type: string
             format: uuid
-          description: ID of the card to delete
+          description: Card ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - userId
+              properties:
+                userId:
+                  type: string
+                  format: uuid
+                  description: User ID
+            example:
+              userId: f47ac10b-58cc-4372-a567-0e02b2c3d478
       responses:
         "200":
           description: Card successfully deleted
@@ -275,73 +321,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
-
-  /users/{userId}/cards:
-    get:
-      summary: Get all cards of a user
-      tags:
-        - Cards
-      parameters:
-        - name: userId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-          description: User ID
-      responses:
-        "200":
-          description: User cards successfully retrieved
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  user_id:
-                    type: string
-                    format: uuid
-                  cards:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/CardResponse"
-                example:
-                  user_id: "f47ac10b-58cc-4372-a567-0e02b2c3d478"
-                  cards:
-                    - card_id: "f47ac10b-58cc-4372-a567-0e02b2c3d479"
-                      card_number: "1234567890123456"
-                      name: "My Loyalty Card"
-                      description: "Supermarket loyalty card"
-                      color: "#FF5733"
-                      barcode: "987654321012"
-                      barcode_type: "EAN13"
-                      qr_data: "https://example.com/qr/123"
-                      added_at: "2026-01-20T12:00:00Z"
-        "400":
-          description: Invalid userId
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-              example:
-                code: "INVALID_USER_ID"
-                message: "Invalid or missing userId (UUID expected)"
-        "404":
-          description: User not found
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-              example:
-                code: "USER_NOT_FOUND"
-                message: "User not found"
-        "500":
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-
-  /user/{userId}/change-password:
+  "/user/{userId}/change-password":
     post:
       summary: Change user password
       tags:
@@ -373,8 +353,8 @@ paths:
                   format: password
                   description: New password for the user
             example:
-              oldPassword: "oldPassword123"
-              newPassword: "newSecurePassword456"
+              oldPassword: oldPassword123
+              newPassword: newSecurePassword456
       responses:
         "200":
           description: Password changed successfully
@@ -385,10 +365,10 @@ paths:
                 properties:
                   code:
                     type: string
-                    example: "PASSWORD_CHANGED"
+                    example: PASSWORD_CHANGED
                   message:
                     type: string
-                    example: "Password changed successfully"
+                    example: Password changed successfully
         "400":
           description: Missing or invalid input
           content:
@@ -396,8 +376,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
               example:
-                code: "INVALID_INPUT"
-                message: "oldPassword and newPassword are required"
+                code: INVALID_INPUT
+                message: oldPassword and newPassword are required
         "401":
           description: Old password is incorrect
           content:
@@ -405,8 +385,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
               example:
-                code: "INVALID_OLD_PASSWORD"
-                message: "Old password is incorrect"
+                code: INVALID_OLD_PASSWORD
+                message: Old password is incorrect
         "404":
           description: User not found
           content:
@@ -414,21 +394,19 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
               example:
-                code: "USER_NOT_FOUND"
-                message: "User not found"
+                code: USER_NOT_FOUND
+                message: User not found
         "500":
           description: Internal server error
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
-
 tags:
   - name: User
     description: Operations related to user
-  - name: Cards
+  - name: Card
     description: Operations related to user cards
-
 components:
   schemas:
     UserInput:
@@ -444,7 +422,6 @@ components:
           type: string
         password:
           type: string
-
     RegistrationResponse:
       type: object
       properties:
@@ -460,7 +437,6 @@ components:
             created_at:
               type: string
               format: date-time
-
     LoginInput:
       type: object
       required:
@@ -473,7 +449,6 @@ components:
         password:
           type: string
           format: password
-
     LoginResponse:
       type: object
       properties:
@@ -490,7 +465,6 @@ components:
               type: array
               items:
                 $ref: "#/components/schemas/CardSummary"
-
     CardInput:
       type: object
       required:
@@ -514,7 +488,6 @@ components:
           type: string
         qr_data:
           type: string
-
     CardResponse:
       type: object
       properties:
@@ -542,7 +515,6 @@ components:
             added_at:
               type: string
               format: date-time
-
     ErrorResponse:
       type: object
       properties:
@@ -550,7 +522,6 @@ components:
           type: string
         message:
           type: string
-
     CardSummary:
       type: object
       properties:

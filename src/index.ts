@@ -5,7 +5,7 @@ import YAML from "yamljs";
 
 import { connectDB, disconnectDB } from "@/config";
 
-import { authRoutes, userRoutes } from "@/routes";
+import { authRoutes, cardRoutes } from "@/routes";
 
 const swaggerDocument = YAML.load("./swagger.yaml");
 
@@ -21,8 +21,8 @@ const main = async () => {
     app.use(express.json());
 
     app.get("/", (_req, res) => res.send("Server is running"));
-    app.use("/api/v1", userRoutes);
     app.use("/api/v1", authRoutes);
+    app.use("/api/v1", cardRoutes);
 
     app.use("/api/v1/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 

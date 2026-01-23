@@ -6,7 +6,7 @@ import { isValidUUID } from "@/utils";
 
 export const getUserCards = async (req: Request, res: Response) => {
   try {
-    const { userId } = req.params;
+    const { userId } = req.body;
 
     if (!userId || !isValidUUID(userId)) {
       return res.status(400).json({

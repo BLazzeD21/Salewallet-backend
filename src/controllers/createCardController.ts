@@ -7,8 +7,7 @@ import { isValidUUID } from "@/utils";
 
 export const createCard = async (req: Request, res: Response) => {
   try {
-    const { userId } = req.params;
-    const { card_number, name, description, color, barcode, barcode_type, qr_data } = req.body;
+    const { userId, card_number, name, description, color, barcode, barcode_type, qr_data } = req.body;
 
     if (!userId || !isValidUUID(userId)) {
       return res.status(400).json({
