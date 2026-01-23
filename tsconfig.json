@@ -1,17 +1,24 @@
 {
   "include": ["src/**/*"],
   "compilerOptions": {
-    "baseUrl": "./",
+    "paths": {
+      "@/*": ["./*"]
+    },
+    "baseUrl": "./src",
     "rootDir": "./src",
     "outDir": "./build",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "module": "ESNext",
+    "moduleResolution": "node",
     "resolveJsonModule": true,
     "target": "ES6",
     "strict": false,
-    "allowJs": true,
+    "allowJs": false,
     "checkJs": false,
     "alwaysStrict": false,
-    "removeComments": false
+    "removeComments": true,
+    "esModuleInterop": true
+  },
+  "tsc-alias": {
+    "resolveFullPaths": true
   }
 }

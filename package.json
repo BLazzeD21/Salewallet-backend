@@ -6,12 +6,9 @@
   "type": "module",
   "scripts": {
     "clean": "rimraf build/",
-    "build": "npm run clean && tsc",
+    "build": "npm run clean && tsc --project tsconfig.json && tsc-alias -p tsconfig.json",
     "start": "cross-env NODE_ENV=production node build/index.js",
-    "watch-ts": "tsc -w",
-    "type": "tsc --noEmit",
-    "serve-debug": "cross-env NODE_ENV=development nodemon --inspect build/index.js",
-    "dev": "concurrently -k -p \"[{name}]\" -n \"watch-ts,serve-debug\" -c \"cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run serve-debug\"",
+    "dev": "cross-env NODE_ENV=development npm run build && node build/index.js",
     "start:pm2": "cross-env NODE_ENV=production pm2 start build/index.js --name salewallet-backend",
     "restart:pm2": "pm2 restart salewallet-backend",
     "stop:pm2": "pm2 stop salewallet-backend",
@@ -21,6 +18,7 @@
     "minor": "npm version minor -m \"version: %s\"",
     "major": "npm version major -m \"version: %s\"",
     "format": "biome format --write .",
+    "type": "tsc --noEmit",
     "check": "npx biome check --staged --write",
     "pre-commit": "npm run type && lint-staged",
     "prepare": "husky"
@@ -72,10 +70,11 @@
     "nodemailer": "^7.0.12",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
+    "tsc-alias": "^1.8.16",
     "yamljs": "^0.3.0"
   },
   "lint-staged": {
-    "*.{ts,tsx,js,jsx,json,css,md}": [
+    "*.{ts,tsx,js,jsx,json,css,md,yaml}": [
       "biome check --write"
     ]
   }
