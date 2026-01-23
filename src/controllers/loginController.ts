@@ -1,8 +1,10 @@
 import bcrypt from "bcrypt";
 import type { Request, Response } from "express";
 import { Op } from "sequelize";
-import models from "../models/index.js";
-import type { UserWithCards } from "../types/types.js";
+
+import models from "@/models";
+
+import type { UserWithCards } from "@/types";
 
 export const login = async (req: Request, res: Response) => {
   try {

@@ -1,7 +1,6 @@
 import { Router } from "express";
-import { confirmEmail } from "../controllers/confirmEmailController.js";
-import { login } from "../controllers/loginController.js";
-import { registerUser } from "../controllers/registrationController.js";
+
+import { confirmEmail, login, registerUser } from "@/controllers";
 
 const router = Router();
 
@@ -9,4 +8,4 @@ router.post("/register", registerUser);
 router.get("/confirm-email", confirmEmail);
 router.get("/login", login);
 
-export default router;
+export { router as authRoutes };

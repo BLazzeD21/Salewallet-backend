@@ -1,6 +1,7 @@
 import { DataTypes, type Sequelize } from "sequelize";
 import { v4 as uuidv4 } from "uuid";
-import { EmailVerification } from "../types/types.js";
+
+import { EmailVerification } from "@/types";
 
 export default (sequelize: Sequelize) => {
   EmailVerification.init(

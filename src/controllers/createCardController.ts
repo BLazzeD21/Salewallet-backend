@@ -1,7 +1,9 @@
 import type { Request, Response } from "express";
 import { Op } from "sequelize";
-import models from "../models/index.js";
-import { isValidUUID } from "../utils/isValidUUID.js";
+
+import models from "@/models";
+
+import { isValidUUID } from "@/utils";
 
 export const createCard = async (req: Request, res: Response) => {
   try {
@@ -59,19 +61,8 @@ export const createCard = async (req: Request, res: Response) => {
       barcode_type,
       qr_data,
     });
-
-    return res.status(201).json({
-      card,
-    });
-  } catch (error) {
-    if (error.name === "SequelizeUniqueConstraintError") {
-      const field = error.errors[0].path;
-      return res.status(400).json({
-        code: "DUPLICATE_ENTRY",
-        message: `${field} already exists`,
-      });
-    }
-
+    return res.status(201).json({ card });
+  } catch {
     return res.status(500).json({
       code: "INTERNAL_SERVER_ERROR",
       message: "An internal server error occurred",

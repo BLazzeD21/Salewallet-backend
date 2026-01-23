@@ -1,9 +1,12 @@
 import type { ModelStatic, Sequelize } from "sequelize";
-import { sequelize } from "../config/db.js";
-import type { Card, EmailVerification, User } from "../types/types.js";
-import cardModel from "./card.js";
-import emailVerificationModel from "./emailVerification.js";
-import userModel from "./user.js";
+
+import { sequelize } from "@/config";
+
+import type { Card, EmailVerification, User } from "@/types";
+
+import cardModel from "./card";
+import emailVerificationModel from "./emailVerification";
+import userModel from "./user";
 
 interface DbModels {
   sequelize: Sequelize;
@@ -41,5 +44,9 @@ sequelize
   .catch((error) => console.error("Error syncing models:", error));
 
 models.sequelize = sequelize;
+
+export * from "./";
+export * from "./card";
+export * from "./emailVerification";
 
 export default models;

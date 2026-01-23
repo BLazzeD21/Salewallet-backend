@@ -1,6 +1,7 @@
 import { DataTypes, type Sequelize } from "sequelize";
 import { v4 as uuidv4 } from "uuid";
-import { User } from "../types/types.js";
+
+import { User } from "@/types";
 
 export default (sequelize: Sequelize) => {
   User.init(

@@ -5,11 +5,17 @@ export interface EmailVerificationAttributes {
   user_id: string;
   token: string;
   expires_at: Date;
-  confirmed?: boolean;
-  created_at?: Date;
+  confirmed: boolean;
+  created_at: Date;
 }
 
-export class EmailVerification extends Model<EmailVerificationAttributes> implements EmailVerificationAttributes {
+export interface EmailVerificationCreationAttributes
+  extends Omit<EmailVerificationAttributes, "created_at" | "verification_id" | "confirmed"> {}
+
+export class EmailVerification
+  extends Model<EmailVerificationAttributes, EmailVerificationCreationAttributes>
+  implements EmailVerificationAttributes
+{
   declare verification_id: string;
   declare user_id: string;
   declare token: string;
@@ -24,10 +30,12 @@ export interface UserAttributes {
   mail: string;
   password: string;
   confirmed: boolean;
-  created_at?: Date;
+  created_at: Date;
 }
 
-export class User extends Model<UserAttributes> implements UserAttributes {
+export interface UserCreationAttributes extends Omit<UserAttributes, "created_at" | "verification_id" | "confirmed"> {}
+
+export class User extends Model<UserAttributes, UserCreationAttributes> implements UserAttributes {
   declare user_id: string;
   declare username: string;
   declare mail: string;
@@ -50,10 +58,12 @@ export interface CardAttributes {
   barcode: string;
   barcode_type: string;
   qr_data: string;
-  added_at?: Date;
+  added_at: Date;
 }
 
-export class Card extends Model<CardAttributes> implements CardAttributes {
+export interface CardCreationAttributes extends Omit<CardAttributes, "card_id" | "added_at"> {}
+
+export class Card extends Model<CardAttributes, CardCreationAttributes> implements CardAttributes {
   declare card_id: string;
   declare user_id: string;
   declare card_number: string;

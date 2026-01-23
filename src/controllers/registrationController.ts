@@ -2,10 +2,14 @@ import bcrypt from "bcrypt";
 import type { Request, Response } from "express";
 import nodemailer from "nodemailer";
 import { v4 as uuidv4 } from "uuid";
-import { confirmHTML } from "../html/confirmHTML.js";
-import models from "../models/index.js";
-import type { User } from "../types/types.js";
-import { isValidEmail } from "../utils/isValidEmail.js";
+
+import models from "@/models";
+
+import type { User } from "@/types";
+
+import { confirmHTML } from "@/html";
+
+import { isValidEmail } from "@/utils";
 
 const SALT_ROUNDS = 10;
 
@@ -77,7 +81,7 @@ export const registerUser = async (req: Request, res: Response) => {
 
     const existingUser = userByUsername || userByMail;
 
-    if (existingUser.confirmed) {
+    if (existingUser?.confirmed) {
       return res.status(400).json({
         code: "USER_ALREADY_CONFIRMED",
         message: "User already exists and is confirmed",
@@ -152,12 +156,11 @@ export const registerUser = async (req: Request, res: Response) => {
         created_at: user.created_at,
       },
     });
-  } catch (error) {
+  } catch {
     await transaction.rollback();
     return res.status(500).json({
       code: "INTERNAL_SERVER_ERROR",
       message: "Something went wrong",
-      error: error.message,
     });
   }
 };
