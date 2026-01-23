@@ -24,7 +24,7 @@ const main = async () => {
     app.use("/api/v1", authRoutes);
     app.use("/api/v1", cardRoutes);
 
-    app.use("/api/v1/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+    app.use("/api/v1/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument, { customSiteTitle: "SaleWallet Docs" }));
 
     const server = app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
