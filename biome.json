@@ -28,7 +28,37 @@
   "assist": {
     "actions": {
       "source": {
-        "organizeImports": "on"
+        "organizeImports": {
+          "level": "on",
+          "options": {
+            "identifierOrder": "lexicographic",
+            "groups": [
+              ":PACKAGE:",
+              ":BLANK_LINE:",
+              ":URL:",
+              ":BLANK_LINE:",
+              "@/config",
+              ":BLANK_LINE:",
+              "@/models",
+              ":BLANK_LINE:",
+              "@/controllers",
+              ":BLANK_LINE:",
+              "@/routes",
+              ":BLANK_LINE:",
+              "@/types",
+              ":BLANK_LINE:",
+              "@/html",
+              ":BLANK_LINE:",
+              "@/utils",
+              ":BLANK_LINE:",
+              ":NODE:",
+              ":BLANK_LINE:",
+              ":PATH:",
+              ":BLANK_LINE:",
+              ":ALIAS:"
+            ]
+          }
+        }
       }
     }
   }
