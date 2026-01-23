@@ -1,3 +1,4 @@
+export * from "./changePasswordController";
 export * from "./confirmEmailController";
 export * from "./createCardController";
 export * from "./deleteCardController";
