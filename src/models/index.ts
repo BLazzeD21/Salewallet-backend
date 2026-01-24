@@ -4,9 +4,9 @@ import { sequelize } from "@/config";
 
 import type { Card, EmailVerification, User } from "@/types";
 
-import cardModel from "./card";
-import emailVerificationModel from "./emailVerification";
-import userModel from "./user";
+import cardModel from "./card.model";
+import emailVerificationModel from "./emailVerification.model";
+import userModel from "./user.model";
 
 interface DbModels {
   sequelize: Sequelize;
@@ -46,7 +46,7 @@ sequelize
 models.sequelize = sequelize;
 
 export * from "./";
-export * from "./card";
-export * from "./emailVerification";
+export * from "./card.model";
+export * from "./emailVerification.model";
 
 export default models;
