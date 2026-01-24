@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { Op } from "sequelize";
+import { Op, ValidationError } from "sequelize";
 
 import models from "@/models";
 
@@ -61,7 +61,14 @@ export const createCard = async (req: Request, res: Response) => {
       qr_data,
     });
     return res.status(201).json({ card });
-  } catch {
+  } catch (error) {
+    if (error instanceof ValidationError) {
+      return res.status(400).json({
+        code: "VALIDATION_ERROR",
+        message: error.errors[0].message,
+      });
+    }
+
     return res.status(500).json({
       code: "INTERNAL_SERVER_ERROR",
       message: "An internal server error occurred",

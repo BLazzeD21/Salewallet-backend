@@ -8,6 +8,6 @@ router.post("/user/register", registerUser);
 router.get("/user/:userId/confirm-email", confirmEmail);
 router.delete("/user/:userId", deleteUser);
 router.get("/user/login", login);
-router.post("/user/:userId/change-password", changePassword);
+router.patch("/user/:userId/change-password", changePassword);
 
 export { router as authRoutes };

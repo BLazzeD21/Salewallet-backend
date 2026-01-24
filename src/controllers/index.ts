@@ -6,3 +6,4 @@ export * from "./deleteUser.contorller";
 export * from "./getCards.controller";
 export * from "./login.controller";
 export * from "./registration.controller";
+export * from "./updateCard.controller";

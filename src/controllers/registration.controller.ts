@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import type { Request, Response } from "express";
 import nodemailer from "nodemailer";
+import { ValidationError } from "sequelize";
 import { v4 as uuidv4 } from "uuid";
 
 import models from "@/models";
@@ -156,8 +157,16 @@ export const registerUser = async (req: Request, res: Response) => {
         created_at: user.created_at,
       },
     });
-  } catch {
+  } catch (error) {
     await transaction.rollback();
+
+    if (error instanceof ValidationError) {
+      return res.status(400).json({
+        code: "VALIDATION_ERROR",
+        message: error.errors[0].message,
+      });
+    }
+
     return res.status(500).json({
       code: "INTERNAL_SERVER_ERROR",
       message: "Something went wrong",
