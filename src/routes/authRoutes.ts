@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { changePassword, confirmEmail, deleteUser, login, registerUser } from "@/controllers";
+import { changePassword, confirmEmail, deleteUser, login, refreshToken, registerUser } from "@/controllers";
 
 import { verifyAuth } from "@/middlewares";
 
@@ -10,6 +10,7 @@ router.post("/user/register", registerUser);
 router.get("/user/:userId/confirm-email", confirmEmail);
 router.delete("/user/:userId", verifyAuth, deleteUser);
 router.get("/user/login", login);
+router.post("/user/refresh", refreshToken);
 router.patch("/user/:userId/change-password", verifyAuth, changePassword);
 
 export { router as authRoutes };
