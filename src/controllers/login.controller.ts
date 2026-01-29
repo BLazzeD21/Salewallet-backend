@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import type { Request, Response } from "express";
+import jwt from "jsonwebtoken";
 import { Op } from "sequelize";
 
 import models from "@/models";
@@ -67,7 +68,17 @@ export const login = async (req: Request, res: Response) => {
       });
     }
 
+    const accessToken = jwt.sign({ sub: user.user_id }, process.env.AUTH_SECRET, {
+      expiresIn: Number(process.env.AUTH_SECRET_EXPIRES_IN),
+    });
+
+    const refreshToken = jwt.sign({ sub: user.user_id }, process.env.AUTH_REFRESH_SECRET, {
+      expiresIn: Number(process.env.AUTH_REFRESH_SECRET_EXPIRES_IN),
+    });
+
     return res.status(200).json({
+      accessToken,
+      refreshToken,
       user: {
         user_id: user.user_id,
         username: user.username,
