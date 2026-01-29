@@ -43,6 +43,8 @@
               ":BLANK_LINE:",
               "@/controllers",
               ":BLANK_LINE:",
+              "@/middlewares",
+              ":BLANK_LINE:",
               "@/routes",
               ":BLANK_LINE:",
               "@/types",
