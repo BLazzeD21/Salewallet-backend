@@ -33,6 +33,8 @@
           "options": {
             "identifierOrder": "lexicographic",
             "groups": [
+              ":NODE:",
+              ":BLANK_LINE:",
               ":PACKAGE:",
               ":BLANK_LINE:",
               ":URL:",
@@ -52,8 +54,6 @@
               "@/html",
               ":BLANK_LINE:",
               "@/utils",
-              ":BLANK_LINE:",
-              ":NODE:",
               ":BLANK_LINE:",
               ":PATH:",
               ":BLANK_LINE:",

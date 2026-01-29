@@ -1,3 +1,6 @@
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
 import dotenv from "dotenv";
 import express from "express";
 import swaggerUi from "swagger-ui-express";
@@ -13,6 +16,11 @@ dotenv.config();
 
 const PORT = process.env.PORT || 5500;
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const publicPath = path.resolve(__dirname, "../public");
+
 const main = async () => {
   try {
     await connectDB();
@@ -23,6 +31,8 @@ const main = async () => {
     app.get("/", (_req, res) => res.send("Server is running"));
     app.use("/api/v1", authRoutes);
     app.use("/api/v1", cardRoutes);
+
+    app.use("/public", express.static(publicPath));
 
     app.use("/api/v1/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument, { customSiteTitle: "SaleWallet Docs" }));
 
