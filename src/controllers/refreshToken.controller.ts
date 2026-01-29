@@ -2,7 +2,13 @@ import type { Request, Response } from "express";
 import jwt, { type JwtPayload } from "jsonwebtoken";
 
 export const refreshToken = async (req: Request, res: Response) => {
-  const { refreshToken } = req.body as { refreshToken?: string };
+  const header = req.headers.authorization;
+
+  if (!header || !header.startsWith("Bearer ")) {
+    return res.status(401).json({ message: "Token not found in headers" });
+  }
+
+  const refreshToken = header.split(" ")[1];
 
   if (!refreshToken) {
     return res.status(400).json({

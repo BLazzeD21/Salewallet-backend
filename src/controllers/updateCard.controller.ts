@@ -8,7 +8,8 @@ import { isValidUUID } from "@/utils";
 export const updateUserCard = async (req: Request, res: Response) => {
   try {
     const { cardId } = req.params;
-    const { userId, name, description, color, card_number, barcode, barcode_type, qr_data } = req.body;
+    const { userId } = req.user;
+    const { name, description, color, card_number, barcode, barcode_type, qr_data } = req.body;
 
     if (!isValidUUID(cardId)) {
       return res.status(400).json({
@@ -83,7 +84,7 @@ export const updateUserCard = async (req: Request, res: Response) => {
 
     return res.status(200).json({
       message: "Card updated successfully",
-      card,
+      data: card,
     });
   } catch (error) {
     if (error instanceof ValidationError) {

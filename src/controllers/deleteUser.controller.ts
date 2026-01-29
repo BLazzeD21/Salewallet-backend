@@ -7,7 +7,7 @@ import { isValidUUID } from "@/utils";
 
 export const deleteUser = async (req: Request, res: Response) => {
   try {
-    const { userId } = req.params;
+    const { userId } = req.user;
     const { password } = req.body as { password?: string };
 
     if (!userId || !password) {

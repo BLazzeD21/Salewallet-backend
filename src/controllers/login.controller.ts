@@ -77,9 +77,12 @@ export const login = async (req: Request, res: Response) => {
     });
 
     return res.status(200).json({
-      accessToken,
-      refreshToken,
-      user: {
+      tokens: {
+        accessToken,
+        refreshToken,
+        token_type: "bearer",
+      },
+      data: {
         user_id: user.user_id,
         username: user.username,
         mail: user.mail,

@@ -7,7 +7,7 @@ import { isValidUUID } from "@/utils";
 
 export const changePassword = async (req: Request, res: Response) => {
   try {
-    const { userId } = req.params;
+    const { userId } = req.user;
 
     if (!userId || !isValidUUID(userId)) {
       return res.status(400).json({
