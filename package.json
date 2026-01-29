@@ -66,6 +66,7 @@
     "cross-env": "^10.1.0",
     "dotenv": "^17.2.3",
     "husky": "^9.1.7",
+    "jsonwebtoken": "^9.0.3",
     "lint-staged": "^16.2.7",
     "nodemailer": "^7.0.12",
     "swagger-jsdoc": "^6.2.8",
