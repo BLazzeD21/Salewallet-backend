@@ -6,7 +6,7 @@ import { isValidUUID } from "@/utils";
 
 export const getUserCards = async (req: Request, res: Response) => {
   try {
-    const { userId } = req.body;
+    const { userId } = req.user;
 
     if (!userId || !isValidUUID(userId)) {
       return res.status(400).json({
@@ -41,6 +41,13 @@ export const getUserCards = async (req: Request, res: Response) => {
         "added_at",
       ],
     });
+
+    if (!cards || cards.length === 0) {
+      return res.status(200).json({
+        code: "CARD_NOT_FOUND",
+        message: "No cards found for this user",
+      });
+    }
 
     return res.status(200).json({
       user_id: userId,

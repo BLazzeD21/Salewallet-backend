@@ -18,7 +18,7 @@ export const verifyAuth = (request: Request, response: Response, next: NextFunct
     const payload = jwt.verify(accessToken, process.env.AUTH_SECRET);
 
     request.user = {
-      id: payload.sub as string,
+      userId: payload.sub as string,
     };
 
     next();
