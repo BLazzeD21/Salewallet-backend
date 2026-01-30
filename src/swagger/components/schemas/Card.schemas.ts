@@ -2,7 +2,7 @@ export default {
   Card: {
     type: "object",
     properties: {
-      card_id: { type: "string", example: "card_123" },
+      card_id: { type: "string", example: "e58ed763-928c-4155-bee9-fdbaaadc15f3" },
       card_number: { type: "string", example: "1234 5678 9012 3456" },
       name: { type: "string", example: "My Card" },
       description: { type: "string", example: "Loyalty card" },
@@ -22,7 +22,7 @@ export default {
     type: "object",
     required: ["userId", "card_number", "name", "barcode", "barcode_type", "qr_data"],
     properties: {
-      userId: { type: "string", example: "user_123" },
+      user_id: { type: "string", example: "e58ed763-928c-4155-bee9-fdbaaadc15f3" },
       card_number: { type: "string", example: "1234-5678-9012-3456" },
       name: { type: "string", example: "My Card" },
       description: { type: "string", example: "Optional description" },

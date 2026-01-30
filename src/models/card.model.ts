@@ -1,5 +1,4 @@
 import { DataTypes, type Sequelize } from "sequelize";
-import { v4 as uuidv4 } from "uuid";
 
 import { Card } from "@/types";
 
@@ -8,7 +7,7 @@ export default (sequelize: Sequelize) => {
     {
       card_id: {
         type: DataTypes.UUID,
-        defaultValue: () => uuidv4(),
+        defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
         allowNull: false,
         unique: true,

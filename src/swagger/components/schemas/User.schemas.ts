@@ -40,7 +40,7 @@ export default {
       data: {
         type: "object",
         properties: {
-          user_id: { type: "string", example: "user_123" },
+          user_id: { type: "string", example: "e58ed763-928c-4155-bee9-fdbaaadc15f3" },
           username: { type: "string", example: "alexandr" },
           mail: { type: "string", example: "alex@mail.com" },
           cards: {
@@ -68,7 +68,7 @@ export default {
       user: {
         type: "object",
         properties: {
-          user_id: { type: "string", example: "user_123" },
+          user_id: { type: "string", example: "e58ed763-928c-4155-bee9-fdbaaadc15f3" },
           username: { type: "string", example: "alexandr" },
           mail: { type: "string", example: "alex@mail.com" },
           created_at: {
