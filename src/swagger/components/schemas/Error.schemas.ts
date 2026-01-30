@@ -257,4 +257,44 @@ export default {
       message: { type: "string", example: "userId and cardId are required" },
     },
   },
+
+  NoFileProvided: {
+    type: "object",
+    properties: {
+      code: { type: "string", example: "NO_FILE_PROVIDED" },
+      message: { type: "string", example: "File is required" },
+    },
+  },
+
+  InvalidNameInput: {
+    type: "object",
+    properties: {
+      code: { type: "string", example: "INVALID_INPUT" },
+      message: { type: "string", example: "Name is required" },
+    },
+  },
+
+  InvalidFileType: {
+    type: "object",
+    properties: {
+      code: { type: "string", example: "INVALID_FILE_TYPE" },
+      message: { type: "string", example: "Only PNG and JPEG allowed" },
+    },
+  },
+
+  FileTooLarge: {
+    type: "object",
+    properties: {
+      code: { type: "string", example: "FILE_TOO_LARGE" },
+      message: { type: "string", example: "File must be <= 5MB" },
+    },
+  },
+
+  DuplicateName: {
+    type: "object",
+    properties: {
+      code: { type: "string", example: "DUPLICATE_NAME" },
+      message: { type: "string", example: "A picture with this name already exists" },
+    },
+  },
 };

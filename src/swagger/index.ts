@@ -3,6 +3,7 @@ import swaggerJSDoc from "swagger-jsdoc";
 import parameters from "./components/parameters";
 import cardSchemas from "./components/schemas/Card.schemas";
 import errorSchemas from "./components/schemas/Error.schemas";
+import pictureSchemas from "./components/schemas/Picture.schemas";
 import userSchemas from "./components/schemas/User.schemas";
 
 const options = {
@@ -26,6 +27,7 @@ const options = {
         ...userSchemas,
         ...errorSchemas,
         ...cardSchemas,
+        ...pictureSchemas,
       },
       parameters,
     },

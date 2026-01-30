@@ -7,7 +7,7 @@ import swaggerUi from "swagger-ui-express";
 
 import { connectDB, disconnectDB } from "@/config";
 
-import { authRoutes, cardRoutes } from "@/routes";
+import { authRoutes, cardRoutes, pictureRoutes } from "@/routes";
 
 import swaggerDocs from "./swagger";
 import { checkEnvVariables } from "./utils";
@@ -33,6 +33,7 @@ const main = async () => {
     app.get("/", (_req, res) => res.send("Server is running"));
     app.use("/api/v1", authRoutes);
     app.use("/api/v1", cardRoutes);
+    app.use("/api/v1", pictureRoutes);
 
     app.use("/public", express.static(publicPath));
 

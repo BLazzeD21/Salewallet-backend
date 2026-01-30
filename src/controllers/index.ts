@@ -8,3 +8,4 @@ export * from "./login.controller";
 export * from "./refreshToken.controller";
 export * from "./registration.controller";
 export * from "./updateCard.controller";
+export * from "./uploadPictures.controller";

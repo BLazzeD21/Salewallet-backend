@@ -2,10 +2,11 @@ import type { ModelStatic, Sequelize } from "sequelize";
 
 import { sequelize } from "@/config";
 
-import type { Card, EmailVerification, User } from "@/types";
+import type { Card, EmailVerification, Picture, User } from "@/types";
 
 import cardModel from "./card.model";
 import emailVerificationModel from "./emailVerification.model";
+import picturesModel from "./picture.model";
 import userModel from "./user.model";
 
 interface DbModels {
@@ -13,12 +14,14 @@ interface DbModels {
   user: ModelStatic<User>;
   card: ModelStatic<Card>;
   email_verification: ModelStatic<EmailVerification>;
+  picture: ModelStatic<Picture>;
 }
 
 const models: DbModels = {
   sequelize,
   user: userModel(sequelize),
   card: cardModel(sequelize),
+  picture: picturesModel(sequelize),
   email_verification: emailVerificationModel(sequelize),
 };
 
@@ -45,7 +48,6 @@ sequelize
 
 models.sequelize = sequelize;
 
-export * from "./";
 export * from "./card.model";
 export * from "./emailVerification.model";
 
