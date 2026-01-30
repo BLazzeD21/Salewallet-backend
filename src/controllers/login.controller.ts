@@ -56,10 +56,12 @@ import type { UserWithCards } from "@/types";
 
 export const login = async (request: Request, response: Response) => {
   try {
-    const { username, password } = request.body as {
+    let { username, password } = request.body as {
       username?: string;
       password?: string;
     };
+
+    username = username.toLocaleLowerCase();
 
     if (!username || !password) {
       return response.status(400).json({

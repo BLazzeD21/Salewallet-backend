@@ -89,7 +89,14 @@ export const registerUser = async (request: Request, response: Response) => {
   const transaction = await models.sequelize.transaction();
 
   try {
-    const { username, mail, password } = request.body;
+    let { username, mail, password } = request.body as {
+      username: string;
+      mail: string;
+      password: string;
+    };
+
+    username = username.toLocaleLowerCase();
+    mail = mail.toLocaleLowerCase();
 
     if (!username || !mail || !password) {
       return response.status(400).json({
