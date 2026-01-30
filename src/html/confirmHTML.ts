@@ -2,7 +2,7 @@ export const confirmHTML = (token: string, userId: string, username: string) => 
   const PORT = process.env.PORT || 5000;
   const DOMAIN = process.env.DOMAIN;
 
-  const date = new Date().toLocaleString("ru");
+  const date = new Date().toLocaleString("en-US");
 
   const link = `${
     process.env.NODE_ENV === "production" ? DOMAIN : `http://localhost:${PORT}`
@@ -10,10 +10,10 @@ export const confirmHTML = (token: string, userId: string, username: string) => 
 
   return `
     <!DOCTYPE html>
-    <html lang="ru">
+    <html lang="en">
     <head>
       <meta charset="UTF-8" />
-      <title>Подтверждение аккаунта</title>
+      <title>Account Confirmation</title>
     </head>
     <body
       style="
@@ -45,7 +45,7 @@ export const confirmHTML = (token: string, userId: string, username: string) => 
             line-height:1.2;
           "
         >
-          Здравствуйте, ${username}!
+          Hello, ${username}!
         </h1>
 
         <p
@@ -55,8 +55,8 @@ export const confirmHTML = (token: string, userId: string, username: string) => 
             color:#333333;
           "
         >
-          Чтобы активировать ваш аккаунт в SaleWallet, нам нужно подтвердить вашу почту.<br><br>
-          Пожалуйста, нажмите на кнопку ниже для верификации. Вы перейдете на сайт, после чего регистрация будет автоматически завершена.
+          To activate your SaleWallet account, we need to verify your email.<br><br>
+          Please click the button below to complete the verification. You will be redirected to the website, and your registration will be automatically completed.
         </p>
 
         <div style="text-align:center; margin:32px 0;">
@@ -75,7 +75,7 @@ export const confirmHTML = (token: string, userId: string, username: string) => 
               white-space:nowrap;
             "
           >
-            Активировать аккаунт
+            Activate Account
           </a>
         </div>
 
@@ -89,7 +89,7 @@ export const confirmHTML = (token: string, userId: string, username: string) => 
             text-align:center;
           "
         >
-          Если вы не регистрировались в SaleWallet — просто проигнорируйте это письмо
+          If you did not register for SaleWallet — please ignore this email
         </p>
       </div>
 
@@ -100,7 +100,7 @@ export const confirmHTML = (token: string, userId: string, username: string) => 
           margin-top:10px;
         "
       >
-        Отправлено ${date}
+        Sent on ${date}
       </p>
     </body>
     </html>

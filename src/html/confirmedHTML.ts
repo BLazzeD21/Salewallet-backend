@@ -1,9 +1,9 @@
 export const confirmedHTML = `
     <!DOCTYPE html>
-    <html lang="ru">
+    <html lang="en">
       <head>
         <meta charset="UTF-8" />
-        <title>Аккаунт подтвержден</title>
+        <title>Account Confirmed</title>
         <style>
           body {
             display: flex;
@@ -31,8 +31,8 @@ export const confirmedHTML = `
       </head>
       <body>
         <div class="card">
-          <h1>Аккаунт подтвержден</h1>
-          <p>Ваш адрес электронной почты успешно подтвержден</p>
+          <h1>Account Confirmed</h1>
+          <p>Your email address has been successfully confirmed</p>
         </div>
       </body>
     </html>

@@ -182,7 +182,7 @@ export const registerUser = async (request: Request, response: Response) => {
     const mailOptions = {
       from: `"SaleWallet" <${process.env.FROM_EMAIL_USERNAME}>`,
       to: mail,
-      subject: `Подтверждение почты для SaleWallet`,
+      subject: `Email confirmation for SaleWallet`,
       html: confirmHTML(token, user.user_id, username),
       date: new Date(),
     };
