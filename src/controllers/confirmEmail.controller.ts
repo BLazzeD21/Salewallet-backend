@@ -54,32 +54,32 @@ import { isValidUUID } from "@/utils";
  *               $ref: '#/components/schemas/InternalServerError'
  */
 
-export const confirmEmail = async (req: Request, res: Response) => {
+export const confirmEmail = async (request: Request, response: Response) => {
   try {
-    res.header("Access-Control-Allow-Origin", "*");
+    response.header("Access-Control-Allow-Origin", "*");
 
-    const { userId } = req.params;
+    const { userId } = request.params;
 
-    const { token } = req.query as {
+    const { token } = request.query as {
       token?: string;
     };
 
     if (!userId || !isValidUUID(userId)) {
-      return res.status(400).json({
+      return response.status(400).json({
         code: "INVALID_USER_ID",
         message: "Invalid or missing userId (UUID expected)",
       });
     }
 
     if (!token) {
-      return res.status(400).json({
+      return response.status(400).json({
         code: "INVALID_INPUT",
         message: "Token is required",
       });
     }
 
     if (token.trim().length === 0) {
-      return res.status(400).json({
+      return response.status(400).json({
         code: "INVALID_TOKEN",
         message: "Token cannot be empty",
       });
@@ -90,7 +90,7 @@ export const confirmEmail = async (req: Request, res: Response) => {
     });
 
     if (!user) {
-      return res.status(404).json({
+      return response.status(404).json({
         code: "USER_NOT_FOUND",
         message: "User not found",
       });
@@ -104,21 +104,21 @@ export const confirmEmail = async (req: Request, res: Response) => {
     });
 
     if (!verification) {
-      return res.status(404).json({
+      return response.status(404).json({
         code: "TOKEN_NOT_FOUND",
         message: "Verification token not found",
       });
     }
 
     if (verification.expires_at < new Date()) {
-      return res.status(400).json({
+      return response.status(400).json({
         code: "TOKEN_EXPIRED",
         message: "Verification token expired",
       });
     }
 
     if (verification.token !== token) {
-      return res.status(400).json({
+      return response.status(400).json({
         code: "INVALID_TOKEN",
         message: "Invalid verification token",
       });
@@ -133,21 +133,21 @@ export const confirmEmail = async (req: Request, res: Response) => {
       },
     });
 
-    return res.status(200).format({
+    return response.status(200).format({
       "application/json": () => {
-        res.json({
+        response.json({
           message: "Email successfully confirmed",
         });
       },
       "text/html": () => {
-        res.send(confirmedHTML);
+        response.send(confirmedHTML);
       },
       default: () => {
-        res.status(406).send("Not Acceptable");
+        response.status(406).send("Not Acceptable");
       },
     });
   } catch {
-    return res.status(500).json({
+    return response.status(500).json({
       code: "INTERNAL_SERVER_ERROR",
       message: "An internal server error occurred",
     });

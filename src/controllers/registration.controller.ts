@@ -85,21 +85,21 @@ async function getTransporter(): Promise<nodemailer.Transporter> {
  *               $ref: '#/components/schemas/InternalServerError'
  */
 
-export const registerUser = async (req: Request, res: Response) => {
+export const registerUser = async (request: Request, response: Response) => {
   const transaction = await models.sequelize.transaction();
 
   try {
-    const { username, mail, password } = req.body;
+    const { username, mail, password } = request.body;
 
     if (!username || !mail || !password) {
-      return res.status(400).json({
+      return response.status(400).json({
         code: "INVALID_INPUT",
         message: "Username, mail, and password are required",
       });
     }
 
     if (!isValidEmail(mail)) {
-      return res.status(400).json({
+      return response.status(400).json({
         code: "INVALID_EMAIL",
         message: "Invalid email format",
       });
@@ -116,7 +116,7 @@ export const registerUser = async (req: Request, res: Response) => {
     });
 
     if (userByUsername && userByMail && userByUsername.user_id !== userByMail.user_id) {
-      return res.status(400).json({
+      return response.status(400).json({
         code: "CREDENTIALS_CONFLICT",
         message: "Username and mail belong to different users",
       });
@@ -125,7 +125,7 @@ export const registerUser = async (req: Request, res: Response) => {
     const existingUser = userByUsername || userByMail;
 
     if (existingUser?.confirmed) {
-      return res.status(400).json({
+      return response.status(400).json({
         code: "USER_ALREADY_CONFIRMED",
         message: "User already exists and is confirmed",
       });
@@ -191,7 +191,7 @@ export const registerUser = async (req: Request, res: Response) => {
 
     await transaction.commit();
 
-    return res.status(201).json({
+    return response.status(201).json({
       user: {
         user_id: user.user_id,
         username: user.username,
@@ -203,13 +203,13 @@ export const registerUser = async (req: Request, res: Response) => {
     await transaction.rollback();
 
     if (error instanceof ValidationError) {
-      return res.status(400).json({
+      return response.status(400).json({
         code: "VALIDATION_ERROR",
         message: error.errors[0].message,
       });
     }
 
-    return res.status(500).json({
+    return response.status(500).json({
       code: "INTERNAL_SERVER_ERROR",
       message: "Something went wrong",
     });

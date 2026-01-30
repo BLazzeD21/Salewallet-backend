@@ -47,20 +47,20 @@ import { isValidUUID } from "@/utils";
  *               $ref: '#/components/schemas/InternalServerError'
  */
 
-export const deleteCard = async (req: Request, res: Response) => {
+export const deleteCard = async (request: Request, response: Response) => {
   try {
-    const { userId } = req.user;
-    const { cardId } = req.params;
+    const { userId } = request.user;
+    const { cardId } = request.params;
 
     if (!userId || !cardId) {
-      return res.status(400).json({
+      return response.status(400).json({
         code: "INVALID_INPUT",
         message: "userId and cardId are required",
       });
     }
 
     if (!isValidUUID(userId) || !isValidUUID(cardId)) {
-      return res.status(400).json({
+      return response.status(400).json({
         code: "INVALID_UUID_FORMAT",
         message: "Invalid UUID format for userId or cardId",
       });
@@ -71,7 +71,7 @@ export const deleteCard = async (req: Request, res: Response) => {
     });
 
     if (!user) {
-      return res.status(404).json({
+      return response.status(404).json({
         code: "USER_NOT_FOUND",
         message: "User not found",
       });
@@ -85,7 +85,7 @@ export const deleteCard = async (req: Request, res: Response) => {
     });
 
     if (!card) {
-      return res.status(404).json({
+      return response.status(404).json({
         code: "CARD_NOT_FOUND",
         message: "Card not found for this user",
       });
@@ -93,11 +93,11 @@ export const deleteCard = async (req: Request, res: Response) => {
 
     await card.destroy();
 
-    return res.status(200).json({
+    return response.status(200).json({
       message: "Card successfully deleted",
     });
   } catch {
-    return res.status(500).json({
+    return response.status(500).json({
       code: "INTERNAL_SERVER_ERROR",
       message: "An internal server error occurred",
     });

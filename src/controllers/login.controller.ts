@@ -54,15 +54,15 @@ import type { UserWithCards } from "@/types";
  *               $ref: '#/components/schemas/InternalServerError'
  */
 
-export const login = async (req: Request, res: Response) => {
+export const login = async (request: Request, response: Response) => {
   try {
-    const { username, password } = req.body as {
+    const { username, password } = request.body as {
       username?: string;
       password?: string;
     };
 
     if (!username || !password) {
-      return res.status(400).json({
+      return response.status(400).json({
         code: "INVALID_INPUT",
         message: "username and password are required",
       });
@@ -93,14 +93,14 @@ export const login = async (req: Request, res: Response) => {
     })) as UserWithCards;
 
     if (!user) {
-      return res.status(401).json({
+      return response.status(401).json({
         code: "INVALID_CREDENTIALS",
         message: "Invalid username or password",
       });
     }
 
     if (!user.confirmed) {
-      return res.status(403).json({
+      return response.status(403).json({
         code: "EMAIL_NOT_CONFIRMED",
         message: "Email is not confirmed",
       });
@@ -109,7 +109,7 @@ export const login = async (req: Request, res: Response) => {
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
-      return res.status(401).json({
+      return response.status(401).json({
         code: "INVALID_CREDENTIALS",
         message: "Invalid username or password",
       });
@@ -123,7 +123,7 @@ export const login = async (req: Request, res: Response) => {
       expiresIn: Number(process.env.AUTH_REFRESH_SECRET_EXPIRES_IN),
     });
 
-    return res.status(200).json({
+    return response.status(200).json({
       tokens: {
         accessToken,
         refreshToken,
@@ -138,7 +138,7 @@ export const login = async (req: Request, res: Response) => {
     });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({
+    return response.status(500).json({
       code: "INTERNAL_SERVER_ERROR",
       message: "An internal server error occurred",
     });

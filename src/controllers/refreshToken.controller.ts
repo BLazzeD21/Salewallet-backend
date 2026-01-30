@@ -36,18 +36,18 @@ import jwt, { type JwtPayload } from "jsonwebtoken";
  *               $ref: '#/components/schemas/InternalServerError'
  */
 
-export const refreshToken = async (req: Request, res: Response) => {
+export const refreshToken = async (request: Request, response: Response) => {
   try {
-    const header = req.headers.authorization;
+    const header = request.headers.authorization;
 
     if (!header || !header.startsWith("Bearer ")) {
-      return res.status(401).json({ message: "Token not found in headers" });
+      return response.status(401).json({ message: "Token not found in headers" });
     }
 
     const refreshToken = header.split(" ")[1];
 
     if (!refreshToken) {
-      return res.status(400).json({
+      return response.status(400).json({
         code: "REFRESH_TOKEN_REQUIRED",
         message: "Refresh token is required",
       });
@@ -57,7 +57,7 @@ export const refreshToken = async (req: Request, res: Response) => {
       const payload = jwt.verify(refreshToken, process.env.AUTH_REFRESH_SECRET) as JwtPayload;
 
       if (!payload.sub) {
-        return res.status(401).json({
+        return response.status(401).json({
           code: "INVALID_REFRESH_TOKEN",
           message: "Invalid refresh token payload",
         });
@@ -73,19 +73,19 @@ export const refreshToken = async (req: Request, res: Response) => {
         expiresIn: Number(process.env.AUTH_REFRESH_SECRET_EXPIRES_IN),
       });
 
-      return res.status(200).json({
+      return response.status(200).json({
         accessToken,
         refreshToken: newRefreshToken,
         token_type: "bearer",
       });
     } catch {
-      return res.status(401).json({
+      return response.status(401).json({
         code: "INVALID_REFRESH_TOKEN",
         message: "Invalid or expired refresh token",
       });
     }
   } catch {
-    return res.status(500).json({
+    return response.status(500).json({
       code: "INTERNAL_SERVER_ERROR",
       message: "An internal server error occurred",
     });

@@ -64,20 +64,20 @@ import { isValidUUID } from "@/utils";
  *               $ref: '#/components/schemas/InternalServerError'
  */
 
-export const deleteUser = async (req: Request, res: Response) => {
+export const deleteUser = async (request: Request, response: Response) => {
   try {
-    const { userId } = req.user;
-    const { password } = req.body as { password?: string };
+    const { userId } = request.user;
+    const { password } = request.body as { password?: string };
 
     if (!userId || !password) {
-      return res.status(400).json({
+      return response.status(400).json({
         code: "INVALID_INPUT",
         message: "userId and password are required",
       });
     }
 
     if (!isValidUUID(userId)) {
-      return res.status(400).json({
+      return response.status(400).json({
         code: "INVALID_UUID_FORMAT",
         message: "Invalid UUID format for userId",
       });
@@ -88,7 +88,7 @@ export const deleteUser = async (req: Request, res: Response) => {
     });
 
     if (!user) {
-      return res.status(404).json({
+      return response.status(404).json({
         code: "USER_NOT_FOUND",
         message: "User not found",
       });
@@ -97,7 +97,7 @@ export const deleteUser = async (req: Request, res: Response) => {
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
-      return res.status(401).json({
+      return response.status(401).json({
         code: "INVALID_CREDENTIALS",
         message: "Invalid password",
       });
@@ -105,11 +105,11 @@ export const deleteUser = async (req: Request, res: Response) => {
 
     await user.destroy();
 
-    return res.status(200).json({
+    return response.status(200).json({
       message: "User successfully deleted",
     });
   } catch {
-    return res.status(500).json({
+    return response.status(500).json({
       code: "INTERNAL_SERVER_ERROR",
       message: "An internal server error occurred",
     });
