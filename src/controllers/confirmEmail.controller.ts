@@ -6,6 +6,54 @@ import { confirmedHTML } from "@/html";
 
 import { isValidUUID } from "@/utils";
 
+/**
+ * @openapi
+ * /user/{userId}/confirm-email:
+ *   get:
+ *     tags:
+ *       - User
+ *     summary: Confirm user email
+ *     description: Confirms a user's email using the verification token.
+ *     parameters:
+ *       - $ref: '#/components/parameters/UserIdParam'
+ *       - $ref: '#/components/parameters/TokenQuery'
+ *     responses:
+ *       200:
+ *         description: Email successfully confirmed
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ConfirmEmailResponse'
+ *           text/html:
+ *             schema:
+ *               type: string
+ *               example: "<html><body>Email confirmed!</body></html>"
+ *       400:
+ *         description: Invalid input or token
+ *         content:
+ *           application/json:
+ *             schema:
+ *               oneOf:
+ *                 - $ref: '#/components/schemas/InvalidUserIdError'
+ *                 - $ref: '#/components/schemas/InvalidTokenInputError'
+ *                 - $ref: '#/components/schemas/InvalidTokenError'
+ *                 - $ref: '#/components/schemas/TokenExpiredError'
+ *       404:
+ *         description: User or token not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               oneOf:
+ *                 - $ref: '#/components/schemas/UserNotFoundError'
+ *                 - $ref: '#/components/schemas/TokenNotFoundError'
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/InternalServerError'
+ */
+
 export const confirmEmail = async (req: Request, res: Response) => {
   try {
     res.header("Access-Control-Allow-Origin", "*");

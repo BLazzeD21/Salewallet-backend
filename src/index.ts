@@ -4,13 +4,12 @@ import { fileURLToPath } from "node:url";
 import dotenv from "dotenv";
 import express from "express";
 import swaggerUi from "swagger-ui-express";
-import YAML from "yamljs";
 
 import { connectDB, disconnectDB } from "@/config";
 
 import { authRoutes, cardRoutes } from "@/routes";
 
-const swaggerDocument = YAML.load("./swagger.yaml");
+import swaggerDocs from "./swagger";
 
 dotenv.config();
 
@@ -34,7 +33,7 @@ const main = async () => {
 
     app.use("/public", express.static(publicPath));
 
-    app.use("/api/v1/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument, { customSiteTitle: "SaleWallet Docs" }));
+    app.use("/api/v1/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs, { customSiteTitle: "SaleWallet Docs" }));
 
     const server = app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 

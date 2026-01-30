@@ -43,6 +43,48 @@ async function getTransporter(): Promise<nodemailer.Transporter> {
   return transporter;
 }
 
+/**
+ * @openapi
+ * /user/register:
+ *   post:
+ *     tags:
+ *       - User
+ *     summary: Register a new user
+ *     description: >
+ *       Registers a new user with username, email, and password.
+ *       Sends a confirmation email with a verification token.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/RegisterRequest'
+ *     responses:
+ *       201:
+ *         description: User registered successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/RegisterResponse'
+ *       400:
+ *         description: Invalid input or user conflict
+ *         content:
+ *           application/json:
+ *             schema:
+ *               oneOf:
+ *                 - $ref: '#/components/schemas/InvalidInputError'
+ *                 - $ref: '#/components/schemas/InvalidEmailError'
+ *                 - $ref: '#/components/schemas/CredentialsConflictError'
+ *                 - $ref: '#/components/schemas/UserAlreadyConfirmedError'
+ *                 - $ref: '#/components/schemas/ValidationError'
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/InternalServerError'
+ */
+
 export const registerUser = async (req: Request, res: Response) => {
   const transaction = await models.sequelize.transaction();
 

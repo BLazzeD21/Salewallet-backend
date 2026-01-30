@@ -4,10 +4,53 @@ import models from "@/models";
 
 import { isValidUUID } from "@/utils";
 
+/**
+ * @openapi
+ * /card/{cardId}:
+ *   delete:
+ *     tags:
+ *       - Card
+ *     summary: Delete a user card
+ *     description: Deletes a card belonging to the authenticated user.
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - $ref: '#/components/parameters/CardIdParam'
+ *     responses:
+ *       200:
+ *         description: Card successfully deleted
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/DeleteCardResponse'
+ *       400:
+ *         description: Invalid input or UUID format
+ *         content:
+ *           application/json:
+ *             schema:
+ *               oneOf:
+ *                 - $ref: '#/components/schemas/InvalidInputDeleteError'
+ *                 - $ref: '#/components/schemas/InvalidUUIDFormatError'
+ *       404:
+ *         description: User or card not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               oneOf:
+ *                 - $ref: '#/components/schemas/UserNotFoundError'
+ *                 - $ref: '#/components/schemas/CardNotFoundError'
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/InternalServerError'
+ */
+
 export const deleteCard = async (req: Request, res: Response) => {
   try {
     const { userId } = req.user;
-    const { cardId } = req.body;
+    const { cardId } = req.params;
 
     if (!userId || !cardId) {
       return res.status(400).json({
@@ -26,6 +69,7 @@ export const deleteCard = async (req: Request, res: Response) => {
     const user = await models.user.findOne({
       where: { user_id: userId },
     });
+
     if (!user) {
       return res.status(404).json({
         code: "USER_NOT_FOUND",

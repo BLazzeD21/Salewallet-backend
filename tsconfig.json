@@ -1,5 +1,5 @@
 {
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "swaggerOptions.ts"],
   "compilerOptions": {
     "paths": {
       "@/*": ["./*"]
@@ -15,7 +15,7 @@
     "allowJs": false,
     "checkJs": false,
     "alwaysStrict": false,
-    "removeComments": true,
+    "removeComments": false,
     "esModuleInterop": true
   },
   "tsc-alias": {

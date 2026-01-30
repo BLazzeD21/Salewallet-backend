@@ -5,6 +5,59 @@ import models from "@/models";
 
 import { isValidUUID } from "@/utils";
 
+/**
+ * @openapi
+ * /user/{userId}/change-password:
+ *   patch:
+ *     tags:
+ *       - User
+ *     summary: Change user password
+ *     description: Changes the password of the authenticated user. Requires old password verification.
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - $ref: '#/components/parameters/UserIdParam'
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/ChangePasswordRequest'
+ *     responses:
+ *       200:
+ *         description: Password changed successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ChangePasswordResponse'
+ *       400:
+ *         description: Invalid input
+ *         content:
+ *           application/json:
+ *             schema:
+ *               oneOf:
+ *                 - $ref: '#/components/schemas/InvalidUserIdError'
+ *                 - $ref: '#/components/schemas/InvalidInputChangePasswordError'
+ *       401:
+ *         description: Invalid old password
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/InvalidOldPasswordError'
+ *       404:
+ *         description: User not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/UserNotFoundError'
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/InternalServerError'
+ */
+
 export const changePassword = async (req: Request, res: Response) => {
   try {
     const { userId } = req.user;
