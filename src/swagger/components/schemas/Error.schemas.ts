@@ -1,5 +1,4 @@
 export default {
-  // ----- Common -----
   InternalServerError: {
     type: "object",
     properties: {
@@ -8,7 +7,6 @@ export default {
     },
   },
 
-  // ----- Login -----
   InvalidInputError: {
     type: "object",
     properties: {
@@ -36,7 +34,6 @@ export default {
     },
   },
 
-  // ----- Refresh -----
   RefreshTokenRequiredError: {
     type: "object",
     properties: {
@@ -53,7 +50,6 @@ export default {
     },
   },
 
-  // ----- Register -----
   InvalidEmailError: {
     type: "object",
     properties: {

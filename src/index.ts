@@ -10,8 +10,11 @@ import { connectDB, disconnectDB } from "@/config";
 import { authRoutes, cardRoutes } from "@/routes";
 
 import swaggerDocs from "./swagger";
+import { checkEnvVariables } from "./utils";
 
 dotenv.config();
+
+checkEnvVariables();
 
 const PORT = process.env.PORT || 5500;
 
