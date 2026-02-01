@@ -1,3 +1,4 @@
+import { existsSync, mkdirSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -25,6 +26,10 @@ const publicPath = path.resolve(__dirname, "../public");
 
 const main = async () => {
   try {
+    const uploadDir = path.join(process.cwd(), "public", "suggestions");
+
+    if (!existsSync(uploadDir)) mkdirSync(uploadDir, { recursive: true });
+
     await connectDB();
 
     const app = express();
