@@ -1,5 +1,5 @@
 import fs from "node:fs";
-import path from "node:path";
+import path, { join } from "node:path";
 
 import type { Request, Response } from "express";
 
@@ -54,7 +54,7 @@ import models from "@/models";
 
 export const uploadPicture = async (req: Request, res: Response) => {
   try {
-    const uploadDir = path.join(process.cwd(), "public", "suggestions");
+    const uploadDir = join(process.cwd(), "public", "suggestions");
 
     const file = req.file;
 
@@ -78,9 +78,9 @@ export const uploadPicture = async (req: Request, res: Response) => {
       return res.status(400).json({ code: "FILE_TOO_LARGE", message: "File must be <= 5MB" });
     }
 
-    const existing = await models.picture.findOne({ where: { name } });
+    const existingFile = await models.picture.findOne({ where: { name } });
 
-    if (existing) {
+    if (existingFile) {
       return res.status(409).json({
         code: "DUPLICATE_NAME",
         message: "A picture with this name already exists",

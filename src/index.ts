@@ -1,5 +1,5 @@
 import { existsSync, mkdirSync } from "node:fs";
-import path from "node:path";
+import path, { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import dotenv from "dotenv";
@@ -26,7 +26,7 @@ const publicPath = path.resolve(__dirname, "../public");
 
 const main = async () => {
   try {
-    const uploadDir = path.join(process.cwd(), "public", "suggestions");
+    const uploadDir = join(process.cwd(), "public", "suggestions");
 
     if (!existsSync(uploadDir)) mkdirSync(uploadDir, { recursive: true });
 

@@ -246,7 +246,10 @@ export default {
     type: "object",
     properties: {
       code: { type: "string", example: "CARD_NOT_FOUND" },
-      message: { type: "string", example: "Card not found or does not belong to user" },
+      message: {
+        type: "string",
+        example: "Card not found or does not belong to user",
+      },
     },
   },
 
@@ -294,7 +297,43 @@ export default {
     type: "object",
     properties: {
       code: { type: "string", example: "DUPLICATE_NAME" },
-      message: { type: "string", example: "A picture with this name already exists" },
+      message: {
+        type: "string",
+        example: "A picture with this name already exists",
+      },
+    },
+  },
+
+  NothingToDelete: {
+    type: "object",
+    properties: {
+      code: { type: "string", example: "NOTHING_TO_DELETE" },
+      message: {
+        type: "string",
+        example: "Neither file nor database record exists",
+      },
+    },
+  },
+
+  NoPathProvided: {
+    type: "object",
+    properties: {
+      code: { type: "string", example: "NO_PATH_PROVIDED" },
+      message: {
+        type: "string",
+        example: "Valid path is required",
+      },
+    },
+  },
+
+  FileDeletionFailed: {
+    type: "object",
+    properties: {
+      code: { type: "string", example: "FILE_DELETION_FAILED" },
+      message: {
+        type: "string",
+        example: "Failed to delete file from storage",
+      },
     },
   },
 };
