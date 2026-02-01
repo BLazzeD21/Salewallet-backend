@@ -52,36 +52,39 @@ import models from "@/models";
  *               $ref: "#/components/schemas/InternalServerError"
  */
 
-export const uploadPicture = async (req: Request, res: Response) => {
+export const uploadPicture = async (request: Request, response: Response) => {
   try {
     const uploadDir = join(process.cwd(), "public", "suggestions");
 
-    const file = req.file;
+    const file = request.file;
 
     if (!file) {
-      return res.status(400).json({ code: "NO_FILE_PROVIDED", message: "File is required" });
+      return response.status(400).json({ code: "NO_FILE_PROVIDED", message: "File is required" });
     }
 
-    const { name } = req.body;
+    const { name } = request.body as {
+      name: string;
+    };
+
     if (!name) {
-      return res.status(400).json({ code: "INVALID_INPUT", message: "Name is required" });
+      return response.status(400).json({ code: "INVALID_INPUT", message: "Name is required" });
     }
 
     if (!["image/png", "image/jpeg"].includes(file.mimetype)) {
-      return res.status(400).json({
+      return response.status(400).json({
         code: "INVALID_FILE_TYPE",
         message: "Only PNG and JPEG allowed",
       });
     }
 
     if (file.size > 5 * 1024 * 1024) {
-      return res.status(400).json({ code: "FILE_TOO_LARGE", message: "File must be <= 5MB" });
+      return response.status(400).json({ code: "FILE_TOO_LARGE", message: "File must be <= 5MB" });
     }
 
     const existingFile = await models.picture.findOne({ where: { name } });
 
     if (existingFile) {
-      return res.status(409).json({
+      return response.status(409).json({
         code: "DUPLICATE_NAME",
         message: "A picture with this name already exists",
       });
@@ -90,7 +93,7 @@ export const uploadPicture = async (req: Request, res: Response) => {
     const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
     const ext = file.originalname.split(".").pop();
 
-    const filename = `${name}-${uniqueSuffix}.${ext}`;
+    const filename = `${name}-${uniqueSuffix}.${ext}`.toLocaleLowerCase();
 
     const filePath = path.join(uploadDir, filename);
 
@@ -101,9 +104,9 @@ export const uploadPicture = async (req: Request, res: Response) => {
       path: `/public/suggestions/${filename}`,
     });
 
-    return res.status(201).json({ picture });
+    return response.status(201).json({ picture });
   } catch {
-    return res.status(500).json({
+    return response.status(500).json({
       code: "INTERNAL_SERVER_ERROR",
       message: "An internal server error occurred",
     });

@@ -51,12 +51,16 @@ import models from "@/models";
  *                   - $ref: "#/components/schemas/InternalServerError"
  */
 
-export const deletePicture = async (req: Request, res: Response) => {
+export const deletePicture = async (request: Request, response: Response) => {
   try {
-    const { path } = req.body;
+    let { path } = request.body as {
+      path: string;
+    };
+
+    path = path.toLocaleLowerCase();
 
     if (!path || typeof path !== "string") {
-      return res.status(400).json({
+      return response.status(400).json({
         code: "NO_PATH_PROVIDED",
         message: "Valid path is required",
       });
@@ -79,7 +83,7 @@ export const deletePicture = async (req: Request, res: Response) => {
     }
 
     if (!fileExists && !dbRecord) {
-      return res.status(404).json({
+      return response.status(404).json({
         code: "NOTHING_TO_DELETE",
         message: "Neither file nor database record exists",
       });
@@ -89,7 +93,7 @@ export const deletePicture = async (req: Request, res: Response) => {
       try {
         await unlink(filePath);
       } catch {
-        return res.status(500).json({
+        return response.status(500).json({
           code: "FILE_DELETION_FAILED",
           message: "Failed to delete file from storage",
         });
@@ -100,13 +104,13 @@ export const deletePicture = async (req: Request, res: Response) => {
       await dbRecord.destroy();
     }
 
-    return res.status(200).json({
+    return response.status(200).json({
       message: "Deletion completed successfully",
       deletedFromDisk: fileExists,
       deletedFromDatabase: Boolean(dbRecord),
     });
   } catch {
-    return res.status(500).json({
+    return response.status(500).json({
       code: "INTERNAL_SERVER_ERROR",
       message: "An internal server error occurred",
     });
