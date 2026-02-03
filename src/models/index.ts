@@ -42,7 +42,15 @@ models.user.hasMany(models.email_verification, {
 models.email_verification.belongsTo(models.user, { foreignKey: "user_id" });
 
 sequelize
-  .sync({ alter: true })
+  .query(`CREATE EXTENSION IF NOT EXISTS pg_trgm;`)
+  .then(() =>
+    sequelize.query(`
+      CREATE INDEX IF NOT EXISTS pictures_name_trgm_idx
+      ON pictures
+      USING GIN (name gin_trgm_ops);
+    `),
+  )
+  .then(() => sequelize.sync({ alter: true }))
   .then(() => console.log("All models were synchronized"))
   .catch((error) => console.error("Error syncing models:", error));
 
@@ -50,5 +58,7 @@ models.sequelize = sequelize;
 
 export * from "./card.model";
 export * from "./emailVerification.model";
+export * from "./picture.model";
+export * from "./user.model";
 
 export default models;
