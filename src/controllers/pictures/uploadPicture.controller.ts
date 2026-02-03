@@ -3,6 +3,8 @@ import path, { join } from "node:path";
 
 import type { Request, Response } from "express";
 
+import { logger } from "@/config";
+
 import models from "@/models";
 
 /**
@@ -105,7 +107,8 @@ export const uploadPicture = async (request: Request, response: Response) => {
     });
 
     return response.status(201).json({ picture });
-  } catch {
+  } catch (error) {
+    logger.error(error);
     return response.status(500).json({
       code: "INTERNAL_SERVER_ERROR",
       message: "An internal server error occurred",

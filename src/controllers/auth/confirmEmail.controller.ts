@@ -1,5 +1,7 @@
 import type { Request, Response } from "express";
 
+import { logger } from "@/config";
+
 import models from "@/models";
 
 import { confirmedHTML } from "@/html";
@@ -146,7 +148,8 @@ export const confirmEmail = async (request: Request, response: Response) => {
         response.status(406).send("Not Acceptable");
       },
     });
-  } catch {
+  } catch (error) {
+    logger.error(error);
     return response.status(500).json({
       code: "INTERNAL_SERVER_ERROR",
       message: "An internal server error occurred",

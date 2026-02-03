@@ -3,6 +3,8 @@ import type { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { Op } from "sequelize";
 
+import { logger } from "@/config";
+
 import models from "@/models";
 
 import type { UserWithCards } from "@/types";
@@ -138,7 +140,8 @@ export const login = async (request: Request, response: Response) => {
         cards: user.cards || [],
       },
     });
-  } catch {
+  } catch (error) {
+    logger.error(error);
     return response.status(500).json({
       code: "INTERNAL_SERVER_ERROR",
       message: "An internal server error occurred",

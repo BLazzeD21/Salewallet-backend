@@ -4,6 +4,8 @@ import nodemailer from "nodemailer";
 import { ValidationError } from "sequelize";
 import { v4 as uuidv4 } from "uuid";
 
+import { logger } from "@/config";
+
 import models from "@/models";
 
 import type { User } from "@/types";
@@ -207,6 +209,7 @@ export const registerUser = async (request: Request, response: Response) => {
       },
     });
   } catch (error) {
+    logger.error(error);
     await transaction.rollback();
 
     if (error instanceof ValidationError) {

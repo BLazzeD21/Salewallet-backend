@@ -1,6 +1,8 @@
 import type { Request, Response } from "express";
 import { literal } from "sequelize";
 
+import { logger } from "@/config";
+
 import models from "@/models";
 
 /**
@@ -68,7 +70,8 @@ export const searchPictures = async (request: Request, response: Response) => {
     }
 
     return response.json({ pictures });
-  } catch {
+  } catch (error) {
+    logger.error(error);
     return response.status(500).json({
       code: "INTERNAL_SERVER_ERROR",
       message: "An internal server error occurred",

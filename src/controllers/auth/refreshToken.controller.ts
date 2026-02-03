@@ -1,6 +1,8 @@
 import type { Request, Response } from "express";
 import jwt, { type JwtPayload } from "jsonwebtoken";
 
+import { logger } from "@/config";
+
 /**
  * @openapi
  * /user/refresh:
@@ -84,7 +86,8 @@ export const refreshToken = async (request: Request, response: Response) => {
         message: "Invalid or expired refresh token",
       });
     }
-  } catch {
+  } catch (error) {
+    logger.error(error);
     return response.status(500).json({
       code: "INTERNAL_SERVER_ERROR",
       message: "An internal server error occurred",

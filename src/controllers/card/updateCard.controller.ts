@@ -1,6 +1,8 @@
 import type { Request, Response } from "express";
 import { ValidationError } from "sequelize";
 
+import { logger } from "@/config";
+
 import models from "@/models";
 
 import { isValidUUID } from "@/utils";
@@ -137,6 +139,7 @@ export const updateUserCard = async (request: Request, response: Response) => {
       data: card,
     });
   } catch (error) {
+    logger.error(error);
     if (error instanceof ValidationError) {
       return response.status(400).json({
         code: "VALIDATION_ERROR",

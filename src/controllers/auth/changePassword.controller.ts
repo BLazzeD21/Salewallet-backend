@@ -1,6 +1,8 @@
 import bcrypt from "bcrypt";
 import type { Request, Response } from "express";
 
+import { logger } from "@/config";
+
 import models from "@/models";
 
 import { isValidUUID } from "@/utils";
@@ -109,7 +111,8 @@ export const changePassword = async (request: Request, response: Response) => {
       code: "PASSWORD_CHANGED",
       message: "Password changed successfully",
     });
-  } catch {
+  } catch (error) {
+    logger.error(error);
     return response.status(500).json({
       code: "INTERNAL_SERVER_ERROR",
       message: "An internal server error occurred",
