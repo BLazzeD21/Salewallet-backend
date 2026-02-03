@@ -34,7 +34,7 @@ import { isValidUUID } from "@/utils";
  *             schema:
  *               oneOf:
  *                 - $ref: '#/components/schemas/UserNotFoundError'
- *                 - $ref: '#/components/schemas/NoCardsFoundError'
+ *                 - $ref: '#/components/schemas/CardsNotFoundError'
  *       500:
  *         description: Internal server error
  *         content:

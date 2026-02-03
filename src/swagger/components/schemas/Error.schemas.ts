@@ -193,7 +193,7 @@ export default {
     },
   },
 
-  NoCardsFoundError: {
+  CardsNotFoundError: {
     type: "object",
     properties: {
       code: { type: "string", example: "CARD_NOT_FOUND" },
@@ -261,7 +261,7 @@ export default {
     },
   },
 
-  NoFileProvided: {
+  NoFileProvidedError: {
     type: "object",
     properties: {
       code: { type: "string", example: "NO_FILE_PROVIDED" },
@@ -269,7 +269,7 @@ export default {
     },
   },
 
-  InvalidNameInput: {
+  InvalidNameInputError: {
     type: "object",
     properties: {
       code: { type: "string", example: "INVALID_INPUT" },
@@ -277,7 +277,7 @@ export default {
     },
   },
 
-  InvalidFileType: {
+  InvalidFileTypeError: {
     type: "object",
     properties: {
       code: { type: "string", example: "INVALID_FILE_TYPE" },
@@ -285,7 +285,7 @@ export default {
     },
   },
 
-  FileTooLarge: {
+  FileTooLargeError: {
     type: "object",
     properties: {
       code: { type: "string", example: "FILE_TOO_LARGE" },
@@ -293,7 +293,7 @@ export default {
     },
   },
 
-  DuplicateName: {
+  DuplicateNameError: {
     type: "object",
     properties: {
       code: { type: "string", example: "DUPLICATE_NAME" },
@@ -304,7 +304,7 @@ export default {
     },
   },
 
-  NothingToDelete: {
+  NothingToDeleteError: {
     type: "object",
     properties: {
       code: { type: "string", example: "NOTHING_TO_DELETE" },
@@ -315,7 +315,7 @@ export default {
     },
   },
 
-  NoPathProvided: {
+  NoPathProvidedError: {
     type: "object",
     properties: {
       code: { type: "string", example: "NO_PATH_PROVIDED" },
@@ -326,13 +326,35 @@ export default {
     },
   },
 
-  FileDeletionFailed: {
+  FileDeletionFailedError: {
     type: "object",
     properties: {
       code: { type: "string", example: "FILE_DELETION_FAILED" },
       message: {
         type: "string",
         example: "Failed to delete file from storage",
+      },
+    },
+  },
+
+  InvalidQueryNameInputError: {
+    type: "object",
+    properties: {
+      code: { type: "string", example: "INVALID_NAME_INPUT" },
+      message: {
+        type: "string",
+        example: "Name query parameter is required",
+      },
+    },
+  },
+
+  PIcturesNotFoundError: {
+    type: "object",
+    properties: {
+      code: { type: "string", example: "PICTURES_NOT_FOUND" },
+      message: {
+        type: "string",
+        example: "No images were found for the given queue",
       },
     },
   },

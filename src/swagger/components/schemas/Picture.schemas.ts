@@ -23,20 +23,15 @@ export default {
         type: "string",
         example: "e58ed763-928c-4155-bee9-fdbaaadc15f3",
       },
-      name: { type: "string", example: "my-cool-picture" },
-      path: {
-        type: "string",
-        example: "/public/suggestions/my-cool-picture.png",
-      },
       createdAt: {
         type: "string",
         format: "date-time",
         example: "2026-01-30T12:00:00.000Z",
       },
-      updatedAt: {
+      name: { type: "string", example: "my-cool-picture" },
+      path: {
         type: "string",
-        format: "date-time",
-        example: "2026-01-30T12:00:00.000Z",
+        example: "/public/suggestions/my-cool-picture.png",
       },
     },
   },
@@ -76,6 +71,31 @@ export default {
       deletedFromDatabase: {
         type: "boolean",
         example: true,
+      },
+    },
+  },
+
+  FoundPicture: {
+    type: "object",
+    properties: {
+      name: { type: "string", example: "my-cool-picture" },
+      path: {
+        type: "string",
+        example: "/public/suggestions/my-cool-picture.png",
+      },
+      score: {
+        type: "number",
+        format: "float",
+        example: "0.4",
+      },
+    },
+  },
+  SearchPicturesResponse: {
+    type: "object",
+    properties: {
+      pictures: {
+        type: "array",
+        items: { $ref: "#/components/schemas/FoundPicture" },
       },
     },
   },

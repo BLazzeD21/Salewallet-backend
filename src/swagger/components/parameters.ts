@@ -30,4 +30,14 @@ export default {
     },
     description: "Card ID (UUID)",
   },
+
+  PictureName: {
+    name: "name",
+    in: "query",
+    required: true,
+    schema: {
+      type: "string",
+    },
+    description: "Image name",
+  },
 };

@@ -31,19 +31,19 @@ import models from "@/models";
  *       400:
  *         description: Invalid input or file
  *         content:
- *           application/json:
+ *           application/json:ы
  *             schema:
  *               oneOf:
- *                 - $ref: "#/components/schemas/NoFileProvided"
- *                 - $ref: "#/components/schemas/InvalidNameInput"
- *                 - $ref: "#/components/schemas/InvalidFileType"
- *                 - $ref: "#/components/schemas/FileTooLarge"
+ *                 - $ref: "#/components/schemas/NoFileProvidedError"
+ *                 - $ref: "#/components/schemas/InvalidNameInputError"
+ *                 - $ref: "#/components/schemas/InvalidFileTypeError"
+ *                 - $ref: "#/components/schemas/FileTooLargeError"
  *       409:
  *         description: Duplicate picture name
  *         content:
  *           application/json:
  *             schema:
- *               $ref: "#/components/schemas/DuplicateName"
+ *               $ref: "#/components/schemas/DuplicateNameError"
  *       500:
  *         description: Internal server error
  *         content:

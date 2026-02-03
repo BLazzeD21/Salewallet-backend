@@ -34,20 +34,20 @@ import models from "@/models";
  *         content:
  *           application/json:
  *             schema:
- *               $ref: "#/components/schemas/NoPathProvided"
+ *               $ref: "#/components/schemas/NoPathProvidedError"
  *       404:
  *         description: Neither file nor database record exists
  *         content:
  *           application/json:
  *             schema:
- *               $ref: "#/components/schemas/NothingToDelete"
+ *               $ref: "#/components/schemas/NothingToDeleteError"
  *       500:
  *         description: Failed to delete file from storage
  *         content:
  *           application/json:
  *             schema:
  *               oneOf:
- *                   - $ref: "#/components/schemas/FileDeletionFailed"
+ *                   - $ref: "#/components/schemas/FileDeletionFailedError"
  *                   - $ref: "#/components/schemas/InternalServerError"
  */
 
