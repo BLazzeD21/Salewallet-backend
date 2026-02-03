@@ -8,12 +8,15 @@ import express from "express";
 import helmet from "helmet";
 import swaggerUi from "swagger-ui-express";
 
-import { connectDB, disconnectDB } from "@/config";
+import { connectDB, disconnectDB, logger } from "@/config";
+
+import { loggerMiddleware } from "@/middlewares";
 
 import { authRoutes, cardRoutes, pictureRoutes } from "@/routes";
 
+import { checkEnvVariables } from "@/utils";
+
 import swaggerDocs from "./swagger";
-import { checkEnvVariables } from "./utils";
 
 dotenv.config();
 
@@ -38,6 +41,7 @@ const main = async () => {
     app.use(express.json());
     app.use(compression());
     app.use(helmet());
+    app.use(loggerMiddleware);
 
     app.get("/", (_req, res) => res.send("Server is running"));
     app.use("/api/v1", authRoutes);
@@ -48,10 +52,9 @@ const main = async () => {
 
     app.use("/api/v1/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs, { customSiteTitle: "SaleWallet Docs" }));
 
-    const server = app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-
+    const server = app.listen(PORT, () => logger.info(`Server running on port ${PORT}`));
     const gracefulShutdown = async () => {
-      console.log("\nShutting down server");
+      logger.info("\nShutting down server");
       server.close(async () => {
         await disconnectDB();
         process.exit(0);
@@ -61,7 +64,7 @@ const main = async () => {
     process.on("SIGINT", gracefulShutdown);
     process.on("SIGTERM", gracefulShutdown);
   } catch (error) {
-    console.error("Server failed to start:", error);
+    logger.error("Server failed to start:", error);
     process.exit(1);
   }
 };
