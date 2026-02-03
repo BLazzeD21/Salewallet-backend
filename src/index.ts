@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 import compression from "compression";
 import dotenv from "dotenv";
 import express from "express";
+import helmet from "helmet";
 import swaggerUi from "swagger-ui-express";
 
 import { connectDB, disconnectDB } from "@/config";
@@ -36,6 +37,7 @@ const main = async () => {
     const app = express();
     app.use(express.json());
     app.use(compression());
+    app.use(helmet());
 
     app.get("/", (_req, res) => res.send("Server is running"));
     app.use("/api/v1", authRoutes);
