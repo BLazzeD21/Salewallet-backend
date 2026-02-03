@@ -2,6 +2,7 @@ import { existsSync, mkdirSync } from "node:fs";
 import path, { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
+import compression from "compression";
 import dotenv from "dotenv";
 import express from "express";
 import swaggerUi from "swagger-ui-express";
@@ -34,6 +35,7 @@ const main = async () => {
 
     const app = express();
     app.use(express.json());
+    app.use(compression());
 
     app.get("/", (_req, res) => res.send("Server is running"));
     app.use("/api/v1", authRoutes);
