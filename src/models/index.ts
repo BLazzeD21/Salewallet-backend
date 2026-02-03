@@ -1,6 +1,6 @@
 import type { ModelStatic, Sequelize } from "sequelize";
 
-import { sequelize } from "@/config";
+import { logger, sequelize } from "@/config";
 
 import type { Card, EmailVerification, Picture, User } from "@/types";
 
@@ -43,16 +43,24 @@ models.email_verification.belongsTo(models.user, { foreignKey: "user_id" });
 
 sequelize
   .query(`CREATE EXTENSION IF NOT EXISTS pg_trgm;`)
-  .then(() =>
-    sequelize.query(`
+  .then(() => {
+    logger.info("pg_trgm extension checked/created");
+    return sequelize.query(`
       CREATE INDEX IF NOT EXISTS pictures_name_trgm_idx
       ON pictures
       USING GIN (name gin_trgm_ops);
-    `),
-  )
-  .then(() => sequelize.sync({ alter: true }))
-  .then(() => console.log("All models were synchronized"))
-  .catch((error) => console.error("Error syncing models:", error));
+    `);
+  })
+  .then(() => {
+    logger.info("GIN trigram index for pictures.name ensured");
+    return sequelize.sync({ alter: true });
+  })
+  .then(() => {
+    logger.info("All models were synchronized with the database");
+  })
+  .catch((error) => {
+    logger.error("Error during database setup:", error);
+  });
 
 models.sequelize = sequelize;
 

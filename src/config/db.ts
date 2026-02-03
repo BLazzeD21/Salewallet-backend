@@ -1,6 +1,8 @@
 import dotenv from "dotenv";
 import { Sequelize } from "sequelize";
 
+import { logger } from "@/config";
+
 dotenv.config();
 
 const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
@@ -13,9 +15,9 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
 const connectDB = async () => {
   try {
     await sequelize.authenticate();
-    console.log("PostgreSQL connected");
+    logger.info("PostgreSQL connected");
   } catch (error) {
-    console.error("Unable to connect to PostgreSQL:", error);
+    logger.error("Unable to connect to PostgreSQL:", error);
     process.exit(1);
   }
 };
@@ -23,9 +25,9 @@ const connectDB = async () => {
 const disconnectDB = async (): Promise<void> => {
   try {
     await sequelize.close();
-    console.log("PostgreSQL disconnected");
+    logger.info("PostgreSQL disconnected");
   } catch (error) {
-    console.error("Error disconnecting PostgreSQL:", error);
+    logger.error("Error disconnecting PostgreSQL:", error);
   }
 };
 

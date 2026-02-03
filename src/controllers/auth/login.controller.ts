@@ -138,8 +138,7 @@ export const login = async (request: Request, response: Response) => {
         cards: user.cards || [],
       },
     });
-  } catch (error) {
-    console.error(error);
+  } catch {
     return response.status(500).json({
       code: "INTERNAL_SERVER_ERROR",
       message: "An internal server error occurred",

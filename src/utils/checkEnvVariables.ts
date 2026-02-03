@@ -1,3 +1,5 @@
+import { logger } from "@/config";
+
 const requiredEnvVars = [
   "PORT",
   "DB_HOST",
@@ -23,41 +25,41 @@ export const checkEnvVariables = () => {
   });
 
   if (missingVars.length > 0) {
-    console.error("Missing required environment variables:", missingVars.join(", "));
+    logger.error("Missing required environment variables:", missingVars.join(", "));
     process.exit(1);
   }
 
   if (Number.isNaN(Number(process.env.PORT))) {
-    console.error("PORT must be a number");
+    logger.error("PORT must be a number");
     process.exit(1);
   }
 
   if (Number.isNaN(Number(process.env.DB_PORT))) {
-    console.error("DB_PORT must be a number");
+    logger.error("DB_PORT must be a number");
     process.exit(1);
   }
 
   if (Number.isNaN(Number(process.env.SMTP_PORT))) {
-    console.error("SMTP_PORT must be a number");
+    logger.error("SMTP_PORT must be a number");
     process.exit(1);
   }
 
   if (Number.isNaN(Number(process.env.AUTH_SECRET_EXPIRES_IN))) {
-    console.error("AUTH_SECRET_EXPIRES_IN must be a number");
+    logger.error("AUTH_SECRET_EXPIRES_IN must be a number");
     process.exit(1);
   }
 
   if (Number.isNaN(Number(process.env.AUTH_REFRESH_SECRET_EXPIRES_IN))) {
-    console.error("AUTH_REFRESH_SECRET_EXPIRES_IN must be a number");
+    logger.error("AUTH_REFRESH_SECRET_EXPIRES_IN must be a number");
     process.exit(1);
   }
 
   try {
     new URL(process.env.DOMAIN);
   } catch {
-    console.error("DOMAIN must be a valid URL");
+    logger.error("DOMAIN must be a valid URL");
     process.exit(1);
   }
 
-  console.log("All environment variables have been checked");
+  logger.info("All environment variables have been checked");
 };

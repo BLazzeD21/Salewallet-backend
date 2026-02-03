@@ -31,7 +31,7 @@ import models from "@/models";
  *       400:
  *         description: Invalid input or file
  *         content:
- *           application/json:ы
+ *           application/json:
  *             schema:
  *               oneOf:
  *                 - $ref: "#/components/schemas/NoFileProvidedError"
