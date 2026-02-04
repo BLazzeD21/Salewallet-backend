@@ -1,6 +1,6 @@
 {
   "name": "salewallet-backend",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "cardholder",
   "main": "dist/index.js",
   "type": "module",
