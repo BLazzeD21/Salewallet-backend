@@ -1,60 +1,32 @@
 import { existsSync, mkdirSync } from "node:fs";
-import path, { join } from "node:path";
-import { fileURLToPath } from "node:url";
+import { join } from "node:path";
 
-import compression from "compression";
 import dotenv from "dotenv";
-import express from "express";
-import helmet from "helmet";
-import swaggerUi from "swagger-ui-express";
 
 import { connectDB, disconnectDB, logger } from "@/config";
 
-import { loggerMiddleware } from "@/middlewares";
-
-import { authRoutes, cardRoutes, pictureRoutes } from "@/routes";
-
 import { checkEnvVariables } from "@/utils";
 
-import swaggerDocs from "./swagger";
+import { createApp } from "./app";
 
 dotenv.config();
-
 checkEnvVariables();
 
 const PORT = process.env.PORT || 5500;
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const publicPath = path.resolve(__dirname, "../public");
-
 const main = async () => {
   try {
     const uploadDir = join(process.cwd(), "public", "suggestions");
-
     if (!existsSync(uploadDir)) mkdirSync(uploadDir, { recursive: true });
 
     await connectDB();
 
-    const app = express();
-    app.use(express.json());
-    app.use(compression());
-    app.use(helmet());
-    app.use(loggerMiddleware);
-
-    app.get("/", (_req, res) => res.send("Server is running"));
-    app.use("/api/v1", authRoutes);
-    app.use("/api/v1", cardRoutes);
-    app.use("/api/v1", pictureRoutes);
-
-    app.use("/public", express.static(publicPath));
-
-    app.use("/api/v1/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs, { customSiteTitle: "SaleWallet Docs" }));
+    const app = createApp();
 
     const server = app.listen(PORT, () => logger.info(`Server running on port ${PORT}`));
+
     const gracefulShutdown = async () => {
-      logger.info("\nShutting down server");
+      logger.info("Shutting down server");
       server.close(async () => {
         await disconnectDB();
         process.exit(0);
