@@ -8,6 +8,7 @@ export default {
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/src/$1",
   },
+  modulePathIgnorePatterns: ["<rootDir>/build/"],
   transform: {
     ...tsJestTransformCfg,
   },
