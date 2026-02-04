@@ -2,7 +2,7 @@ import type { NextFunction, Request, Response } from "express";
 
 import { logger } from "@/config";
 
-import { loggerMiddleware } from "@/middlewares/logger.middleware";
+import { loggerMiddleware } from "@/middlewares";
 
 jest.mock("@/config", () => ({
   logger: {

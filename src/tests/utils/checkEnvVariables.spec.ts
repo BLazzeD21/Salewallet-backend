@@ -1,6 +1,6 @@
 import { logger } from "@/config";
 
-import { checkEnvVariables } from "@/utils/checkEnvVariables";
+import { checkEnvVariables } from "@/utils";
 
 jest.mock("@/config", () => ({
   logger: {
