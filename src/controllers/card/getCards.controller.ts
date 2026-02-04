@@ -30,13 +30,11 @@ import { isValidUUID } from "@/utils";
  *             schema:
  *               $ref: '#/components/schemas/InvalidUserIdError'
  *       404:
- *         description: User not found or no cards
+ *         description: User not found
  *         content:
  *           application/json:
  *             schema:
- *               oneOf:
- *                 - $ref: '#/components/schemas/UserNotFoundError'
- *                 - $ref: '#/components/schemas/CardsNotFoundError'
+ *               $ref: '#/components/schemas/UserNotFoundError'
  *       500:
  *         description: Internal server error
  *         content:
@@ -82,13 +80,6 @@ export const getUserCards = async (request: Request, response: Response) => {
         "added_at",
       ],
     });
-
-    if (!cards || cards.length === 0) {
-      return response.status(404).json({
-        code: "CARD_NOT_FOUND",
-        message: "No cards found for this user",
-      });
-    }
 
     return response.status(200).json({
       user_id: userId,

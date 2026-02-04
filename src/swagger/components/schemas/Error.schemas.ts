@@ -193,14 +193,6 @@ export default {
     },
   },
 
-  CardsNotFoundError: {
-    type: "object",
-    properties: {
-      code: { type: "string", example: "CARD_NOT_FOUND" },
-      message: { type: "string", example: "No cards found for this user" },
-    },
-  },
-
   InvalidInputCardError: {
     type: "object",
     properties: {
