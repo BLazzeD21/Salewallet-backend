@@ -41,3 +41,87 @@ export class EmailNotConfirmedError extends AppError {
     super("EMAIL_NOT_CONFIRMED", 403, "Email is not confirmed");
   }
 }
+
+export class RefreshTokenRequiredError extends AppError {
+  constructor() {
+    super("REFRESH_TOKEN_REQUIRED", 400, "Refresh token is required");
+  }
+}
+
+export class InvalidRefreshTokenError extends AppError {
+  constructor() {
+    super("INVALID_REFRESH_TOKEN", 401, "Invalid or expired refresh token");
+  }
+}
+
+export class UnauthorizedError extends AppError {
+  constructor() {
+    super("UNAUTHORIZED", 401, "Token not found or malformed");
+  }
+}
+
+export class InvalidUserIdError extends AppError {
+  constructor() {
+    super("INVALID_USER_ID", 400, "Invalid or missing userId (UUID expected)");
+  }
+}
+
+export class InvalidTokenError extends AppError {
+  constructor() {
+    super("INVALID_TOKEN", 400, "Invalid verification token");
+  }
+}
+
+export class TokenRequiredError extends AppError {
+  constructor() {
+    super("INVALID_INPUT", 400, "Token is required");
+  }
+}
+
+export class TokenExpiredError extends AppError {
+  constructor() {
+    super("TOKEN_EXPIRED", 400, "Verification token expired");
+  }
+}
+
+export class TokenNotFoundError extends AppError {
+  constructor() {
+    super("TOKEN_NOT_FOUND", 404, "Verification token not found");
+  }
+}
+
+export class UserNotFoundError extends AppError {
+  constructor() {
+    super("USER_NOT_FOUND", 404, "User not found");
+  }
+}
+
+export class InvalidInputError extends AppError {
+  constructor() {
+    super("INVALID_INPUT", 400, "userId and password are required");
+  }
+}
+
+export class InvalidUUIDFormatError extends AppError {
+  constructor() {
+    super("INVALID_UUID_FORMAT", 400, "Invalid UUID format for userId");
+  }
+}
+
+export class InvalidDeleteCredentialsError extends AppError {
+  constructor() {
+    super("INVALID_CREDENTIALS", 401, "Invalid password");
+  }
+}
+
+export class InvalidPasswordsInputError extends AppError {
+  constructor() {
+    super("INVALID_INPUT", 400, "oldPassword and newPassword are required");
+  }
+}
+
+export class InvalidOldPasswordError extends AppError {
+  constructor() {
+    super("INVALID_OLD_PASSWORD", 401, "Old password is incorrect");
+  }
+}

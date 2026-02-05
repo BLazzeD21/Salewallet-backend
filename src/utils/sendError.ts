@@ -1,8 +1,12 @@
 import type { Response } from "express";
 
+import { logger } from "@/config";
+
 import { AppError } from "@/errors";
 
 export const sendError = (error: Error, response: Response) => {
+  logger.error(error);
+
   if (error instanceof AppError) {
     return response.status(error.status).json({
       code: error.code,

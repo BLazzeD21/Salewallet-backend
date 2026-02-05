@@ -1,5 +1,7 @@
-export * from "./card.types";
-export * from "./emailVerification.types";
 export * from "./error.types";
-export * from "./picture.types";
-export * from "./user.types";
+export * from "./models/card.types";
+export * from "./models/emailVerification.types";
+export * from "./models/picture.types";
+export * from "./models/user.types";
+export * from "./services/auth.types";
+// export * from "./services/card.types";

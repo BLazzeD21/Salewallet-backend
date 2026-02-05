@@ -1,15 +1,10 @@
 import { Router } from "express";
 
-import {
-  changePassword,
-  confirmEmail,
-  deleteUser,
-  loginController,
-  refreshToken,
-  registerController,
-} from "@/controllers";
+import { AuthController } from "@/controllers";
 
 import { verifyAuth } from "@/middlewares";
+
+const authConroller = new AuthController();
 
 const router = Router();
 
@@ -55,7 +50,7 @@ const router = Router();
  *               $ref: '#/components/schemas/InternalServerError'
  */
 
-router.post("/user/register", registerController);
+router.post("/user/register", authConroller.register);
 
 /**
  * @openapi
@@ -104,7 +99,7 @@ router.post("/user/register", registerController);
  *               $ref: '#/components/schemas/InternalServerError'
  */
 
-router.post("/user/login", loginController);
+router.post("/user/login", authConroller.login);
 
 /**
  * @openapi
@@ -141,7 +136,7 @@ router.post("/user/login", loginController);
  *               $ref: '#/components/schemas/InternalServerError'
  */
 
-router.post("/user/refresh", refreshToken);
+router.post("/user/refresh", authConroller.refresh);
 
 /**
  * @openapi
@@ -191,7 +186,7 @@ router.post("/user/refresh", refreshToken);
  *               $ref: '#/components/schemas/InternalServerError'
  */
 
-router.get("/user/:userId/confirm-email", confirmEmail);
+router.get("/user/:userId/confirm-email", authConroller.confirmEmail);
 
 /**
  * @openapi
@@ -252,11 +247,11 @@ router.get("/user/:userId/confirm-email", confirmEmail);
  *               $ref: '#/components/schemas/InternalServerError'
  */
 
-router.delete("/user/:userId", verifyAuth, deleteUser);
+router.delete("/user/:userId", verifyAuth, authConroller.deleteUser);
 
 /**
  * @openapi
- * /user/{userId}/change-password:
+ * /user/change-password:
  *   patch:
  *     tags:
  *       - User
@@ -264,8 +259,6 @@ router.delete("/user/:userId", verifyAuth, deleteUser);
  *     description: Changes the password of the authenticated user. Requires old password verification.
  *     security:
  *       - BearerAuth: []
- *     parameters:
- *       - $ref: '#/components/parameters/UserIdParam'
  *     requestBody:
  *       required: true
  *       content:
@@ -307,6 +300,6 @@ router.delete("/user/:userId", verifyAuth, deleteUser);
  *               $ref: '#/components/schemas/InternalServerError'
  */
 
-router.patch("/user/:userId/change-password", verifyAuth, changePassword);
+router.patch("/user/change-password", verifyAuth, authConroller.changePassword);
 
 export { router as authRoutes };
