@@ -6,7 +6,7 @@ export default {
       card_number: { type: "string", example: "1234 5678 9012 3456" },
       name: { type: "string", example: "My Card" },
       description: { type: "string", example: "Loyalty card" },
-      color: { type: "string", example: "#FF5733" },
+      color: { type: ["string", "null"], example: "#FF5733" },
       barcode: { type: "string", example: "0123456789" },
       barcode_type: { type: "string", example: "EAN-13" },
       qr_data: { type: "string", example: "https://example.com/qr" },
@@ -20,13 +20,12 @@ export default {
 
   CreateCardRequest: {
     type: "object",
-    required: ["userId", "card_number", "name", "barcode", "barcode_type", "qr_data"],
+    required: ["card_number", "name", "barcode", "barcode_type", "qr_data"],
     properties: {
-      user_id: { type: "string", example: "e58ed763-928c-4155-bee9-fdbaaadc15f3" },
       card_number: { type: "string", example: "1234-5678-9012-3456" },
       name: { type: "string", example: "My Card" },
       description: { type: "string", example: "Optional description" },
-      color: { type: "string", example: "#ff0000" },
+      color: { type: ["string", "null"], example: "#ff0000" },
       barcode: { type: "string", example: "1234567890" },
       barcode_type: { type: "string", example: "CODE128" },
       qr_data: { type: "string", example: "https://example.com" },
@@ -56,7 +55,7 @@ export default {
     properties: {
       name: { type: "string", example: "Updated Card Name" },
       description: { type: "string", example: "Updated description" },
-      color: { type: "string", example: "#00ff00" },
+      color: { type: ["string", "null"], example: "#00ff00" },
       card_number: { type: "string", example: "1234-5678-9012-3456" },
       barcode: { type: "string", example: "9876543210" },
       barcode_type: { type: "string", example: "CODE128" },

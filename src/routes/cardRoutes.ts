@@ -1,8 +1,10 @@
 import { Router } from "express";
 
-import { createCard, deleteCard, getUserCards, updateUserCard } from "@/controllers";
+import { CardController } from "@/controllers";
 
 import { verifyAuth } from "@/middlewares";
+
+const controller = new CardController();
 
 const router = Router();
 
@@ -43,7 +45,7 @@ const router = Router();
  *               $ref: '#/components/schemas/InternalServerError'
  */
 
-router.get("/card", verifyAuth, getUserCards);
+router.get("/card", verifyAuth, controller.getCards);
 
 /**
  * @openapi
@@ -92,7 +94,7 @@ router.get("/card", verifyAuth, getUserCards);
  *               $ref: '#/components/schemas/InternalServerError'
  */
 
-router.post("/card", verifyAuth, createCard);
+router.post("/card", verifyAuth, controller.create);
 
 /**
  * @openapi
@@ -137,7 +139,7 @@ router.post("/card", verifyAuth, createCard);
  *               $ref: '#/components/schemas/InternalServerError'
  */
 
-router.delete("/card/:cardId", verifyAuth, deleteCard);
+router.delete("/card/:cardId", verifyAuth, controller.delete);
 
 /**
  * @openapi
@@ -189,6 +191,6 @@ router.delete("/card/:cardId", verifyAuth, deleteCard);
  *               $ref: '#/components/schemas/InternalServerError'
  */
 
-router.patch("/card/:cardId", verifyAuth, updateUserCard);
+router.patch("/card/:cardId", verifyAuth, controller.update);
 
 export { router as cardRoutes };

@@ -1,5 +1,7 @@
 import { Model } from "sequelize";
 
+export type BarcodeType = "EAN_13" | "CODE_128" | "QR";
+
 export interface CardAttributes {
   card_id: string;
   user_id: string;
@@ -8,7 +10,7 @@ export interface CardAttributes {
   description?: string;
   color?: string;
   barcode: string;
-  barcode_type: string;
+  barcode_type: BarcodeType;
   qr_data: string;
   added_at: Date;
 }
@@ -23,7 +25,7 @@ export class Card extends Model<CardAttributes, CardCreationAttributes> implemen
   declare description?: string;
   declare color?: string;
   declare barcode: string;
-  declare barcode_type: string;
+  declare barcode_type: BarcodeType;
   declare qr_data: string;
   declare added_at: Date;
 }
