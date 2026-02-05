@@ -3,41 +3,6 @@ import jwt, { type JwtPayload } from "jsonwebtoken";
 
 import { logger } from "@/config";
 
-/**
- * @openapi
- * /user/refresh:
- *   post:
- *     tags:
- *       - User
- *     summary: Refresh access token
- *     description: Generates a new access token and refresh token using the refresh token from the Authorization header.
- *     responses:
- *       200:
- *         description: Tokens refreshed successfully
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/TokenPair'
- *       400:
- *         description: Refresh token required
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/RefreshTokenRequiredError'
- *       401:
- *         description: Invalid or expired refresh token
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/InvalidRefreshTokenError'
- *       500:
- *         description: Internal server error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/InternalServerError'
- */
-
 export const refreshToken = async (request: Request, response: Response) => {
   try {
     const header = request.headers.authorization;

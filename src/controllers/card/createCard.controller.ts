@@ -7,53 +7,6 @@ import models from "@/models";
 
 import { isValidUUID } from "@/utils";
 
-/**
- * @openapi
- * /card:
- *   post:
- *     tags:
- *       - Card
- *     summary: Create a new card for a user
- *     description: Creates a new card associated with the authenticated user.
- *     security:
- *       - BearerAuth: []
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/CreateCardRequest'
- *     responses:
- *       201:
- *         description: Card created successfully
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/CreateCardResponse'
- *       400:
- *         description: Invalid input or duplicate
- *         content:
- *           application/json:
- *             schema:
- *               oneOf:
- *                 - $ref: '#/components/schemas/InvalidUserIdError'
- *                 - $ref: '#/components/schemas/InvalidInputCardError'
- *                 - $ref: '#/components/schemas/DuplicateEntryError'
- *                 - $ref: '#/components/schemas/ValidationError'
- *       404:
- *         description: User not found
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/UserNotFoundError'
- *       500:
- *         description: Internal server error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/InternalServerError'
- */
-
 export const createCard = async (request: Request, response: Response) => {
   try {
     const { userId, card_number, name, description, color, barcode, barcode_type, qr_data } = request.body;

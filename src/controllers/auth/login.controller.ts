@@ -9,53 +9,6 @@ import models from "@/models";
 
 import type { UserWithCards } from "@/types";
 
-/**
- * @openapi
- * /user/login:
- *   post:
- *     tags:
- *       - User
- *     summary: User login
- *     description: Authenticate user by username or email and password. Returns access and refresh tokens with user data including cards.
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/LoginRequest'
- *     responses:
- *       200:
- *         description: Successful login
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/LoginResponse'
- *       400:
- *         description: Invalid input
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/InvalidInputError'
- *       401:
- *         description: Invalid credentials
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/InvalidCredentialsError'
- *       403:
- *         description: Email not confirmed
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/EmailNotConfirmedError'
- *       500:
- *         description: Internal server error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/InternalServerError'
- */
-
 export const login = async (request: Request, response: Response) => {
   try {
     let { username, password } = request.body as {

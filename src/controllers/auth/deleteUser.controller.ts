@@ -7,65 +7,6 @@ import models from "@/models";
 
 import { isValidUUID } from "@/utils";
 
-/**
- * @openapi
- * /user/{userId}:
- *   delete:
- *     tags:
- *       - User
- *     summary: Delete authenticated user
- *     security:
- *       - BearerAuth: []
- *     description: Deletes the authenticated user. Requires password confirmation.
- *     parameters:
- *       - $ref: '#/components/parameters/UserIdParam'
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - password
- *             properties:
- *               password:
- *                 type: string
- *                 example: "StrongPassword123"
- *     responses:
- *       200:
- *         description: User successfully deleted
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/DeleteUserResponse'
- *       400:
- *         description: Invalid input
- *         content:
- *           application/json:
- *             schema:
- *               oneOf:
- *                 - $ref: '#/components/schemas/InvalidInputDeleteUserError'
- *                 - $ref: '#/components/schemas/InvalidUUIDFormatError'
- *       401:
- *         description: Invalid credentials
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/InvalidCredentialsError'
- *       404:
- *         description: User not found
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/UserNotFoundError'
- *       500:
- *         description: Internal server error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/InternalServerError'
- */
-
 export const deleteUser = async (request: Request, response: Response) => {
   try {
     const { userId } = request.user;

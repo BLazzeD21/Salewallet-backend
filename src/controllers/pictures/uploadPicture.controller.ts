@@ -7,53 +7,6 @@ import { logger } from "@/config";
 
 import models from "@/models";
 
-/**
- * @openapi
- * /picture/upload:
- *   post:
- *     tags:
- *       - Picture
- *     summary: Upload a picture
- *     description: Uploads a PNG or JPEG image to the server with a unique name
- *     security:
- *       - BearerAuth: []
- *     requestBody:
- *       required: true
- *       content:
- *         multipart/form-data:
- *           schema:
- *             $ref: "#/components/schemas/UploadPictureRequest"
- *     responses:
- *       201:
- *         description: Picture uploaded successfully
- *         content:
- *           application/json:
- *             schema:
- *               $ref: "#/components/schemas/UploadPictureResponse"
- *       400:
- *         description: Invalid input or file
- *         content:
- *           application/json:
- *             schema:
- *               oneOf:
- *                 - $ref: "#/components/schemas/NoFileProvidedError"
- *                 - $ref: "#/components/schemas/InvalidNameInputError"
- *                 - $ref: "#/components/schemas/InvalidFileTypeError"
- *                 - $ref: "#/components/schemas/FileTooLargeError"
- *       409:
- *         description: Duplicate picture name
- *         content:
- *           application/json:
- *             schema:
- *               $ref: "#/components/schemas/DuplicateNameError"
- *       500:
- *         description: Internal server error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: "#/components/schemas/InternalServerError"
- */
-
 export const uploadPicture = async (request: Request, response: Response) => {
   try {
     const uploadDir = join(process.cwd(), "public", "suggestions");

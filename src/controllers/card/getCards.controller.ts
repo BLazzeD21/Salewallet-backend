@@ -6,43 +6,6 @@ import models from "@/models";
 
 import { isValidUUID } from "@/utils";
 
-/**
- * @openapi
- * /card:
- *   get:
- *     tags:
- *       - Card
- *     summary: Get all cards of authenticated user
- *     description: Retrieves all cards associated with the authenticated user. Returns 404 if user not found or no cards.
- *     security:
- *       - BearerAuth: []
- *     responses:
- *       200:
- *         description: Cards retrieved successfully
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/UserCardsResponse'
- *       400:
- *         description: Invalid userId
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/InvalidUserIdError'
- *       404:
- *         description: User not found
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/UserNotFoundError'
- *       500:
- *         description: Internal server error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/InternalServerError'
- */
-
 export const getUserCards = async (request: Request, response: Response) => {
   try {
     const { userId } = request.user;

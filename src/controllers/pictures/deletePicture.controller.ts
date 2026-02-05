@@ -8,51 +8,6 @@ import { logger } from "@/config";
 
 import models from "@/models";
 
-/**
- * @openapi
- * /picture/delete:
- *   delete:
- *     tags:
- *       - Picture
- *     summary: Delete a picture
- *     description: Deletes images from the database and disk at the specified path
- *     security:
- *       - BearerAuth: []
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: "#/components/schemas/DeletePictureRequest"
- *     responses:
- *       200:
- *         description: Deletion completed successfully
- *         content:
- *           application/json:
- *             schema:
- *               $ref: "#/components/schemas/DeletePictureResponse"
- *       400:
- *         description: Valid path is required
- *         content:
- *           application/json:
- *             schema:
- *               $ref: "#/components/schemas/NoPathProvidedError"
- *       404:
- *         description: Neither file nor database record exists
- *         content:
- *           application/json:
- *             schema:
- *               $ref: "#/components/schemas/NothingToDeleteError"
- *       500:
- *         description: Failed to delete file from storage
- *         content:
- *           application/json:
- *             schema:
- *               oneOf:
- *                   - $ref: "#/components/schemas/FileDeletionFailedError"
- *                   - $ref: "#/components/schemas/InternalServerError"
- */
-
 export const deletePicture = async (request: Request, response: Response) => {
   try {
     let { path } = request.body as {

@@ -6,49 +6,6 @@ import models from "@/models";
 
 import { isValidUUID } from "@/utils";
 
-/**
- * @openapi
- * /card/{cardId}:
- *   delete:
- *     tags:
- *       - Card
- *     summary: Delete a user card
- *     description: Deletes a card belonging to the authenticated user.
- *     security:
- *       - BearerAuth: []
- *     parameters:
- *       - $ref: '#/components/parameters/CardIdParam'
- *     responses:
- *       200:
- *         description: Card successfully deleted
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/DeleteCardResponse'
- *       400:
- *         description: Invalid input or UUID format
- *         content:
- *           application/json:
- *             schema:
- *               oneOf:
- *                 - $ref: '#/components/schemas/InvalidInputDeleteError'
- *                 - $ref: '#/components/schemas/InvalidUUIDFormatError'
- *       404:
- *         description: User or card not found
- *         content:
- *           application/json:
- *             schema:
- *               oneOf:
- *                 - $ref: '#/components/schemas/UserNotFoundError'
- *                 - $ref: '#/components/schemas/CardNotFoundError'
- *       500:
- *         description: Internal server error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/InternalServerError'
- */
-
 export const deleteCard = async (request: Request, response: Response) => {
   try {
     const { userId } = request.user;

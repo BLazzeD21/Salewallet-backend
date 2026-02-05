@@ -5,45 +5,6 @@ import { logger } from "@/config";
 
 import models from "@/models";
 
-/**
- * @openapi
- * /picture/search:
- *   get:
- *     tags:
- *       - Picture
- *     summary: Search for an image by name
- *     description: Searches for images by name using fuzzy search
- *     security:
- *       - BearerAuth: []
- *     parameters:
- *       - $ref: '#/components/parameters/PictureName'
- *     responses:
- *       200:
- *         description: Pictures found successfully
- *         content:
- *           application/json:
- *             schema:
- *               $ref: "#/components/schemas/SearchPicturesResponse"
- *       400:
- *         description: Name query parameter is required
- *         content:
- *           application/json:
- *             schema:
- *               $ref: "#/components/schemas/InvalidQueryNameInputError"
- *       404:
- *         description: No images were found for the given queue
- *         content:
- *           application/json:
- *             schema:
- *               $ref: "#/components/schemas/PIcturesNotFoundError"
- *       500:
- *         description: Internal server error
- *         content:
- *           application/json:
- *             schema:
- *                $ref: "#/components/schemas/InternalServerError"
- */
-
 export const searchPictures = async (request: Request, response: Response) => {
   try {
     const { name } = request.query as { name: string };
