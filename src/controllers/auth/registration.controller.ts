@@ -6,7 +6,7 @@ import { sendError } from "@/utils";
 
 const registerService = new RegisterService();
 
-export const registerUser = async (request: Request, response: Response) => {
+export const registerController = async (request: Request, response: Response) => {
   try {
     const result = await registerService.register(request.body);
     return response.status(201).json(result);

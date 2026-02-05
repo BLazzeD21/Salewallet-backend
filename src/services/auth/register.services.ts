@@ -7,7 +7,12 @@ import models from "@/models";
 
 import type { User } from "@/types";
 
-import { CredentialsConflictError, InvalidEmailError, InvalidInputError, UserAlreadyConfirmedError } from "@/errors";
+import {
+  CredentialsConflictError,
+  InvalidEmailError,
+  InvalidRegisterInputError,
+  UserAlreadyConfirmedError,
+} from "@/errors";
 
 import { isValidEmail } from "@/utils";
 
@@ -25,7 +30,7 @@ export class RegisterService {
       let { username, mail, password } = input;
 
       if (!username || !mail || !password) {
-        throw new InvalidInputError();
+        throw new InvalidRegisterInputError();
       }
 
       username = username.toLowerCase();

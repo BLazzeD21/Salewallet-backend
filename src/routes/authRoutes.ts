@@ -1,6 +1,13 @@
 import { Router } from "express";
 
-import { changePassword, confirmEmail, deleteUser, login, refreshToken, registerUser } from "@/controllers";
+import {
+  changePassword,
+  confirmEmail,
+  deleteUser,
+  loginController,
+  refreshToken,
+  registerController,
+} from "@/controllers";
 
 import { verifyAuth } from "@/middlewares";
 
@@ -48,7 +55,7 @@ const router = Router();
  *               $ref: '#/components/schemas/InternalServerError'
  */
 
-router.post("/user/register", registerUser);
+router.post("/user/register", registerController);
 
 /**
  * @openapi
@@ -97,7 +104,7 @@ router.post("/user/register", registerUser);
  *               $ref: '#/components/schemas/InternalServerError'
  */
 
-router.post("/user/login", login);
+router.post("/user/login", loginController);
 
 /**
  * @openapi
