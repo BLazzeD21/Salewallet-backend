@@ -1,91 +1,17 @@
 import bcrypt from "bcrypt";
 import type { Request, Response } from "express";
-import nodemailer from "nodemailer";
 import { ValidationError } from "sequelize";
 import { v4 as uuidv4 } from "uuid";
 
-import { logger } from "@/config";
+import { getMailOptions, getTransporter, logger } from "@/config";
 
 import models from "@/models";
 
 import type { User } from "@/types";
 
-import { confirmHTML } from "@/html";
-
 import { isValidEmail } from "@/utils";
 
 const SALT_ROUNDS = 10;
-
-let transporter: nodemailer.Transporter;
-
-async function getTransporter(): Promise<nodemailer.Transporter> {
-  if (transporter && (await transporter.verify())) {
-    return transporter;
-  }
-
-  if (!process.env.SMTP_HOST || !process.env.SMTP_PORT || !process.env.SMTP_USERNAME || !process.env.SMTP_PASSWORD) {
-    throw new Error("SMTP credentials are not configured");
-  }
-
-  transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
-    port: Number(process.env.SMTP_PORT),
-    requireTLS: true,
-    secure: false,
-    logger: true,
-    auth: {
-      user: process.env.SMTP_USERNAME,
-      pass: process.env.SMTP_PASSWORD,
-    },
-    connectionTimeout: 10000,
-    socketTimeout: 10000,
-    greetingTimeout: 5000,
-  });
-
-  return transporter;
-}
-
-/**
- * @openapi
- * /user/register:
- *   post:
- *     tags:
- *       - User
- *     summary: Register a new user
- *     description: >
- *       Registers a new user with username, email, and password.
- *       Sends a confirmation email with a verification token.
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/RegisterRequest'
- *     responses:
- *       201:
- *         description: User registered successfully
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/RegisterResponse'
- *       400:
- *         description: Invalid input or user conflict
- *         content:
- *           application/json:
- *             schema:
- *               oneOf:
- *                 - $ref: '#/components/schemas/InvalidInputError'
- *                 - $ref: '#/components/schemas/InvalidEmailError'
- *                 - $ref: '#/components/schemas/CredentialsConflictError'
- *                 - $ref: '#/components/schemas/UserAlreadyConfirmedError'
- *                 - $ref: '#/components/schemas/ValidationError'
- *       500:
- *         description: Internal server error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/InternalServerError'
- */
 
 export const registerUser = async (request: Request, response: Response) => {
   const transaction = await models.sequelize.transaction();
@@ -188,13 +114,7 @@ export const registerUser = async (request: Request, response: Response) => {
 
     const transporter = await getTransporter();
 
-    const mailOptions = {
-      from: `"SaleWallet" <${process.env.FROM_EMAIL_USERNAME}>`,
-      to: mail,
-      subject: `Email confirmation for SaleWallet`,
-      html: confirmHTML(token, user.user_id, username),
-      date: new Date(),
-    };
+    const mailOptions = getMailOptions(mail, token, user.user_id, username);
 
     await transporter.sendMail(mailOptions);
 
