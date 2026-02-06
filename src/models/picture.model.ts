@@ -18,6 +18,7 @@ export default (sequelize: Sequelize) => {
       name: {
         type: DataTypes.STRING(100),
         allowNull: false,
+        unique: true,
         validate: {
           len: {
             args: [1, 100],
@@ -28,6 +29,7 @@ export default (sequelize: Sequelize) => {
       path: {
         type: DataTypes.STRING(255),
         allowNull: false,
+        unique: true,
         validate: {
           len: {
             args: [1, 255],
