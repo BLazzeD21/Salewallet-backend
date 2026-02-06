@@ -115,31 +115,31 @@ Endpoints are accessible via a version-prefixed path: __{domain}/api/v1__
 
 ## 👤 User
 
-| Method | Endpoint | Description | Auth |
-|-------|----------|----------|----------------|
-| `POST` | `/user/register` | Register a new user and send an email to confirm your account | 🚫 |
-| `POST` | `/user/login` | User login | 🚫 |
-| `POST` | `/user/refresh` | Refresh access token | 🚫 |
-| `GET` | `/user/{userId}/confirm-email` | Confirm user email | 🚫 |
-| `DELETE` | `/user/{userId}` | Delete authenticated user | ✅ |
-| `PATCH` | `/user/change-password` | Change user password | ✅ |
+| Method | Endpoint | Action | Auth | Description |
+|-------|-----------|--------|------|-------------|
+| `POST` | `/user/register` | Register a new user | 🚫 | Registers a new user with username, email, and password. Sends a confirmation email with a verification token. |
+| `POST` | `/user/login` | User login | 🚫 | Authenticate user by username or email and password. Returns access and refresh tokens with user data including cards. |
+| `POST` | `/user/refresh` | Refresh access token | 🚫 | Generates a new access token and refresh token using the refresh token from the Authorization header. |
+| `GET` | `/user/{userId}/confirm-email` | Confirm user email | 🚫 | Confirms a user's email using the verification token. |
+| `DELETE` | `/user/{userId}` | Delete authenticated user | ✅ | Deletes the authenticated user. Requires password confirmation. |
+| `PATCH` | `/user/change-password` | Change user password | ✅ | Changes the password of the authenticated user. Requires old password verification. |
 
 ## 💳 Card
 
-| Method | Endpoint | Description | Auth |
-|-------|----------|----------|----------------|
-| `GET` | `/card` | Get all cards of authenticated user | ✅ |
-| `POST` | `/card` | Create a new card for a user | ✅ |
-| `DELETE` | `/card/{cardId}` | Delete a user card | ✅ |
-| `PATCH` | `/card/{cardId}` | Update a user card | ✅ |
+| Method | Endpoint | Action | Auth | Description |
+|-------|-----------|--------|------|-------------|
+| `GET` | `/card` | Get all cards of authenticated user | ✅ | Retrieves all cards associated with the authenticated user. Returns 404 if user not found or no cards. |
+| `POST` | `/card` | Create a new card for a user | ✅ | Creates a new card associated with the authenticated user. |
+| `DELETE` | `/card/{cardId}` | Delete a user card | ✅ | Deletes a card belonging to the authenticated user. |
+| `PATCH` | `/card/{cardId}` | Update a user card | ✅ | Updates one or more fields of a card. barcode, barcode_type, and qr_data must be provided together if updating any of them. |
 
 ## 📁 Picture
 
-| Method | Endpoint | Description | Auth |
-|-------|----------|----------|----------------|
-| `POST` | `/picture/upload` | Upload a picture | ✅ |
-| `DELETE` | `/picture/delete` | Delete a picture | ✅ |
-| `GET` | `/picture/search` | Searches for images by name using fuzzy search | 🚫 |
+| Method | Endpoint | Action | Auth | Description |
+|-------|-----------|--------|------|-------------|
+| `POST` | `/picture/upload` | Upload a picture | ✅ | Uploads a PNG or JPEG image to the server with a unique name. |
+| `DELETE` | `/picture/delete` | Delete a picture | ✅ | Deletes images from the database and disk at the specified path. |
+| `GET` | `/picture/search` | Searches for images by name using fuzzy search | 🚫 | Searches for images by name using fuzzy search. |
 
 ## 🗄 Other
 
@@ -147,6 +147,10 @@ Endpoints are accessible via a version-prefixed path: __{domain}/api/v1__
 |-------|----------|----------|----------------|
 | `GET` | `/ (without version prefix)` | Returns the line: Server is running | 🚫 |
 | `GET` | `/docs` | Swagger docs | 🚫 |
+
+## Swagger documentation
+
+![swagger](assets/swagger.png)
 
 
 

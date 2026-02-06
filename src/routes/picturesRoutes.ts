@@ -17,7 +17,7 @@ const router = Router();
  *     tags:
  *       - Picture
  *     summary: Upload a picture
- *     description: Uploads a PNG or JPEG image to the server with a unique name
+ *     description: Uploads a PNG or JPEG image to the server with a unique name.
  *     security:
  *       - BearerAuth: []
  *     requestBody:
@@ -66,7 +66,7 @@ router.post("/picture/upload", verifyAuth, upload.single("file"), controller.upl
  *     tags:
  *       - Picture
  *     summary: Delete a picture
- *     description: Deletes images from the database and disk at the specified path
+ *     description: Deletes images from the database and disk at the specified path.
  *     security:
  *       - BearerAuth: []
  *     requestBody:
@@ -113,7 +113,7 @@ router.delete("/picture/delete", verifyAuth, controller.delete);
  *     tags:
  *       - Picture
  *     summary: Search for an image by name
- *     description: Searches for images by name using fuzzy search
+ *     description: Searches for images by name using fuzzy search.
  *     parameters:
  *       - $ref: '#/components/parameters/PictureName'
  *     responses:
