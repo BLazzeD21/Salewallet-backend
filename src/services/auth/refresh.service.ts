@@ -1,10 +1,12 @@
 import jwt, { type JwtPayload } from "jsonwebtoken";
 
-import type { Tokens } from "@/types";
+import type { RefreshRequest, RefreshResponse } from "@/types";
 
 import { InvalidRefreshTokenError, RefreshTokenRequiredError, UnauthorizedError } from "@/errors";
 
-export const refresh = async (authorization?: string): Promise<Tokens> => {
+export const refresh = async (request: RefreshRequest): Promise<RefreshResponse> => {
+  const { authorization } = request;
+
   if (!authorization || !authorization.startsWith("Bearer ")) {
     throw new UnauthorizedError();
   }

@@ -10,6 +10,9 @@ export interface CreateCardResponse {
   card: CardData;
 }
 
+export interface GetCardsRequest {
+  userId: string;
+}
 export interface GetCardsResponse {
   user_id: string;
   cards: CardData[];

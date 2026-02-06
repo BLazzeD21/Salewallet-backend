@@ -32,7 +32,7 @@ export class InvalidLoginInputError extends AppError {
 
 export class InvalidCredentialsError extends AppError {
   constructor() {
-    super("INVALID_CREDENTIALS", 401, "Invalid username or password");
+    super("INVALID_CREDENTIALS", 401, "Invalid credentials");
   }
 }
 

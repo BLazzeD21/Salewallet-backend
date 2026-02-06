@@ -3,6 +3,7 @@ import type {
   CreateCardResponse,
   DeleteCardRequest,
   DeleteCardResponse,
+  GetCardsRequest,
   GetCardsResponse,
   UpdateCardRequest,
   UpdateCardResponse,
@@ -15,7 +16,7 @@ import { updateCard } from "./updateCard.service";
 
 class CardService {
   create!: (request: CreateCardRequest) => Promise<CreateCardResponse>;
-  getCards!: (userId: string) => Promise<GetCardsResponse>;
+  getCards!: (request: GetCardsRequest) => Promise<GetCardsResponse>;
   delete!: (request: DeleteCardRequest) => Promise<DeleteCardResponse>;
   update!: (request: UpdateCardRequest) => Promise<UpdateCardResponse>;
 }

@@ -130,7 +130,7 @@ export default {
     type: "object",
     properties: {
       code: { type: "string", example: "INVALID_TOKEN" },
-      message: { type: "string", example: "Token cannot be empty or invalid" },
+      message: { type: "string", example: "Invalid verification token" },
     },
   },
 
@@ -248,8 +248,8 @@ export default {
   InvalidInputDeleteError: {
     type: "object",
     properties: {
-      code: { type: "string", example: "INVALID_INPUT" },
-      message: { type: "string", example: "userId and cardId are required" },
+      code: { type: "string", example: "INVALID_CARDID_INPUT" },
+      message: { type: "string", example: "cardId is required" },
     },
   },
 

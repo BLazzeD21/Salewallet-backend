@@ -27,13 +27,14 @@ export class AuthController {
     }
   };
 
-  refresh = async (req: Request, res: Response) => {
+  refresh = async (request: Request, response: Response) => {
     try {
-      const result = await service.refresh(req.headers.authorization);
+      const token = request.headers.authorization;
+      const result = await service.refresh({ authorization: token });
 
-      return res.status(200).json(result);
+      return response.status(200).json(result);
     } catch (error) {
-      sendError(error, res);
+      sendError(error, response);
     }
   };
 

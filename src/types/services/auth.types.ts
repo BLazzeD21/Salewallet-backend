@@ -41,6 +41,16 @@ export interface ConfirmEmailRequest {
   token: string;
 }
 
+export interface ConfirmEmailResponse {
+  confirmedHTML: string;
+}
+
+export interface RefreshRequest {
+  authorization?: string;
+}
+
+export interface RefreshResponse extends Tokens {}
+
 export interface DeleteUserRequest {
   userId: string;
   password: string;

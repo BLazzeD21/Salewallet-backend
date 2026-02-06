@@ -1,6 +1,6 @@
 import models from "@/models";
 
-import type { ConfirmEmailRequest } from "@/types";
+import type { ConfirmEmailRequest, ConfirmEmailResponse } from "@/types";
 
 import {
   InvalidTokenError,
@@ -15,7 +15,7 @@ import { confirmedHTML } from "@/html";
 
 import { isValidUUID } from "@/utils";
 
-export const confirmEmail = async (request: ConfirmEmailRequest): Promise<string> => {
+export const confirmEmail = async (request: ConfirmEmailRequest): Promise<ConfirmEmailResponse> => {
   const { userId, token } = request;
 
   if (!userId || !isValidUUID(userId)) {
@@ -56,5 +56,5 @@ export const confirmEmail = async (request: ConfirmEmailRequest): Promise<string
 
   await models.email_verification.destroy({ where: { user_id: user.user_id } });
 
-  return confirmedHTML;
+  return { confirmedHTML };
 };

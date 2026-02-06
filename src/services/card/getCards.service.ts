@@ -1,12 +1,14 @@
 import models from "@/models";
 
-import type { GetCardsResponse } from "@/types";
+import type { GetCardsRequest, GetCardsResponse } from "@/types";
 
 import { InvalidUserIdError, UserNotFoundError } from "@/errors";
 
 import { isValidUUID } from "@/utils";
 
-export const getCards = async (userId: string): Promise<GetCardsResponse> => {
+export const getCards = async (request: GetCardsRequest): Promise<GetCardsResponse> => {
+  const { userId } = request;
+
   if (!userId || !isValidUUID(userId)) {
     throw new InvalidUserIdError();
   }
