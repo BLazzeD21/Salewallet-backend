@@ -114,8 +114,6 @@ router.delete("/picture/delete", verifyAuth, controller.delete);
  *       - Picture
  *     summary: Search for an image by name
  *     description: Searches for images by name using fuzzy search
- *     security:
- *       - BearerAuth: []
  *     parameters:
  *       - $ref: '#/components/parameters/PictureName'
  *     responses:
