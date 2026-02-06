@@ -4,6 +4,7 @@ export interface PictureAttributes {
   picture_id: string;
   name: string;
   path: string;
+  score?: number;
   created_at: Date;
 }
 
@@ -13,5 +14,6 @@ export class Picture extends Model<PictureAttributes, PictureCreationAttributes>
   declare picture_id: string;
   declare name: string;
   declare path: string;
+  declare score?: number;
   declare created_at: Date;
 }

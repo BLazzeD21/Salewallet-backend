@@ -339,15 +339,4 @@ export default {
       },
     },
   },
-
-  PIcturesNotFoundError: {
-    type: "object",
-    properties: {
-      code: { type: "string", example: "PICTURES_NOT_FOUND" },
-      message: {
-        type: "string",
-        example: "No images were found for the given queue",
-      },
-    },
-  },
 };

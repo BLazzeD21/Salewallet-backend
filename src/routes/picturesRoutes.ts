@@ -2,9 +2,11 @@ import { Router } from "express";
 
 import { upload } from "@/config";
 
-import { deletePicture, searchPictures, uploadPicture } from "@/controllers";
+import { PictureController } from "@/controllers";
 
 import { verifyAuth } from "@/middlewares";
+
+const controller = new PictureController();
 
 const router = Router();
 
@@ -55,7 +57,7 @@ const router = Router();
  *               $ref: "#/components/schemas/InternalServerError"
  */
 
-router.post("/picture/upload", verifyAuth, upload.single("file"), uploadPicture);
+router.post("/picture/upload", verifyAuth, upload.single("file"), controller.upload);
 
 /**
  * @openapi
@@ -102,7 +104,7 @@ router.post("/picture/upload", verifyAuth, upload.single("file"), uploadPicture)
  *                   - $ref: "#/components/schemas/InternalServerError"
  */
 
-router.delete("/picture/delete", verifyAuth, deletePicture);
+router.delete("/picture/delete", verifyAuth, controller.delete);
 
 /**
  * @openapi
@@ -129,12 +131,6 @@ router.delete("/picture/delete", verifyAuth, deletePicture);
  *           application/json:
  *             schema:
  *               $ref: "#/components/schemas/InvalidQueryNameInputError"
- *       404:
- *         description: No images were found for the given queue
- *         content:
- *           application/json:
- *             schema:
- *               $ref: "#/components/schemas/PIcturesNotFoundError"
  *       500:
  *         description: Internal server error
  *         content:
@@ -143,6 +139,6 @@ router.delete("/picture/delete", verifyAuth, deletePicture);
  *                $ref: "#/components/schemas/InternalServerError"
  */
 
-router.get("/picture/search", searchPictures);
+router.get("/picture/search", controller.search);
 
 export { router as pictureRoutes };
