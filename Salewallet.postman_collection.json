@@ -1,0 +1,363 @@
+{
+  "info": {
+    "_postman_id": "a23df7a3-379f-4bf2-b3d4-e9c4014ca3cf",
+    "name": "Salewallet",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "34506539"
+  },
+  "item": [
+    {
+      "name": "User",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"username\": \"user\", \r\n    \"password\": \"password\",\r\n    \"mail\": \"email@gmail.com\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}user/register",
+              "host": ["{{baseUrl}}user"],
+              "path": ["register"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "ConfirmEmail",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"path\": \"/public/suggestions/название-1770131715074-610803014.jpg\"\r\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}user/UUIDUser/confirm-email?token=UUIDToken",
+              "host": ["{{baseUrl}}user"],
+              "path": ["UUIDUser", "confirm-email"],
+              "query": [
+                {
+                  "key": "token",
+                  "value": "UUIDToken"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"username\": \"user\", \r\n    \"password\": \"password\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}user/login",
+              "host": ["{{baseUrl}}user"],
+              "path": ["login"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Refresh",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmODVmNTU3Yy1kNmUxLTRlYjktOTdiMy0wODVjMzM4N2I3YWMiLCJpYXQiOjE3NzAzODc1NTYsImV4cCI6MTc3MDQ3Mzk1Nn0.FUNOZDjxhdKiOZyklmoCid-xXdEy7amzRP_pvM8IuHg",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhMWM2NmIzYi00MGQ5LTQ5NDYtOWIxZi1iMjNiYWI0MDcxNDMiLCJpYXQiOjE3Njk3MDEzNzgsImV4cCI6MTc2OTc4Nzc3OH0.viymRpz5AcMflxZ1t--_ByfAerEgaJ-2Y6OyyUtHz-c",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}user/refresh",
+              "host": ["{{baseUrl}}user"],
+              "path": ["refresh"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "ChangePassword",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhMWM2NmIzYi00MGQ5LTQ5NDYtOWIxZi1iMjNiYWI0MDcxNDMiLCJpYXQiOjE3Njk3MDEzNzgsImV4cCI6MTc2OTcwMTQwOH0.HzVdiowkswOR1Mz-WTeE-pNlOs7VPTQ1BKRyYLmyW9Q",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"oldPassword\": \"password\", \r\n    \"newPassword\": \"password1\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}user/change-password",
+              "host": ["{{baseUrl}}user"],
+              "path": ["change-password"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"password\": \"password\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/user/UUIDUser",
+              "host": ["{{baseUrl}}"],
+              "path": ["user", "UUIDUser"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Card",
+      "item": [
+        {
+          "name": "Create",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"card_number\": \"1235564453556\",\r\n  \"name\": \"Card name\",\r\n  \"description\": \"Supermarket loyalty card\",\r\n  \"barcode\": \"98765443434433321012\",\r\n  \"color\": \"#000000\",\r\n  \"barcode_type\": \"EAN_13\",\r\n  \"qr_data\": \"https://example.com/qr/card\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/card",
+              "host": ["{{baseUrl}}"],
+              "path": ["card"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"card_number\": \"1235564453556\",\r\n  \"name\": \"Card name\",\r\n  \"description\": \"Supermarket loyalty card\",\r\n  \"barcode\": \"98765443434433321012\",\r\n  \"color\": \"#000000\",\r\n  \"barcode_type\": \"EAN_13\",\r\n  \"qr_data\": \"https://example.com/qr/card\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/card/UUIDCard",
+              "host": ["{{baseUrl}}"],
+              "path": ["card", "UUIDCard"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Cards",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}card",
+              "host": ["{{baseUrl}}card"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}card/UUIDCard",
+              "host": ["{{baseUrl}}card"],
+              "path": ["UUIDCard"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Picture",
+      "item": [
+        {
+          "name": "Upload",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "магнит",
+                  "type": "text",
+                  "uuid": "7063d0b2-fbc6-4182-8129-30949f413f6c"
+                },
+                {
+                  "key": "file",
+                  "type": "file",
+                  "uuid": "dfa6a0fd-44ae-4555-b97d-5909f337b202",
+                  "value": null
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}picture/upload",
+              "host": ["{{baseUrl}}picture"],
+              "path": ["upload"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"path\": \"/public/suggestions/название-1770131715074-610803014.jpg\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}picture/delete",
+              "host": ["{{baseUrl}}picture"],
+              "path": ["delete"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Search",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}picture/search?name=магнит",
+              "host": ["{{baseUrl}}picture"],
+              "path": ["search"],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "магнит"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": ["var baseUrl = \"http://localhost:5500/api/v1/\";\r", "pm.environment.set(\"baseUrl\", baseUrl);"]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [""]
+      }
+    }
+  ]
+}
