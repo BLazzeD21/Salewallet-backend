@@ -152,6 +152,48 @@ Endpoints are accessible via a version-prefixed path: __{domain}/api/v1__
 
 ![swagger](assets/swagger.png)
 
+## 4. Environment variables
+
+```.env.example
+# ===========================
+# Server Settings
+# ===========================
+PORT=5500                 # The port on which the server runs
+
+# ===========================
+# Application Domain
+# ===========================
+DOMAIN=https://example.com       # Application domain
+
+# ===========================
+# Database Settings
+# ===========================
+DB_HOST=example-db.host.com      # Database host
+DB_USER=dbuser                   # Database username
+DB_PASSWORD=StrongPass123!       # Database password
+DB_NAME=mydatabase               # Database name
+DB_PORT=5432                     # Database port
+
+# ===========================
+# SMTP / Email Settings
+# ===========================
+SMTP_HOST=smtp.example.com           # SMTP server for sending emails
+SMTP_PORT=587                        # SMTP server port
+SMTP_USERNAME=user@example.com       # SMTP login username
+SMTP_PASSWORD=StrongEmailPass!       # SMTP password
+FROM_EMAIL_USERNAME=noreply@example.com # Email address used as sender
+
+# ===========================
+# Authentication Settings
+# ===========================
+AUTH_SECRET="random64characterstringforaccesstoken"          # Secret key for signing JWT access tokens
+AUTH_SECRET_EXPIRES_IN=900                                    # Access token expiration time in seconds
+AUTH_REFRESH_SECRET="another64characterstringforrefreshtoken" # Secret key for signing JWT refresh tokens
+AUTH_REFRESH_SECRET_EXPIRES_IN=86400                           # Refresh token expiration time in seconds
+```
+
+
+
 
 
 
