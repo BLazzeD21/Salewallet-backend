@@ -30,6 +30,82 @@ src/
 └── index.ts        # Server initialization
 ```
 
+### 2. Data schema
+
+- [Database Type](#database-type)
+- [Table Structure](#table-structure)
+  - [user](#user)
+  - [card](#card)
+  - [email_verification](#email_verification)
+  - [picture](#picture)
+- [Relationships](#relationships)
+- [Database Diagram](#database-diagram)
+
+### Database type
+
+- **Database system:** PostgreSQL
+- **ORM:** Sequelize ORM
+## Table structure
+
+### user
+
+| Name        | Type          | Settings                         |
+|-------------|---------------|----------------------------------|
+| **user_id** | UUID | 🔑 PK, not null, unique |  
+| **username** | VARCHAR(50) | not null |  
+| **mail** | VARCHAR(255) | not null, unique |  
+| **created_at** | TIMESTAMP | not null, default: CURRENT_TIMESTAMP |  
+| **password** | VARCHAR(255) | not null |  
+| **confirmed** | BOOLEAN | not null, default: FALSE |   
+
+### card
+
+| Name        | Type          | Settings                         |
+|-------------|---------------|----------------------------------|
+| **card_id** | UUID | 🔑 PK, not null, unique |  
+| **user_id** | UUID | not null | fk_card_user_id_user |
+| **card_number** | VARCHAR(100) | not null, unique | 
+| **name** | VARCHAR(30) | not null |  
+| **description** | VARCHAR(400) | null | 
+| **color** | VARCHAR(7) | null |  
+| **barcode** | VARCHAR(255) | not null |  
+| **barcode_type** | VARCHAR(20) | not null |  
+| **qr_data** | TEXT | not null, unique |  
+| **added_at** | TIMESTAMP | not null, default: CURRENT_TIMESTAMP |   
+
+### email_verification
+
+| Name        | Type          | Settings                         |
+|-------------|---------------|----------------------------------|
+| **verification_id** | UUID | 🔑 PK, not null |  
+| **user_id** | UUID | not null | fk_email_verification_user_id_user 
+| **token** | VARCHAR(255) | not null, unique |  
+| **expires_at** | TIMESTAMP | not null |  
+| **confirmed** | BOOLEAN | not null, default: FALSE |  
+| **created_at** | TIMESTAMP | not null, default: CURRENT_TIMESTAMP |   
+
+#### Indexes
+| Name | Unique | Fields |
+|------|--------|--------|
+| email_verification_index_0 |  | user_id, confirmed |
+### picture
+
+| Name        | Type          | Settings                         |
+|-------------|---------------|----------------------------------|
+| **picture_id** | UUID | 🔑 PK, not null, unique |  
+| **name** | VARCHAR(100) | not null, unique |  
+| **path** | VARCHAR(255) | not null |  
+| **created_at** | TIMESTAMP | not null, default: CURRENT_TIMESTAMP |   
+
+## Relationships
+
+- **email_verification to user**: many_to_one
+- **card to user**: many_to_one
+
+## Database Diagram
+
+
+![Data scheme](assets/drawdb_salewallet.png)
 
 
 
