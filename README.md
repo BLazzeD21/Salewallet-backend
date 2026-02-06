@@ -2,15 +2,15 @@
 
 # ⚒️ API for the SaleWallet cardholder mobile app
 
-## Description
+# Description
 
 SaleWallet Backend is a server-side REST API written in TypeScript for a local wallet application for cardholders. It handles user logic, card management, transactions, security, and database interaction.
 
 Technology stack: __Node.js, Express, TypeScript, PostgreSQL, Sequelize (ORM), Swagger, JWT, bcrypt, husky, biome, nodemailer, winston, nginx, PM2__
 
-## Docs
+# Docs
 
-### 1. Project structure
+## 1. Project structure
 
 ```bash
 src/
@@ -30,7 +30,7 @@ src/
 └── index.ts        # Server initialization
 ```
 
-### 2. Data schema
+## 2. Data schema
 
 - [Database Type](#database-type)
 - [Table Structure](#table-structure)
@@ -45,67 +45,134 @@ src/
 
 - **Database system:** PostgreSQL
 - **ORM:** Sequelize ORM
-## Table structure
+### Table structure
 
 ### user
 
-| Name        | Type          | Settings                         |
-|-------------|---------------|----------------------------------|
-| **user_id** | UUID | 🔑 PK, not null, unique |  
-| **username** | VARCHAR(50) | not null |  
-| **mail** | VARCHAR(255) | not null, unique |  
-| **created_at** | TIMESTAMP | not null, default: CURRENT_TIMESTAMP |  
-| **password** | VARCHAR(255) | not null |  
-| **confirmed** | BOOLEAN | not null, default: FALSE |   
+| Name        | Type          | Settings                      |
+|-------------|-----------------------------------------------|--------------------------------------------------------------|
+| **user_id** | UUID | 🔑 PK, not null, unique |  |
+| **username** | VARCHAR(50) | not null, unique |  |
+| **mail** | VARCHAR(255) | not null, unique |  |
+| **password** | VARCHAR(255) | not null |  |
+| **confirmed** | BOOLEAN | not null, default: FALSE |  |
+| **created_at** | TIMESTAMP | not null, default: CURRENT_TIMESTAMP |  | 
 
 ### card
 
-| Name        | Type          | Settings                         |
-|-------------|---------------|----------------------------------|
-| **card_id** | UUID | 🔑 PK, not null, unique |  
-| **user_id** | UUID | not null | fk_card_user_id_user |
-| **card_number** | VARCHAR(100) | not null, unique | 
-| **name** | VARCHAR(30) | not null |  
-| **description** | VARCHAR(400) | null | 
-| **color** | VARCHAR(7) | null |  
-| **barcode** | VARCHAR(255) | not null |  
-| **barcode_type** | VARCHAR(20) | not null |  
-| **qr_data** | TEXT | not null, unique |  
-| **added_at** | TIMESTAMP | not null, default: CURRENT_TIMESTAMP |   
+| Name        | Type          | Settings    | References  |
+|-------------|---------------|-------------|-------------|
+| **card_id** | UUID | 🔑 PK, not null, unique |  | 
+| **user_id** | UUID | not null | fk_card_user_id_user | 
+| **card_number** | VARCHAR(100) | not null, unique |  | 
+| **name** | VARCHAR(30) | not null |  | 
+| **description** | VARCHAR(400) | null |  | 
+| **color** | VARCHAR(7) | null |  | 
+| **barcode** | VARCHAR(255) | not null, unique |  | 
+| **barcode_type** | VARCHAR(20) | not null |  | 
+| **qr_data** | TEXT | not null, unique |  | 
+| **added_at** | TIMESTAMP | not null, default: CURRENT_TIMESTAMP |  |
 
 ### email_verification
 
-| Name        | Type          | Settings                         |
-|-------------|---------------|----------------------------------|
-| **verification_id** | UUID | 🔑 PK, not null |  
-| **user_id** | UUID | not null | fk_email_verification_user_id_user 
-| **token** | VARCHAR(255) | not null, unique |  
-| **expires_at** | TIMESTAMP | not null |  
-| **confirmed** | BOOLEAN | not null, default: FALSE |  
-| **created_at** | TIMESTAMP | not null, default: CURRENT_TIMESTAMP |   
+| Name        | Type          | Settings    | References  |
+|-------------|---------------|-------------|-------------|
+| **verification_id** | UUID | 🔑 PK, not null, unique |  |
+| **user_id** | UUID | not null | fk_email_verification_user_id_user |
+| **token** | VARCHAR(255) | not null, unique |  |
+| **expires_at** | TIMESTAMP | not null |  |
+| **confirmed** | BOOLEAN | not null, default: FALSE |  |
+| **created_at** | TIMESTAMP | not null, default: CURRENT_TIMESTAMP |  |
 
 #### Indexes
+
 | Name | Unique | Fields |
 |------|--------|--------|
 | email_verification_index_0 |  | user_id, confirmed |
+
 ### picture
 
-| Name        | Type          | Settings                         |
-|-------------|---------------|----------------------------------|
-| **picture_id** | UUID | 🔑 PK, not null, unique |  
-| **name** | VARCHAR(100) | not null, unique |  
-| **path** | VARCHAR(255) | not null |  
-| **created_at** | TIMESTAMP | not null, default: CURRENT_TIMESTAMP |   
+| Name        | Type          | Settings    | References  |
+|-------------|---------------|-------------|-------------|
+| **picture_id** | UUID | 🔑 PK, not null, unique |  |
+| **name** | VARCHAR(100) | not null, unique |  |
+| **path** | VARCHAR(255) | not null, unique |  |
+| **created_at** | TIMESTAMP | not null, default: CURRENT_TIMESTAMP |  | 
 
-## Relationships
+### Relationships
 
 - **email_verification to user**: many_to_one
 - **card to user**: many_to_one
 
-## Database Diagram
+### Database Diagram
 
 
 ![Data scheme](assets/drawdb_salewallet.png)
+
+## 3. Endpoint description
+
+Endpoints are accessible via a version-prefixed path: __{domain}/api/v1__
+
+## 👤 User
+
+| Method | Endpoint | Description | Auth |
+|-------|----------|----------|----------------|
+| `POST` | `/user/register` | Register a new user and send an email to confirm your account | 🚫 |
+| `POST` | `/user/login` | User login | 🚫 |
+| `POST` | `/user/refresh` | Refresh access token | 🚫 |
+| `GET` | `/user/{userId}/confirm-email` | Confirm user email | 🚫 |
+| `DELETE` | `/user/{userId}` | Delete authenticated user | ✅ |
+| `PATCH` | `/user/change-password` | Change user password | ✅ |
+
+## 💳 Card
+
+| Method | Endpoint | Description | Auth |
+|-------|----------|----------|----------------|
+| `GET` | `/card` | Get all cards of authenticated user | ✅ |
+| `POST` | `/card` | Create a new card for a user | ✅ |
+| `DELETE` | `/card/{cardId}` | Delete a user card | ✅ |
+| `PATCH` | `/card/{cardId}` | Update a user card | ✅ |
+
+## 📁 Picture
+
+| Method | Endpoint | Description | Auth |
+|-------|----------|----------|----------------|
+| `POST` | `/picture/upload` | Upload a picture | ✅ |
+| `DELETE` | `/picture/delete` | Delete a picture | ✅ |
+| `GET` | `/picture/search` | Searches for images by name using fuzzy search | 🚫 |
+
+## 🗄 Other
+
+| Method | Endpoint | Description | Auth |
+|-------|----------|----------|----------------|
+| `GET` | `/ (without version prefix)` | Returns the line: Server is running | 🚫 |
+| `GET` | `/docs` | Swagger docs | 🚫 |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
