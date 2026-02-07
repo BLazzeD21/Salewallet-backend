@@ -1,7 +1,7 @@
 {
-  "name": "salewallet-backend",
+  "name": "salewallet-api",
   "version": "1.0.1",
-  "description": "cardholder",
+  "description": "API for the SaleWallet cardholder mobile app",
   "main": "dist/index.js",
   "type": "module",
   "scripts": {
