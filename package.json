@@ -12,6 +12,7 @@
     "test": "jest",
     "start:pm2": "cross-env NODE_ENV=production pm2 start build/index.js --name salewallet-backend",
     "restart:pm2": "pm2 restart salewallet-backend",
+    "delete:pm2": "pm2 delete salewallet-backend",
     "stop:pm2": "pm2 stop salewallet-backend",
     "logs:pm2": "pm2 logs salewallet-backend",
     "dev:pm2": "cross-env NODE_ENV=development pm2 start src/index.ts --name salewallet-backend --interpreter ts-node --watch",
