@@ -20,6 +20,8 @@ const publicPath = path.resolve(__dirname, "../public");
 export const createApp = () => {
   const app = express();
 
+  app.set("trust proxy", true);
+
   app.use(express.json());
   app.use(compression());
   app.use(helmet());
