@@ -1,3 +1,3 @@
-export * from "./auth.Controller";
-export * from "./card.Controller";
-export * from "./picture.Controller";
+export * from "./auth.controller";
+export * from "./card.controller";
+export * from "./picture.controller";

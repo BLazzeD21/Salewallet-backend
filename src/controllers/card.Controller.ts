@@ -9,7 +9,7 @@ const service = new CardService();
 export class CardController {
   create = async (request: Request, response: Response) => {
     try {
-      const userId = request.user.userId;
+      const { userId } = request.user;
       const body = request.body;
 
       const result = await service.create({ userId, ...body });
@@ -21,7 +21,7 @@ export class CardController {
 
   getCards = async (request: Request, response: Response) => {
     try {
-      const userId = request.user.userId;
+      const { userId } = request.user;
 
       const result = await service.getCards(userId);
 
@@ -33,7 +33,7 @@ export class CardController {
 
   delete = async (request: Request, response: Response) => {
     try {
-      const userId = request.user.userId;
+      const { userId } = request.user;
       const { cardId } = request.params;
 
       const result = await service.delete({ userId, cardId });
@@ -46,7 +46,7 @@ export class CardController {
 
   update = async (request: Request, response: Response) => {
     try {
-      const userId = request.user.userId;
+      const { userId } = request.user;
       const { cardId } = request.params;
 
       const result = await service.update({ userId, cardId, ...request.body });

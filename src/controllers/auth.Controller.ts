@@ -29,8 +29,8 @@ export class AuthController {
 
   refresh = async (request: Request, response: Response) => {
     try {
-      const token = request.headers.authorization;
-      const result = await service.refresh({ authorization: token });
+      const { authorization } = request.headers;
+      const result = await service.refresh({ authorization });
 
       return response.status(200).json(result);
     } catch (error) {
@@ -65,7 +65,7 @@ export class AuthController {
 
   deleteUser = async (request: Request, response: Response) => {
     try {
-      const userId = request.user.userId;
+      const { userId } = request.user;
       const { password } = request.body;
 
       const result = await service.deleteUser({ userId, password });
@@ -78,7 +78,7 @@ export class AuthController {
 
   changePassword = async (request: Request, response: Response) => {
     try {
-      const userId = request.user.userId;
+      const { userId } = request.user;
 
       const { oldPassword, newPassword } = request.body;
 

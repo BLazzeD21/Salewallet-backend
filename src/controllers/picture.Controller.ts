@@ -10,6 +10,7 @@ export class PictureController {
   search = async (request: Request, response: Response) => {
     try {
       const result = await service.search(request.query as { name: string });
+
       return response.status(200).json(result);
     } catch (error) {
       sendError(error, response);
@@ -19,6 +20,7 @@ export class PictureController {
   delete = async (request: Request, response: Response) => {
     try {
       const result = await service.delete(request.body);
+
       return response.status(200).json({
         message: "Deletion completed successfully",
         ...result,
