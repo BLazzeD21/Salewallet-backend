@@ -241,7 +241,7 @@ Type "help" for help.
 ```
 
 > [!IMPORTANT]
-> As an example, I will use the username - user, password - password, you need to enter your own secure data
+> As an example, I will use the username - `user`, password - `password`, you need to enter your own secure data
 
 ```sql
 CREATE USER 'user' WITH PASSWORD 'password';
