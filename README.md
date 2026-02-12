@@ -326,6 +326,12 @@ host    replication     all             ::1/128                 scram-sha-256
 host all all 0.0.0.0/0 scram-sha-256
 ```
 
+After changing the configuration files, you need to restart `postgresql`:
+
+```bash
+sudo systemctl restart postgresql
+```
+
 
 
 
