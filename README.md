@@ -192,6 +192,60 @@ AUTH_REFRESH_SECRET="another64characterstringforrefreshtoken" # Secret key for s
 AUTH_REFRESH_SECRET_EXPIRES_IN=86400                           # Refresh token expiration time in seconds
 ```
 
+## 4. Creating a database
+
+Before loading PostgreSQL, update the package lists:
+
+```bash
+➜  ~ sudo apt update
+```
+
+Download PostgreSQL with the postgresql-contrib utility:
+
+```bash
+➜  ~ sudo apt install postgresql postgresql-contrib
+```
+
+To start the DBMS, you need to run it as a service:
+
+```bash
+➜  ~ sudo systemctl start postgresql.service
+```
+
+Checking the service status:
+
+```bash
+➜  ~ sudo systemctl status postgresql.service
+[sudo] password for blazzed: 
+● postgresql.service - PostgreSQL RDBMS
+     Loaded: loaded (/usr/lib/systemd/system/postgresql.service; enabled; preset: enabled)
+     Active: active (exited) since Thu 2026-01-29 17:56:24 MSK; 1 week 6 days ago
+   Main PID: 53100 (code=exited, status=0/SUCCESS)
+        CPU: 4ms
+
+Jan 29 17:56:24 salewallet.blazzed.tech systemd[1]: Starting postgresql.service - PostgreSQL RDBMS...
+Jan 29 17:56:24 salewallet.blazzed.tech systemd[1]: Finished postgresql.service - PostgreSQL RDBMS.
+ systemctl start postgresql.service
+```
+
+Switch to the postgres user (created during DBMS installation):
+
+```bash
+➜  ~ sudo -i -u postgres
+```
+
+After this, we launch PostgreSQL and create a user, simultaneously setting a password for it:
+
+> [!IMPORTANT]
+> As an example, I will use the username - user, password - password, you need to enter your own secure data
+
+```bash
+postgres@salewallet:~$ psql
+psql (16.11 (Ubuntu 16.11-0ubuntu0.24.04.1))
+Type "help" for help.
+
+postgres=# CREATE USER user WITH PASSWORD 'password';
+```
 
 
 
