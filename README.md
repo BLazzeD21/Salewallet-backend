@@ -195,57 +195,141 @@ AUTH_REFRESH_SECRET_EXPIRES_IN=86400                           # Refresh token e
 ## 4. Creating a database
 
 Before loading PostgreSQL, update the package lists:
-
 ```bash
-➜  ~ sudo apt update
+sudo apt update
 ```
 
 Download PostgreSQL with the postgresql-contrib utility:
-
 ```bash
-➜  ~ sudo apt install postgresql postgresql-contrib
+sudo apt install postgresql postgresql-contrib
 ```
 
 To start the DBMS, you need to run it as a service:
-
 ```bash
-➜  ~ sudo systemctl start postgresql.service
+sudo systemctl start postgresql.service
 ```
 
 Checking the service status:
-
 ```bash
-➜  ~ sudo systemctl status postgresql.service
-[sudo] password for blazzed: 
+sudo systemctl status postgresql.service
+```
+```bash
+[sudo] password for user: 
 ● postgresql.service - PostgreSQL RDBMS
      Loaded: loaded (/usr/lib/systemd/system/postgresql.service; enabled; preset: enabled)
      Active: active (exited) since Thu 2026-01-29 17:56:24 MSK; 1 week 6 days ago
    Main PID: 53100 (code=exited, status=0/SUCCESS)
         CPU: 4ms
 
-Jan 29 17:56:24 salewallet.blazzed.tech systemd[1]: Starting postgresql.service - PostgreSQL RDBMS...
-Jan 29 17:56:24 salewallet.blazzed.tech systemd[1]: Finished postgresql.service - PostgreSQL RDBMS.
+Jan 29 17:56:24 salewallet systemd[1]: Starting postgresql.service - PostgreSQL RDBMS...
+Jan 29 17:56:24 salewallet systemd[1]: Finished postgresql.service - PostgreSQL RDBMS.
  systemctl start postgresql.service
 ```
 
 Switch to the postgres user (created during DBMS installation):
 
 ```bash
-➜  ~ sudo -i -u postgres
+sudo -i -u postgres
 ```
 
-After this, we launch PostgreSQL and create a user, simultaneously setting a password for it:
-
-> [!IMPORTANT]
-> As an example, I will use the username - user, password - password, you need to enter your own secure data
+After this, we launch PostgreSQL (psql) and create a user, simultaneously setting a password for it:
 
 ```bash
 postgres@salewallet:~$ psql
 psql (16.11 (Ubuntu 16.11-0ubuntu0.24.04.1))
 Type "help" for help.
-
-postgres=# CREATE USER user WITH PASSWORD 'password';
 ```
+
+> [!IMPORTANT]
+> As an example, I will use the username - user, password - password, you need to enter your own secure data
+
+```sql
+CREATE USER 'user' WITH PASSWORD 'password';
+```
+
+Exiting the DBMS:
+
+```bash
+\q
+```
+
+Without leaving the PostgreSQL administrator account (postgres), let's create a database:
+
+```bash
+createdb salewallet
+```
+
+We go to the DBMS and grant the `user` all rights to the `salewallet` database:
+
+```bash
+psql
+```
+
+```sql
+GRANT ALL PRIVILEGES ON DATABASE 'salewallet' TO 'user';
+ALTER DATABASE 'salewallet' OWNER TO 'user';
+```
+
+```bash
+\q
+```
+
+Log in to the `salewallet` database using the `user` account:
+
+```bash
+postgres@salewallet:~$ psql -U user -h 127.0.0.1 -p 5432 -d salewallet
+Password for user user: 
+psql (16.11 (Ubuntu 16.11-0ubuntu0.24.04.1))
+SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, compression: off)
+Type "help" for help.
+```
+
+Check the database connection status using the `\conninfo` command:
+
+```bash
+salewallet=> \conninfo
+You are connected to database "salewallet" as user "user" on host "127.0.0.1" at port "5432".
+SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, compression: off)
+salewallet=> 
+```
+
+The database works locally, but if you try to connect via a different `IP`, the connection will not work. To do this, you need to modify the configuration files `postgresql.conf` and `pg_hba.conf`. They are located at `/etc/postgresql/<version>/main`.
+
+In the `postgresql.conf` file, you need to change the `listen_addresses` parameter to `*` if you want requests from all `IP addresses` to pass through, or insert a specific `IP`:
+
+```bash
+listen_addresses = '*'      # what IP address(es) to listen on;
+                                # comma-separated list of addresses;
+                                # defaults to 'localhost'; use '*' for all
+```
+
+In the `pg_hba.conf` file, you need to modify the entry `host all all 0.0.0.0/0 scram-sha-256` at the end of the file. This will allow requests from all `IP addresses` during development. In production, you can change the `user`, `database`, and `IP address` to prevent external requests, or remove this entry if the database will be running locally.
+
+```bash
+# Database administrative login by Unix domain socket
+local   all             postgres                                peer
+
+# TYPE  DATABASE        USER            ADDRESS                 METHOD
+
+# "local" is for Unix domain socket connections only
+local   all             all                                     peer
+# IPv4 local connections:
+host    all             all             127.0.0.1/32            scram-sha-256
+# IPv6 local connections:
+host    all             all             ::1/128                 scram-sha-256
+# Allow replication connections from localhost, by a user with the
+# replication privilege.
+local   replication     all                                     peer
+host    replication     all             127.0.0.1/32            scram-sha-256
+host    replication     all             ::1/128                 scram-sha-256
+
+host all all 0.0.0.0/0 scram-sha-256
+```
+
+
+
+
+
 
 
 
