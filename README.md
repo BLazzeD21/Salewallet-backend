@@ -29,10 +29,10 @@ Technology stack: __Node.js, Express, TypeScript, PostgreSQL, Sequelize (ORM), S
 5.2 [Creating a user and database](#52-creating-a-user-and-database)  
 5.3 [Changing the configuration](#53-changing-the-configuration)  
 6. [Manual application deployment](#6-manual-application-deployment)  
-  6.1. [NodeJS installation](#61-nodejs)  
-  6.2. [Git installation and cloning](#62-git)  
-  6.3. [Application build and startup](#63-building)  
-  6.4. [Nginx server setup](#64-nginx-server)  
+  6.1. [NodeJS installation](#61-NodeJS-installation)  
+  6.2. [Git installation and cloning](#62-git-installation-and-cloning)  
+  6.3. [Application build and startup](#63-application-build-and-startup)  
+  6.4. [Nginx server setup](#64-nginx-server-setup)  
   6.5. [Secure Nginx with Let's Encrypt](#65-secure-nginx-with-lets-encrypt)
 
 
@@ -367,7 +367,7 @@ sudo systemctl restart postgresql
 
 ## 6. Manual application deployment
 
-### 6.1 NodeJS
+### 6.1 NodeJS installation
 
 Get the latest updates first:
 
@@ -396,7 +396,7 @@ node -v && npm -v
 
 The versions must be no lower than those described above. If your versions are lower, then find out how to update them using the [link](https://timeweb.cloud/tutorials/nodejs/kak-ustanovit-node-js-v-ubuntu-22-04).
 
-### 6.2 Git
+### 6.2 Git installation and cloning
 
 Make sure Git is installed on Ubuntu:
 
@@ -423,7 +423,7 @@ Copy the environment variables from the example into the .env file, replace all 
 cp .env.template .env
 ```
 
-### 6.3 Building
+### 6.3 Application build and startup
 
 Installing dependencies:
 
@@ -450,7 +450,7 @@ sudo pm2 startup
 sudo pm2 save
 ```
 
-### 6.4 Nginx server
+### 6.4 Nginx server setup
 
 Install the `nginx` web server to configure a `proxy` for our local application and set it up on ports `80` and `443` with `SSL certificates`.
 
