@@ -10,6 +10,32 @@ Technology stack: __Node.js, Express, TypeScript, PostgreSQL, Sequelize (ORM), S
 
 # Docs
 
+### Table of Contents
+1. [Project structure](#1-project-structure)
+2. [Data schema](#2-data-schema)  
+  2.1. [Database type](#database-type)  
+  2.2. [Table structure](#table-structure)  
+  2.3. [Relationships](#relationships)  
+  2.4. [Database diagram](#database-diagram)  
+3. [Endpoint description](#3-endpoint-description)  
+  3.1. [User endpoints](#-user)  
+  3.2. [Card endpoints](#-card)  
+  3.3. [Picture endpoints](#-picture)  
+  3.4. [Other endpoints](#-other)  
+  3.5. [Swagger](#swagger-documentation)  
+4. [Environment variables](#4-environment-variables)
+5. [Creating a database](#5-creating-a-database)   
+5.1 [Installing Postgresql](#51-installing-postgresql)  
+5.2 [Creating a user and database](#52-creating-a-user-and-database)  
+5.3 [Changing the configuration](#53-changing-the-configuration)  
+6. [Manual application deployment](#6-manual-application-deployment)  
+  6.1. [NodeJS installation](#61-nodejs)  
+  6.2. [Git installation and cloning](#62-git)  
+  6.3. [Application build and startup](#63-building)  
+  6.4. [Nginx server setup](#64-nginx-server)  
+  6.5. [Secure Nginx with Let's Encrypt](#65-secure-nginx-with-lets-encrypt)
+
+
 ## 1. Project structure
 
 ```bash
@@ -45,7 +71,8 @@ src/
 
 - **Database system:** PostgreSQL
 - **ORM:** Sequelize ORM
-### Table structure
+
+### Table structures
 
 ### user
 
@@ -192,7 +219,9 @@ AUTH_REFRESH_SECRET="another64characterstringforrefreshtoken" # Secret key for s
 AUTH_REFRESH_SECRET_EXPIRES_IN=86400                           # Refresh token expiration time in seconds
 ```
 
-## 4. Creating a database
+## 5. Creating a database
+
+### 5.1 Installing Postgresql
 
 Before loading PostgreSQL, update the package lists:
 ```bash
@@ -225,6 +254,8 @@ Jan 29 17:56:24 salewallet systemd[1]: Starting postgresql.service - PostgreSQL 
 Jan 29 17:56:24 salewallet systemd[1]: Finished postgresql.service - PostgreSQL RDBMS.
  systemctl start postgresql.service
 ```
+
+### 5.2 Creating a user and database
 
 Switch to the postgres user (created during DBMS installation):
 
@@ -293,6 +324,8 @@ SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, compression: 
 salewallet=> 
 ```
 
+### 5.3 Changing the configuration
+
 The database works locally, but if you try to connect via a different `IP`, the connection will not work. To do this, you need to modify the configuration files `postgresql.conf` and `pg_hba.conf`. They are located at `/etc/postgresql/<version>/main`.
 
 In the `postgresql.conf` file, you need to change the `listen_addresses` parameter to `*` if you want requests from all `IP addresses` to pass through, or insert a specific `IP`:
@@ -332,9 +365,9 @@ After changing the configuration files, you need to restart `postgresql`:
 sudo systemctl restart postgresql
 ```
 
-## 5. Manual application deployment
+## 6. Manual application deployment
 
-### 5.1 NodeJS
+### 6.1 NodeJS
 
 Get the latest updates first:
 
@@ -363,7 +396,7 @@ node -v && npm -v
 
 The versions must be no lower than those described above. If your versions are lower, then find out how to update them using the [link](https://timeweb.cloud/tutorials/nodejs/kak-ustanovit-node-js-v-ubuntu-22-04).
 
-### 5.2 Git
+### 6.2 Git
 
 Make sure Git is installed on Ubuntu:
 
@@ -390,7 +423,7 @@ Copy the environment variables from the example into the .env file, replace all 
 cp .env.template .env
 ```
 
-### 5.3 Building
+### 6.3 Building
 
 Installing dependencies:
 
@@ -417,7 +450,7 @@ sudo pm2 startup
 sudo pm2 save
 ```
 
-### 5.4 Nginx server
+### 6.4 Nginx server
 
 Install the `nginx` web server to configure a `proxy` for our local application and set it up on ports `80` and `443` with `SSL certificates`.
 
@@ -511,7 +544,7 @@ HTTP/1.1 200 OK
 Server: nginx/1.24.0 (Ubuntu)
 ```
 
-### 5.5 Secure Nginx with Let's Encrypt
+### 6.5 Secure Nginx with Let's Encrypt
 
 Install Certbot and it’s Nginx plugin with `apt`:
 
