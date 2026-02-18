@@ -332,6 +332,238 @@ After changing the configuration files, you need to restart `postgresql`:
 sudo systemctl restart postgresql
 ```
 
+## 5. Manual application deployment
+
+### 5.1 NodeJS
+
+Get the latest updates first:
+
+```bash
+sudo apt-get update
+```
+
+Then install Node.js:
+
+```bash
+sudo apt-get install nodejs
+```
+
+To ensure that the software installation was successful, check the Node.js and npm versions:
+
+```bash
+node -v && npm -v
+```
+
+|  node   |   npm  |
+|---------|--------|
+| 22.22.0 | 11.8.0 |
+
+> [!NOTE]
+> If your major versions are the same or higher, you can skip the update step.
+
+The versions must be no lower than those described above. If your versions are lower, then find out how to update them using the [link](https://timeweb.cloud/tutorials/nodejs/kak-ustanovit-node-js-v-ubuntu-22-04).
+
+### 5.2 Git
+
+Make sure Git is installed on Ubuntu:
+
+```bash
+git --version
+```
+
+If you don't have GIT, install it:
+
+```bash
+sudo apt install git
+```
+
+Clone the repository and go into it:
+```bash
+git clone https://github.com/BLazzeD21/Salewallet-backend.git
+
+cd Salewallet-backend
+```
+
+Copy the environment variables from the example into the .env file, replace all variables with your own:
+
+```bash
+cp .env.template .env
+```
+
+### 5.3 Building
+
+Installing dependencies:
+
+```bash
+npm install
+```
+
+Globally install the pm2 process manager:
+
+```bash
+npm install pm2 -g
+```
+
+Build and launch the application:
+
+```bash
+npm run build && npm run start:pm2
+```
+
+The application is running locally. To automatically restart the application when the server is started/restarted, enter:
+
+```bash
+sudo pm2 startup
+sudo pm2 save
+```
+
+### 5.4 Nginx server
+
+Install the `nginx` web server to configure a `proxy` for our local application and set it up on ports `80` and `443` with `SSL certificates`.
+
+Installing Nginx on the machine:
+
+```bash
+sudo apt install nginx
+```
+
+After installation is complete, add the program to startup:
+
+```bash
+sudo systemctl enable nginx
+```
+
+Now you need to check that the web server is successfully installed and running, and that it's added to startup. Let's check the web server's operating status:
+
+```bash
+sudo service nginx status
+```
+
+The line `Active: active (running)...` indicates that the server is running successfully.
+
+reate a site configuration file in the sites-available folder::
+
+```bash
+sudo nano /etc/nginx/sites-available/salewallet.conf
+```
+
+Paste the contents of the `nginx.conf` file, replacing the port and domain from `.env`:
+
+```Nginx
+server {
+    listen 80 default_server;
+    server_name {domain};
+
+    location / {
+        proxy_pass http://localhost:{port};
+
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+
+        proxy_set_header X-Forwarded-For $remote_addr;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+    }
+}
+```
+
+Create a link in the `sites-enabled` directory to the `salewallet` configuration to add it from the available list to the enabled list:
+
+```bash
+sudo ln -s /etc/nginx/sites-available/salewallet.conf /etc/nginx/sites-enabled/
+```
+
+After creating the virtual host, test the configuration:
+
+```bash
+sudo nginx -t
+```
+
+Expected result should be:
+
+```bash
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+```
+
+Disable the default site by deleting the default virtual host entry:
+
+```bash
+sudo rm /etc/nginx/sites-enabled/default
+```
+
+Restart your nginx instance, with command:
+
+```bash
+sudo nginx -s reload
+```
+
+Check API accessibility:
+
+```bash
+curl -I "http://salewallet.blazzed.tech" 
+```
+
+It should output:
+
+```bash
+HTTP/1.1 200 OK
+Server: nginx/1.24.0 (Ubuntu)
+```
+
+### 5.5 Secure Nginx with Let's Encrypt
+
+Install Certbot and it’s Nginx plugin with `apt`:
+
+```bash
+sudo apt install certbot python3-certbot-nginx
+```
+
+Certbot provides a variety of ways to obtain SSL certificates through plugins. The Nginx plugin will take care of reconfiguring Nginx and reloading the config whenever necessary. To use this plugin, type the following:
+
+```bash
+sudo certbot --nginx -d example.com -d www.example.com
+```
+
+This runs `certbot` with the `--nginx` plugin, using `-d` to specify the domain names we’d like the certificate to be valid for.
+
+If this is your first time running `certbot`, you will be prompted to enter an email address and agree to the terms of service. After doing so, `certbot` will communicate with the Let’s Encrypt server, then run a challenge to verify that you control the domain you’re requesting a certificate for.
+
+If that’s successful, `certbot` will ask how you’d like to configure your HTTPS settings.
+
+```bash
+Output
+Please choose whether or not to redirect HTTP traffic to HTTPS, removing HTTP access.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+1: No redirect - Make no further changes to the webserver configuration.
+2: Redirect - Make all requests redirect to secure HTTPS access. Choose this for
+new sites, or if you're confident your site works on HTTPS. You can undo this
+change by editing your web server's configuration.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Select the appropriate number [1-2] then [enter] (press 'c' to cancel):
+```
+
+Select your choice then hit `ENTER`. The configuration will be updated, and Nginx will reload to pick up the new settings. `certbot` will wrap up with a message telling you the process was successful and where your certificates are stored:
+
+```bash
+Output
+IMPORTANT NOTES:
+ - Congratulations! Your certificate and chain have been saved at:
+   /etc/letsencrypt/live/example.com/fullchain.pem
+   Your key file has been saved at:
+   /etc/letsencrypt/live/example.com/privkey.pem
+   Your cert will expire on 2020-08-18. To obtain a new or tweaked
+   version of this certificate in the future, simply run certbot again
+   with the "certonly" option. To non-interactively renew *all* of
+   your certificates, run "certbot renew"
+ - If you like Certbot, please consider supporting our work by:
+
+   Donating to ISRG / Let's Encrypt:   https://letsencrypt.org/donate
+   Donating to EFF:                    https://eff.org/donate-le
+```
+
+Your certificates are downloaded, installed, and loaded. Try reloading your website using `https://` and notice your browser’s security indicator. It should indicate that the site is properly secured, usually with a lock icon. If you test your server using the [SSL Labs Server Test](https://www.ssllabs.com/ssltest/), it will get an **A** grade.
+
 
 
 
